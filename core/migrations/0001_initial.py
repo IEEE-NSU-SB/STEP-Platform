@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Registered_User',
+            name='Registered_Participant',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('university_id', models.CharField(max_length=20)),
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('unique_code', models.CharField(max_length=150)),
             ],
             options={
-                'verbose_name': 'Registered User',
+                'verbose_name': 'Registered Participant',
             },
         ),
         migrations.CreateModel(

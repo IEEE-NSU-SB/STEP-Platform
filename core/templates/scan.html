@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+
+    <!-- Include the QR code library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+
+        #reader {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            border: 2px solid #333;
+        }
+
+        #qr-result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>QR Code Scanner</h1>
+
+<!-- QR Code scanner -->
+<div id="reader"></div>
+
+<p id="qr-result">Scan a QR Code to see the result here.</p>
+
+<button class="btn" id="stopButton">Stop Scanning</button>
+
+<script>
+    const serverURL = '{% url "core:process_qr_data" %}'; // Your Django URL
+    const qrResultElement = document.getElementById('qr-result');
+    const stopButton = document.getElementById('stopButton');
+      
+      const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            alert(`${decodedText} `);
+
+            fetch(serverURL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'session-id': {{current_session}} },
+                body: decodedText
+            })
+            .then(response => response.json())
+            .then(data => console.log('Server Response:', data))
+            .catch(err => console.error('Error:', err));
+
+            html5QrCode.stop().then((ignore) => {
+                // QR Code scanning is stopped.
+              }).catch((err) => {
+                // Stop failed, handle it.
+              });
+        };
+
+        const config = { fps: 10, qrbox: { width: 250, height: 250 }, videoConstraints: {facingMode: "environment", // Use back camera
+        width: { ideal: 1920 },    // Request Full HD (1080p)
+        height: { ideal: 1080 },    // Request Full HD (1080p)
+        focusMode: "continuous" 
+        } };
+
+        // If you want to prefer back camera
+        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+
+</script>
+
+</body>
+</html>

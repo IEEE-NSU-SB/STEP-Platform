@@ -8,7 +8,7 @@
 <body>
     <div style="display: flex; flex-direction: column;">
         {% for session in token_sessions %}
-        <a href="/">{{session.session_name}}</a>
+        <a href="{% url 'core:qr_scan' session.pk %}">{{session.session_name}}</a>
         {% endfor %}
     </div>
 </body>
