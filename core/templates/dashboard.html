@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column;">
+        {% for session in token_sessions %}
+        <a href="/">{{session.session_name}}</a>
+        {% endfor %}
+    </div>
+</body>
+</html>

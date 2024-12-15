@@ -17,6 +17,7 @@ class Token_Session(models.Model):
     session_name=models.CharField(null=False, blank=False, max_length=20)
     is_active=models.BooleanField(null=False, blank=False, default=False)
     is_independent=models.BooleanField(null=False, blank=False, default=False)
+    order_of_session=models.IntegerField(null=False,blank=False,default=0)
 
     class Meta:
         verbose_name="Token Session"
