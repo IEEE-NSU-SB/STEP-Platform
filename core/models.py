@@ -5,6 +5,7 @@ class Registered_User(models.Model):
     university_id=models.CharField(null=False, blank=False, max_length=20)
     name=models.CharField(null=False, blank=False, max_length=150)
     university=models.CharField(null=False, blank=False, max_length=150)
+    unique_code=models.CharField(null=False, blank=False, max_length=150)
 
     class Meta:
         verbose_name="Registered User"
