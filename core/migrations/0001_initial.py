@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('university_id', models.CharField(max_length=20)),
                 ('name', models.CharField(max_length=150)),
                 ('university', models.CharField(max_length=150)),
+                ('unique_code', models.CharField(max_length=150)),
             ],
             options={
                 'verbose_name': 'Registered User',
