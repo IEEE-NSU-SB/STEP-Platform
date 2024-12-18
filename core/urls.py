@@ -8,5 +8,6 @@ urlpatterns = [
     path('dashboard/', dashboard, name="dashboard"),
     path('scan/', scan_qr, name="qr_scan"),
     path('scan/<int:session_id>', scan_qr, name="qr_scan"),
-    path('process_qr_data/', process_qr_data, name="process_qr_data")
+    path('process_qr_data/', process_qr_data, name="process_qr_data"),
+    path('coordinator_dashboard/', coordinator_dashboard, name="coordinator_dashboard"),
 ]
