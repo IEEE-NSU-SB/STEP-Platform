@@ -3,10 +3,13 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Registered_Participant(models.Model):
-    university_id=models.CharField(null=False, blank=False, max_length=20)
     name=models.CharField(null=False, blank=False, max_length=150)
-    university=models.CharField(null=False, blank=False, max_length=150)
-    unique_code=models.CharField(null=False, blank=False, max_length=150)
+    university=models.CharField(null=True, blank=True, max_length=150)
+    contact_no=models.CharField(null=True, blank=True, max_length=50)
+    email=models.EmailField(null=True, blank=True)
+    role=models.CharField(null=True, blank=True, max_length=100)
+    t_shirt_size=models.CharField(null=True, blank=True, max_length=20)
+    unique_code=models.CharField(null=False, blank=False, max_length=150, unique=True)
 
     class Meta:
         verbose_name="Registered Participant"

@@ -16,7 +16,7 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(Registered_Participant)
 class Registered_ParticipantAdmin(admin.ModelAdmin):
-     list_display = ['id', 'unique_code']
+     list_display = ['id', 'name', 'university', 'unique_code']
 
 @admin.register(User_Permission)
 class User_PermissionAdmin(admin.ModelAdmin):
