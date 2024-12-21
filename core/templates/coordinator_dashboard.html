@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+
     <style>
       body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        /* background: linear-gradient(93deg, #35b7ff38, #f9f9f9); */
+        background: linear-gradient(93deg, #35b7ff38, #f9f9f9);
         height: 100vh;
       }
 
@@ -49,25 +51,25 @@
 
       .button-group button {
         padding: 10px 20px;
-        border: 2px solid #55d3ff;
+        border: 2px solid #ddd;
         background-color: #fff;
         cursor: pointer;
         border-radius: 4px;
         font-weight: bold;
-        color: #55d3ff;
+        color: #000;
       }
 
       /* Smooth Transition Blocks */
       .status-blocks {
         display: none;
-        background-color: white;
+        /* background-color: white; */
         padding: 0 20px 20px;
         /* border: 1px solid #ccc; */
-        box-shadow: 2px 2px 2px 2px #ddd;
+        /* box-shadow: 2px 2px 2px 2px #ddd; */
         margin: 20px;
         justify-content: space-between;
         align-items: flex-start;
-        border-radius: 4px;
+        /* border-radius: 4px; */
       }
 
       .close-status {
@@ -174,13 +176,13 @@
         background-color: #272727;
       }
       table {
-        width: 100%;
+        width: fit-content;
         border-collapse: collapse;
         background-color: white;
         border-radius: 4px;
         border: 1px solid white;
         max-height: 58vh;
-        display: inline-block;
+        display: block;
         margin: 20px;
         overflow:auto
     }
@@ -247,7 +249,7 @@
         }
       }
       .container{
-        max-width: 1440px;
+        max-width: 1103px;
         margin: auto;
       }
       .footer{
@@ -267,12 +269,13 @@
     .box{
         width: 300px;
         border-radius: 4px;
-        box-shadow: 2px 2px 2px 2px #ddd;
+        box-shadow: 2px 2px 2px 2px #9de3fb;
         padding: 8px;
+        background-color: #9de3fb;
     }
     .count{
         font-size: 28px;
-        color: #54d3ff;
+        color: #000;
     }
     .stats{
         display: flex;
@@ -284,6 +287,10 @@
     #cancel-session{
       background-color: red;
       color: white;
+    }
+    input[type=checkbox]{
+      height: 20px;
+      width: 20px;
     }
     </style>
   </head>
@@ -303,6 +310,8 @@
              <button id="set-session">Set Session</button>
              <button id="tap-to-scan">Tap to Scan</button>
             </div>
+            <div id="qr-reader" style="display: none;"></div>
+
         </div>
 
     <!-- Status Blocks -->
@@ -358,6 +367,7 @@
       </div>
     </div>
 
+    <hr style="width: 95%;">
     <!-- Search and Filter -->
     <div class="search-filter">
       <input type="text" id="search" placeholder="Search..." />
@@ -373,6 +383,7 @@
     </div>
 
     <!-- Table -->
+     <div style="display: flex; justify-content: center;">
     <table>
         <thead>
           <tr>
@@ -799,7 +810,7 @@
           </tr>
         </tbody>
       </table>
-      
+    </div>
     </div>
 
     <div class="footer">
@@ -860,18 +871,44 @@
       });
 
       // Tap to Scan Button
-      const tapToScanBtn = document.getElementById("tap-to-scan");
+    const tapToScanBtn = document.getElementById("tap-to-scan");
+    const qrReaderElement = document.getElementById("qr-reader");
 
-      tapToScanBtn.addEventListener("click", () => {
-        const qrResult = confirm(
-          "QR accepted? Click OK for Accepted or Cancel for Rejected."
-        );
-        if (qrResult) {
-          alert("QR Accepted");
-        } else {
-          alert("QR Rejected");
+    tapToScanBtn.addEventListener("click", () => {
+      qrReaderElement.style.display = "block"; // Show the QR reader
+
+      const html5QrCode = new Html5Qrcode("qr-reader");
+
+      // Define a valid QR code value for acceptance
+      const validQrCode = "ACCEPTED_QR_CODE_VALUE";
+
+      html5QrCode.start(
+        { facingMode: "environment" }, // Use the rear camera
+        {
+          fps: 10, // Set frame per second for scanning
+          qrbox: { width: 250, height: 250 }, // Define the QR scanning box dimensions
+        },
+        (decodedText, decodedResult) => {
+          // Handle the scanned QR code result
+          if (decodedText === validQrCode) {
+            alert("QR Accepted");
+          } else {
+            alert("QR Rejected");
+          }
+
+          // Stop the scanner after a scan
+          html5QrCode.stop().then(() => {
+            qrReaderElement.style.display = "none"; // Hide the QR reader
+          });
+        },
+        (errorMessage) => {
+          // Optional: Handle scan errors or failures (e.g., no QR code detected)
+          console.log("Scanning error: ", errorMessage);
         }
+      ).catch((err) => {
+        console.error("QR scanner failed to start: ", err);
       });
+    });
 
       // Filter Dropdown
       const filterBtn = document.getElementById("filter");
