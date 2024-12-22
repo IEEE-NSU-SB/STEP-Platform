@@ -5,13 +5,31 @@ import string
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from django.contrib.auth.models import auth
+from django.contrib.auth.decorators import login_required
 
 from core.forms import CSVImportForm
 from core.models import Registered_Participant, Token_Participant, Token_Session
 
 # Create your views here.
 def login(request):
+    if(request.method == 'POST'):
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+        if(user is not None):
+            auth.login(request, user)
+            return redirect('main:dashboard')
+        else:
+            messages.error(request, "Credentials don't match")
+
     return render(request, 'login.html')
+
+def logout(request):
+    auth.logout(request)
+    return redirect('core:index')
 
 def scan_qr(request, session_id=None):
     if session_id:
