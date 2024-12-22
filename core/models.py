@@ -26,8 +26,8 @@ class Token_Session(models.Model):
     class Meta:
         verbose_name="Token Session"
 
-    def current_session():
-        return Token_Session.objects.filter(is_active=True, is_independent=False)[0]
+    # def current_session():
+    #     return Token_Session.objects.filter(is_active=True, is_independent=False)[0]
 
     # def save(self, *args, **kwargs):
     #     if (self.pk):

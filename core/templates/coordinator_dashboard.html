@@ -299,7 +299,7 @@
       <!-- Navbar -->
       <div class="navbar">
           {% comment %} <img src="{% static '/img/SPAC.png' %}" alt="logo"> {% endcomment %}
-          <div>Current Session: Lunch</div>
+          <div>Current Session: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
           <button class="logout">Logout</button>
         </div>
         
@@ -325,7 +325,7 @@
       {% for session in token_sessions_with_participant_count %}
       <div class="box">
           <div class="stat_name">{{session.session_name}}:</div>
-          <div class="count">3</div>
+          <div class="count">{{session.participant_count}}</div>
       </div>
       {% endfor %}
       </div>
@@ -378,7 +378,6 @@
             <th>University</th>
             <th>Contact</th>
             <th>Email</th>
-            <th>IEEE ID</th>
             {% for session in token_sessions_all %}
             <th>{{session.session_name}}</th>
             {% endfor %}
@@ -392,7 +391,6 @@
             <td>{{participant.university}}</td>
             <td>{{participant.contact_no}}</td>
             <td>{{participant.email}}</td>
-            <td>55989190</td>
             {% for session in token_sessions_all %}
             <td><input type="checkbox" {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} /></td>
             {% endfor %}
@@ -405,7 +403,7 @@
 
     <div class="footer">
         {% comment %} <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo"> {% endcomment %}
-        <p>&copy; 2021</p>
+        <p>&copy; IEEE NSU SB 2024</p>
     </div>
     <script>
       // View Status Button
