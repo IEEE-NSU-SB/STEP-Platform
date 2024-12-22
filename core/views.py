@@ -21,7 +21,7 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if(user is not None):
             auth.login(request, user)
-            return redirect('main:dashboard')
+            return redirect('core:dashboard')
         else:
             messages.error(request, "Credentials don't match")
 
@@ -29,7 +29,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('core:index')
+    return redirect('core:login')
 
 def scan_qr(request, session_id=None):
     if session_id:
@@ -126,13 +126,42 @@ def generate_unique_code(name: str, university: str) -> str:
 def dashboard(request):
 
     token_sessions = Token_Session.objects.filter(is_active=True).order_by('order_of_session')
+    registered_participants = Registered_Participant.objects.all()
+    total_participants = len(registered_participants)
 
     context = {
-        'token_sessions':token_sessions
+        'token_sessions':token_sessions,
+        'registered_participants':registered_participants,
+        'total_participants':total_participants,
+
     }
 
     return render(request, 'dashboard.html', context)
 
+from django.db.models import Count, F, Prefetch
+
 def coordinator_dashboard(request):
 
-    return render(request, 'coordinator_dashboard.html')
+    token_sessions = Token_Session.objects.filter(is_active=True).order_by('order_of_session')
+    token_sessions_all = Token_Session.objects.all().order_by('order_of_session')
+    token_sessions_with_participant_count = Token_Participant.objects.values(session_name=F('token_session__session_name')).annotate(participant_count=Count('id'))
+    universities = Registered_Participant.objects.values('university').distinct()
+    registered_participants = Registered_Participant.objects.prefetch_related(
+        Prefetch(
+            'token_participant_set',  # Related name for Token_Participant
+            queryset=Token_Participant.objects.only('token_session'),  # Optimize with select_related for Token_Session
+            to_attr='tokens'
+        )
+    )
+    total_participants = len(registered_participants)
+
+    context = {
+        'token_sessions':token_sessions,
+        'token_sessions_all':token_sessions_all,
+        'token_sessions_with_participant_count':token_sessions_with_participant_count,
+        'registered_participants':registered_participants,
+        'total_participants':total_participants,
+        'participant_universities':universities,
+    }
+
+    return render(request, 'coordinator_dashboard.html', context)
