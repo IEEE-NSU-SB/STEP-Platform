@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    </style>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Roboto", serif;
         margin: 0;
         padding: 0;
-        background: linear-gradient(93deg, #35b7ff38, #f9f9f9);
+        /* background: linear-gradient(93deg, #00172d, #00498d); */
+        background: white;
         height: 100vh;
       }
 
@@ -20,10 +22,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #ddd;
+        /* background-color: #ddd; */
         color: #000;
-        font-weight: bold;
+        /* font-weight: bold; */
         padding: 10px 20px;
+        font-size: 1.5rem;
       }
 
       .navbar img {
@@ -33,7 +36,7 @@
       }
 
       .navbar .logout {
-        background-color: red;
+        background-color: #ff3333;
         color: white;
         border: none;
         padding: 8px 16px;
@@ -44,18 +47,18 @@
       /* Buttons */
       .button-group {
         display: flex;
-        gap: 10px;
+        gap: 6px;
         padding: 20px;
         flex-wrap: wrap;
       }
 
       .button-group button {
-        padding: 10px 20px;
-        border: 2px solid #ddd;
-        background-color: #fff;
+        padding: 8px 20px;
+        /* border: 1px solid #ddd; */
+        background-color: white;
         cursor: pointer;
-        border-radius: 4px;
-        font-weight: bold;
+        border-radius: 8px;
+        /* font-weight: bold; */
         color: #000;
       }
 
@@ -66,7 +69,7 @@
         padding: 0 20px 20px;
         /* border: 1px solid #ccc; */
         /* box-shadow: 2px 2px 2px 2px #ddd; */
-        margin: 20px;
+        /* margin: 20px; */
         justify-content: space-between;
         align-items: flex-start;
         /* border-radius: 4px; */
@@ -75,10 +78,12 @@
       .close-status {
         display: none;
         position: relative;
-        top: 18px;
-        background-color: red;
-        color: white;
-        border: none;
+        top: -42px;
+        right: 22px;
+        background-color: white;
+        border-radius: 50%;
+        color: #ff3333;
+        border: 1px solid #ff3333;
         cursor: pointer;
         border-radius: 4px;
       }
@@ -129,10 +134,11 @@
 
       .search-filter > input {
         /* min-width: 200px; */
-        border: 1px solid #fff;
-        box-shadow: 2px 2px 1px 1px #ddd;
+        border: 1px solid #ddd;
+        /* box-shadow: 2px 2px 1px 1px #ddd; */
         border-radius: 4px;
-        height: 22px;
+        height: 30px;
+        width: 250px;
       }
 
       .filter-options {
@@ -152,9 +158,11 @@
 
       #filter{
         text-decoration: none;
-      border: 3px solid #ddd;
-      border-radius: 4px;
-      padding: 4px 18px;
+        border: none;
+        border-radius: 4px;
+        padding: 9px 30px;
+        background: #3949AB;
+        color: white;
       }
       /* Table */
 
@@ -162,25 +170,26 @@
     table,
     th,
     td {
-        border: 2px solid #272727;
+        border-bottom: 1px solid #272727;
       }
 
       th,
       td {
-        padding: 10px;
+        padding: 10px 14px;
         text-align: center;
       }
 
       th{
-        color: white;
-        background-color: #272727;
+        color: #272727;
+        background-color: #fff;
+        height: 35px;
       }
       table {
         width: fit-content;
         border-collapse: collapse;
         background-color: white;
         border-radius: 4px;
-        border: 1px solid white;
+        border: 1px solid #272727;
         max-height: 58vh;
         display: block;
         margin: 20px;
@@ -249,11 +258,12 @@
         }
       }
       .container{
-        max-width: 1103px;
+        max-width: 1075px;
         margin: auto;
       }
       .footer{
-        background-color: #ddd;
+        background-color: #000;
+        color: white;
         position: fixed;
         bottom: 0;
         width: 100%;
@@ -267,11 +277,11 @@
         color: rgb(64, 64, 64);
     }
     .box{
-        width: 300px;
+        width: 310px;
         border-radius: 4px;
-        box-shadow: 2px 2px 2px 2px #caf2ff;
+        box-shadow: 2px 2px 2px 2px #ddd;
         padding: 8px;
-        background-color: #9de3fb;
+        background-color: #fff;
     }
     .count{
         font-size: 28px;
@@ -285,7 +295,7 @@
         flex-wrap: wrap;
     }
     #cancel-session{
-      background-color: red;
+      background-color: #ff3333;
       color: white;
     }
     input[type=checkbox]{
@@ -367,7 +377,6 @@
       </div>
     </div>
 
-    <hr style="width: 95%;">
     <!-- Search and Filter -->
     <div class="search-filter">
       <input type="text" id="search" placeholder="Search..." />
