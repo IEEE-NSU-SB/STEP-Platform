@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
 
     <style>
       body {
@@ -297,7 +298,7 @@
   <body>
       <!-- Navbar -->
       <div class="navbar">
-          <img src="/core/img/SPAC.png " alt="logo">
+          <img src="{% static '/img/SPAC.png' %}" alt="logo">
           <div>Current Session: Lunch</div>
           <button class="logout">Logout</button>
         </div>
@@ -814,7 +815,7 @@
     </div>
 
     <div class="footer">
-        <img src="../img/Logos-For-DOC-1.png" alt="logo">
+        <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
         <p>&copy; 2021</p>
     </div>
     <script>
