@@ -2,7 +2,8 @@
 import random
 import string
 from core.models import Registered_Participant, Token_Participant, Token_Session
-from django.db.models import Count, F, Prefetch
+from django.db.models import Count, F, Prefetch, Value
+from django.db.models.functions import Coalesce
 
 class Core:
 
@@ -16,7 +17,7 @@ class Core:
 
     def get_all_token_sessions_with_participant_counts():
         
-        return Token_Participant.objects.values(session_name=F('token_session__session_name')).annotate(participant_count=Count('id'))
+        return Token_Session.objects.values('session_name',sessionid=F('id')).annotate(participant_count=Coalesce(Count('token_participant'), Value(0))).order_by('order_of_session')
 
     def get_all_participant_universities():
         

@@ -2,6 +2,7 @@ import csv
 import json
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.contrib.auth.models import auth
@@ -38,7 +39,6 @@ def scan_qr(request, session_id=None):
         current_session=Token_Session.current_session()
         return render(request, 'scan.html', {'current_session':current_session.pk})
 
-@csrf_exempt
 def process_qr_data(request):
     
     if request.method == 'POST':
@@ -53,6 +53,7 @@ def process_qr_data(request):
             # Here you can save the data to the database if needed
             # Example:
             participant = Registered_Participant.objects.get(unique_code=data.get('unqc'))
+            print(participant.name)
             if len(Token_Participant.objects.filter(registered_participant=participant,token_session=session)) > 0:
                 print('rejected')
                 return JsonResponse({'error': 'Rejected'})
@@ -114,3 +115,27 @@ def dashboard(request):
     }
 
     return render(request, 'coordinator_dashboard.html', context)
+
+class SessionUpdateAjax(View):
+    def post(self, request):
+        sessions = json.loads(request.body)['sessions']
+        all_sessions = Core.get_all_token_sessions()
+
+        for session in all_sessions:
+            if str(session.id) in sessions:
+                session.is_active = True
+            else:
+                session.is_active = False
+            
+            session.save()
+
+        return JsonResponse({'message':"success"})
+    
+class GetSessionStatusAjax(View):
+    def get(self, request):
+        token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
+        data = {}
+        for x in token_sessions_with_participant_count:
+            data.update({x['sessionid']: x['participant_count']})
+                
+        return JsonResponse(data)
