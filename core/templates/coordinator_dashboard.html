@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
     </style>
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
       body {
         font-family: "Roboto", serif;
         margin: 0;
         padding: 0;
-        /* background: linear-gradient(93deg, #00172d, #00498d); */
-        background: white;
+        background: linear-gradient(93deg, #87c4ff, #00498d);
+        /* background: white; */
         height: 100vh;
       }
 
@@ -25,7 +26,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        /* background-color: #ddd; */
+        background-color: #f8f8f8;
         color: #000;
         /* font-weight: bold; */
         padding: 10px 20px;
@@ -33,8 +34,8 @@
       }
 
       .navbar img {
-        width: auto;
-        height: auto;
+        width: 200px;
+        height: 50px;
         object-fit: cover;
       }
 
@@ -45,6 +46,8 @@
         padding: 8px 16px;
         cursor: pointer;
         border-radius: 4px;
+        font-size: 1rem;
+        text-decoration: none;
       }
 
       /* Buttons */
@@ -57,12 +60,12 @@
 
       .button-group button {
         padding: 8px 20px;
-        /* border: 1px solid #ddd; */
-        background-color: white;
+        border: 1px solid #ffffff;
+        background: transparent;
         cursor: pointer;
-        border-radius: 8px;
+        border-radius: 5px;
         /* font-weight: bold; */
-        color: #000;
+        color: #f8f8f8;
       }
 
       /* Smooth Transition Blocks */
@@ -81,11 +84,11 @@
       .close-status {
         display: none;
         position: relative;
-        top: -42px;
+        top: -12px;
         right: 22px;
-        background-color: white;
+        background-color: #ff3333;
         border-radius: 50%;
-        color: #ff3333;
+        color: white;
         border: 1px solid #ff3333;
         cursor: pointer;
         border-radius: 4px;
@@ -105,8 +108,8 @@
 
       .modal {
         position: relative;
-        background-color: white;
-        padding: 20px;
+        background-color: #f8f8f8;
+        padding: 16px 12px;
         border-radius: 5px;
         max-width: 225px;
         margin: auto;
@@ -114,8 +117,8 @@
       }
 
       .modal .radio-group {
-        margin-bottom: 20px;
-        line-height: 1.5;
+        margin-bottom: 14px;
+        line-height: 1.7;
       }
 
       .modal button {
@@ -130,7 +133,7 @@
       .search-filter {
         display: flex;
         gap: 10px;
-        padding: 20px;
+        padding: 0 20px 0;
         flex-wrap: wrap;
         align-items: flex-start;
       }
@@ -142,37 +145,46 @@
         border-radius: 4px;
         height: 30px;
         width: 250px;
+        padding: 0 14px;
       }
 
       .filter-options {
         display: none;
-        background-color: white;
+        background-color: #f8f8f8;
         padding: 10px;
-        /* border: 1px solid #ccc; */
-        box-shadow: 2px 2px 2px 2px #ddd;
-        /* position: relative; */
+        border: 1px solid #272727;
+        box-shadow: 2px 2px 1px 1px #f8f8f8;
+        position: absolute;
         /* left: 20px; */
         /* bottom: 20px; */
         border-radius: 4px;
         max-width: 300px;
+        max-height: 100px;
+        overflow-x: auto;
         z-index: 100;
         cursor: pointer;
+        margin-left: 388px;
       }
 
-      #filter{
+      #filter {
         text-decoration: none;
         border: none;
         border-radius: 4px;
-        padding: 9px 30px;
-        background: #3949AB;
+        padding: 8px 30px;
+        background: #3949ab;
         color: white;
+        cursor: pointer;
+      }
+      .filter-options > label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
       /* Table */
 
-    
-    table,
-    th,
-    td {
+      table,
+      th,
+      td {
         border-bottom: 1px solid #272727;
       }
 
@@ -182,26 +194,49 @@
         text-align: center;
       }
 
-      th{
+      th {
         color: #272727;
-        background-color: #fff;
+        background-color: #f8f8f8;
         height: 35px;
       }
       table {
         width: fit-content;
         border-collapse: collapse;
-        background-color: white;
+        background-color: #f8f8f8;
         border-radius: 4px;
-        border: 1px solid #272727;
+        border: 1px solid #f8f8f8;
         max-height: 58vh;
         display: block;
         margin: 20px;
-        overflow:auto
-    }
-    .button-group-outerdiv{
-      display: flex; 
-      justify-content: space-between;
-    }
+        overflow: auto;
+      }
+      .button-group-outerdiv {
+        display: flex;
+        justify-content: space-between;
+      }
+      .footer {
+        background-color: #f8f8f8;
+        /* color: white; */
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+      }
+      .footer img {
+        height: 68px;
+      }
+      .count {
+        font-size: 1.5rem;
+        color: #000;
+      }
+      .box {
+        width: 301px;
+        border-radius: 4px;
+        box-shadow: 2px 2px 1px 1px #e4e4e4;
+        padding: 8px;
+        background-color: #f8f8f8;
+      }
       /* Responsive Design */
       @media (max-width: 768px) {
         .navbar {
@@ -218,11 +253,13 @@
 
         .search-filter {
           flex-direction: column;
+          margin-bottom: 12px;
         }
 
         table {
           font-size: 14px;
           margin: 0;
+          margin: 0 6%;
         }
 
         th,
@@ -236,8 +273,8 @@
           font-size: 14px;
           align-items: center;
         }
-        
-        .button-group-outerdiv{
+
+        .button-group-outerdiv {
           justify-content: center;
         }
         .button-group button {
@@ -259,575 +296,407 @@
         td {
           padding: 5px;
         }
+        .footer img {
+          height: 27px;
+        }
+        .count {
+        font-size: 1rem;
       }
-      .container{
-        max-width: 1075px;
+      .box{
+        width: 100%;
+      }
+      }
+      .container {
+        max-width: 1048px;
         margin: auto;
       }
-      .footer{
-        background-color: #000;
-        color: white;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-      }
-      th{
+      th {
         position: sticky;
         top: 0;
       }
-      .stat_name{
+      .stat_name {
         color: rgb(64, 64, 64);
-    }
-    .box{
-        width: 310px;
-        border-radius: 4px;
-        box-shadow: 2px 2px 2px 2px #ddd;
-        padding: 8px;
-        background-color: #fff;
-    }
-    .count{
-        font-size: 28px;
-        color: #000;
-    }
-    .stats{
+      }
+      .stats {
         display: flex;
         flex-direction: row;
         gap: 16px;
         margin-top: 16px;
         flex-wrap: wrap;
-    }
-    #cancel-session{
-      background-color: #ff3333;
-      color: white;
-    }
-    input[type=checkbox]{
-      height: 20px;
-      width: 20px;
-    }
+      }
+      #cancel-session {
+        background-color: #ff3333;
+        color: white;
+      }
+      input[type="checkbox"] {
+        height: 20px;
+        width: 20px;
+      }
+      table::-webkit-scrollbar {
+        width: 6px; /* Width of the scrollbar */
+      }
+
+      table::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+      }
+
+      table::-webkit-scrollbar-thumb {
+        background: #c5c5c5; /* Color of the thumb */
+        border-radius: 6px; /* Rounded corners for the thumb */
+      }
+
+      table::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color on hover */
+      }
+      .filter-options::-webkit-scrollbar {
+        width: 12px; /* Width of the scrollbar */
+      }
+
+      .filter-options::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+      }
+
+      .filter-options::-webkit-scrollbar-thumb {
+        background: #c5c5c5; /* Color of the thumb */
+        border-radius: 6px; /* Rounded corners for the thumb */
+      }
+
+      .filter-options::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color on hover */
+      }
+      #tap-to-scan{
+        background-color: #f8f8f8;
+        color: #00498d;
+        border: 1px solid #00498d;
+      }
     </style>
   </head>
   <body>
-      <!-- Navbar -->
-      <div class="navbar">
-          <img src="{% static '/img/SPAC.png' %}" alt="logo">
-          <div>Current Session: Lunch</div>
-          <button class="logout">Logout</button>
-        </div>
-        
+    <!-- Navbar -->
+    <div class="navbar">
+      <img src="{% static '/img/SPAC.png' %}" alt="logo" />
+      <div>Current Session: Lunch</div>
+      <a href="#" class="logout">Logout</a>
+    </div>
+
     <div class="container">
-    <!-- Button Group -->
-     <div class="button-group-outerdiv">
-         <div class="button-group">
-             <button id="view-status">View Status</button>
-             <button id="set-session">Set Session</button>
-             <button id="tap-to-scan">Tap to Scan</button>
-            </div>
-            <div id="qr-reader" style="display: none;"></div>
-
+      <!-- Button Group -->
+      <div class="button-group-outerdiv">
+        <div class="button-group">
+          <button id="view-status">View Status</button>
+          <button id="set-session">Set Session</button>
+          <button id="tap-to-scan">Tap to Scan</button>
         </div>
+        <div id="qr-reader" style="display: none"></div>
+      </div>
 
-    <!-- Status Blocks -->
-    <div class="status-blocks" id="status-blocks">
-      <div class="stats">
-        <div class="box">
-          <div class="stat_name">Registered:</div>
-          <div class="count">250</div>
-      </div>
-      <div class="box">
-          <div class="stat_name">Goodies:</div>
-          <div class="count">3</div>
-      </div>
-      <div class="box">
-          <div class="stat_name">Breakfast:</div>
-          <div class="count">65</div>
-      </div>
-      <div class="box">
-          <div class="stat_name">Lunch:</div>
-          <div class="count">200</div>
-      </div>
-      <div class="box">
-          <div class="stat_name">Dinner:</div>
-          <div class="count">100</div>
-      </div>
-      <div class="box">
-          <div class="stat_name">Dummy:</div>
-          <div class="count">34</div>
-      </div>
-      </div>
-      <button class="close-status" id="close-status">X</button>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal-overlay">
-      <div class="modal" id="set-session-modal">
-        <div class="radio-group">
-          <input type="radio" id="session1" name="session" value="Breakfast" />
-          <label for="session1">Breakfast</label><br />
-          <input type="radio" id="session2" name="session" value="Lunch" />
-          <label for="session2">Lunch</label><br />
-          <input type="radio" id="session3" name="session" value="Dinner" />
-          <label for="session3">Dinner</label><br />
-          <input type="radio" id="session4" name="session" value="Goodies" />
-          <label for="session4">Goodies</label>
+      <!-- Status Blocks -->
+      <div class="status-blocks" id="status-blocks">
+        <div class="stats">
+          <div class="box">
+            <div class="stat_name">Registered:</div>
+            <div class="count">250</div>
+          </div>
+          <div class="box">
+            <div class="stat_name">Goodies:</div>
+            <div class="count">3</div>
+          </div>
+          <div class="box">
+            <div class="stat_name">Breakfast:</div>
+            <div class="count">65</div>
+          </div>
+          <div class="box">
+            <div class="stat_name">Lunch:</div>
+            <div class="count">200</div>
+          </div>
+          <div class="box">
+            <div class="stat_name">Dinner:</div>
+            <div class="count">100</div>
+          </div>
+          <div class="box">
+            <div class="stat_name">Dummy:</div>
+            <div class="count">34</div>
+          </div>
         </div>
-        <div style="display: flex; align-items: flex-end; display: flex;
-            justify-content: center;
-            gap: 4px;">
-          <button id="select-session">Select Session</button>
-          <button id="cancel-session">Cancel</button>
+        <button class="close-status" id="close-status">X</button>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="set-session-modal">
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="session1"
+              name="session"
+              value="Breakfast"
+            />
+            <label for="session1">Breakfast</label><br />
+            <input type="checkbox" id="session2" name="session" value="Lunch" />
+            <label for="session2">Lunch</label><br />
+            <input type="checkbox" id="session3" name="session" value="Dinner" />
+            <label for="session3">Dinner</label><br />
+            <input type="checkbox" id="session4" name="session" value="Goodies" />
+            <label for="session4">Goodies</label>
+          </div>
+          <div
+            style="
+              display: flex;
+              align-items: flex-end;
+              display: flex;
+              justify-content: center;
+              gap: 4px;
+            "
+          >
+            <button id="select-session">Select Session</button>
+            <button id="cancel-session">Cancel</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Search and Filter -->
-    <div class="search-filter">
-      <input type="text" id="search" placeholder="Search..." />
-      <button id="filter">Filter</button>
-      <div class="filter-options" id="filter-options">
-        <label
-          ><input type="checkbox" value="University A" /> University A</label
-        ><br />
-        <label
-          ><input type="checkbox" value="University 2" /> University 2</label
-        ><br />
+      <!-- Search and Filter -->
+      <div class="search-filter">
+        <input type="text" id="search" placeholder="Search..." />
+        <button id="filter">Filter</button>
+        <div class="filter-options" id="filter-options">
+          <label
+            ><input type="checkbox" value="University A" />North South
+            University</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University A" /> University A</label
+          ><br />
+          <label
+            ><input type="checkbox" value="University 2" /> University 2</label
+          ><br />
+        </div>
       </div>
-    </div>
 
-    <!-- Table -->
-     <div style="display: flex; justify-content: center;">
-    <table>
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Name</th>
-            <th>University</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>IEEE ID</th>
-            <th>Registration</th>
-            <th>Breakfast</th>
-            <th>Lunch</th>
-            <th>Dinner</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>University A</td>
-            <td>+123456789</td>
-            <td>johndoe@example.com</td>
-            <td>55989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jane Smith</td>
-            <td>University B</td>
-            <td>+987654321</td>
-            <td>janesmith@example.com</td>
-            <td>77989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Michael Johnson</td>
-            <td>University C</td>
-            <td>+102938475</td>
-            <td>michaelj@example.com</td>
-            <td>11989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Emily Davis</td>
-            <td>University A</td>
-            <td>+5647382910</td>
-            <td>emilyd@example.com</td>
-            <td>22989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Chris Brown</td>
-            <td>University B</td>
-            <td>+1122334455</td>
-            <td>chrisb@example.com</td>
-            <td>66989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Sophia Wilson</td>
-            <td>University C</td>
-            <td>+9988776655</td>
-            <td>sophiaw@example.com</td>
-            <td>88989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>David Lee</td>
-            <td>University A</td>
-            <td>+5566778899</td>
-            <td>davidl@example.com</td>
-            <td>00989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Olivia Martinez</td>
-            <td>University B</td>
-            <td>+3344556677</td>
-            <td>oliviam@example.com</td>
-            <td>99989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Daniel Harris</td>
-            <td>University C</td>
-            <td>+2233445566</td>
-            <td>danielh@example.com</td>
-            <td>23989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Emma Garcia</td>
-            <td>University A</td>
-            <td>+7788990011</td>
-            <td>emmag@example.com</td>
-            <td>45989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Chris Brown</td>
-            <td>University B</td>
-            <td>+1122334455</td>
-            <td>chrisb@example.com</td>
-            <td>66989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Sophia Wilson</td>
-            <td>University C</td>
-            <td>+9988776655</td>
-            <td>sophiaw@example.com</td>
-            <td>88989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>David Lee</td>
-            <td>University A</td>
-            <td>+5566778899</td>
-            <td>davidl@example.com</td>
-            <td>00989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Olivia Martinez</td>
-            <td>University B</td>
-            <td>+3344556677</td>
-            <td>oliviam@example.com</td>
-            <td>99989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Daniel Harris</td>
-            <td>University C</td>
-            <td>+2233445566</td>
-            <td>danielh@example.com</td>
-            <td>23989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Emma Garcia</td>
-            <td>University A</td>
-            <td>+7788990011</td>
-            <td>emmag@example.com</td>
-            <td>45989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Chris Brown</td>
-            <td>University B</td>
-            <td>+1122334455</td>
-            <td>chrisb@example.com</td>
-            <td>66989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Sophia Wilson</td>
-            <td>University C</td>
-            <td>+9988776655</td>
-            <td>sophiaw@example.com</td>
-            <td>88989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>David Lee</td>
-            <td>University A</td>
-            <td>+5566778899</td>
-            <td>davidl@example.com</td>
-            <td>00989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Olivia Martinez</td>
-            <td>University B</td>
-            <td>+3344556677</td>
-            <td>oliviam@example.com</td>
-            <td>99989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Daniel Harris</td>
-            <td>University C</td>
-            <td>+2233445566</td>
-            <td>danielh@example.com</td>
-            <td>23989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Emma Garcia</td>
-            <td>University A</td>
-            <td>+7788990011</td>
-            <td>emmag@example.com</td>
-            <td>45989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Chris Brown</td>
-            <td>University B</td>
-            <td>+1122334455</td>
-            <td>chrisb@example.com</td>
-            <td>66989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Sophia Wilson</td>
-            <td>University C</td>
-            <td>+9988776655</td>
-            <td>sophiaw@example.com</td>
-            <td>88989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>David Lee</td>
-            <td>University A</td>
-            <td>+5566778899</td>
-            <td>davidl@example.com</td>
-            <td>00989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Olivia Martinez</td>
-            <td>University B</td>
-            <td>+3344556677</td>
-            <td>oliviam@example.com</td>
-            <td>99989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Daniel Harris</td>
-            <td>University C</td>
-            <td>+2233445566</td>
-            <td>danielh@example.com</td>
-            <td>23989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Emma Garcia</td>
-            <td>University A</td>
-            <td>+7788990011</td>
-            <td>emmag@example.com</td>
-            <td>45989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Chris Brown</td>
-            <td>University B</td>
-            <td>+1122334455</td>
-            <td>chrisb@example.com</td>
-            <td>66989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Sophia Wilson</td>
-            <td>University C</td>
-            <td>+9988776655</td>
-            <td>sophiaw@example.com</td>
-            <td>88989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>David Lee</td>
-            <td>University A</td>
-            <td>+5566778899</td>
-            <td>davidl@example.com</td>
-            <td>00989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Olivia Martinez</td>
-            <td>University B</td>
-            <td>+3344556677</td>
-            <td>oliviam@example.com</td>
-            <td>99989190</td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Daniel Harris</td>
-            <td>University C</td>
-            <td>+2233445566</td>
-            <td>danielh@example.com</td>
-            <td>23989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Emma Garcia</td>
-            <td>University A</td>
-            <td>+7788990011</td>
-            <td>emmag@example.com</td>
-            <td>45989190</td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" checked /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="checkbox" /></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- Table -->
+      <div style="display: flex; justify-content: center">
+        <table>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Name</th>
+              <th>University</th>
+              <th>Contact</th>
+              <th>Email</th>
+              <th>Registration</th>
+              <th>Breakfast</th>
+              <th>Lunch</th>
+              <th>Dinner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>John Doe</td>
+              <td>University A</td>
+              <td>+123456789</td>
+              <td>johndoe@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jane Smith</td>
+              <td>University B</td>
+              <td>+987654321</td>
+              <td>janesmith@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Michael Johnson</td>
+              <td>University C</td>
+              <td>+102938475</td>
+              <td>michaelj@example.com</td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Emily Davis</td>
+              <td>University A</td>
+              <td>+5647382910</td>
+              <td>emilyd@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Chris Brown</td>
+              <td>University B</td>
+              <td>+1122334455</td>
+              <td>chrisb@example.com</td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Sophia Wilson</td>
+              <td>University C</td>
+              <td>+9988776655</td>
+              <td>sophiaw@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>David Lee</td>
+              <td>University A</td>
+              <td>+5566778899</td>
+              <td>davidl@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Olivia Martinez</td>
+              <td>University B</td>
+              <td>+3344556677</td>
+              <td>oliviam@example.com</td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Daniel Harris</td>
+              <td>University C</td>
+              <td>+2233445566</td>
+              <td>danielh@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Emma Garcia</td>
+              <td>University A</td>
+              <td>+7788990011</td>
+              <td>emmag@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Chris Brown</td>
+              <td>University B</td>
+              <td>+1122334455</td>
+              <td>chrisb@example.com</td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Sophia Wilson</td>
+              <td>University C</td>
+              <td>+9988776655</td>
+              <td>sophiaw@example.com</td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" checked /></td>
+              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="footer">
-        <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
-        <p>&copy; 2021</p>
+      <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo" />
     </div>
     <script>
       // View Status Button
@@ -847,80 +716,86 @@
         closeStatusBtn.style.display = "none";
       });
 
-      const setSessionBtn = document.getElementById("set-session");
-      const setSessionModal = document.getElementById("set-session-modal");
-      const selectSessionBtn = document.getElementById("select-session");
-      const cancelSessionBtn = document.getElementById("cancel-session");
-      const modalOverlay = document.getElementById("modal-overlay");
-      const navbarSessionText = document.querySelector(".navbar > div");
+  const setSessionBtn = document.getElementById("set-session");
+  const setSessionModal = document.getElementById("set-session-modal");
+  const selectSessionBtn = document.getElementById("select-session");
+  const cancelSessionBtn = document.getElementById("cancel-session");
+  const modalOverlay = document.getElementById("modal-overlay");
+  const navbarSessionText = document.querySelector(".navbar > div");
 
-      // Open the modal
-      setSessionBtn.addEventListener("click", () => {
-        modalOverlay.style.display = "block";
-      });
+  // Open the modal
+  setSessionBtn.addEventListener("click", () => {
+    modalOverlay.style.display = "block";
+  });
 
-      // Close the modal on "Select Session"
-      selectSessionBtn.addEventListener("click", () => {
-        const selectedSession = document.querySelector(
-          'input[name="session"]:checked'
-        );
-        if (selectedSession) {
-          navbarSessionText.textContent = `Current Session: ${selectedSession.value}`;
-        }
-        modalOverlay.style.display = "none";
-      });
+  // Close the modal on "Select Session"
+  selectSessionBtn.addEventListener("click", () => {
+    const selectedSessions = Array.from(
+      document.querySelectorAll('input[name="session"]:checked')
+    ).map((checkbox) => checkbox.value);
 
-      // Close the modal on "Cancel"
-      cancelSessionBtn.addEventListener("click", () => {
-        modalOverlay.style.display = "none";
-      });
+    if (selectedSessions.length > 0) {
+      navbarSessionText.textContent = `Current Sessions: ${selectedSessions.join(", ")}`;
+    } else {
+      navbarSessionText.textContent = "No session selected";
+    }
 
-      // Close the modal when clicking outside of it
-      modalOverlay.addEventListener("click", (event) => {
-        if (event.target === modalOverlay) {
-          modalOverlay.style.display = "none";
-        }
-      });
+    modalOverlay.style.display = "none";
+  });
+
+  // Close the modal on "Cancel"
+  cancelSessionBtn.addEventListener("click", () => {
+    modalOverlay.style.display = "none";
+  });
+
+  // Close the modal when clicking outside of it
+  modalOverlay.addEventListener("click", (event) => {
+    if (event.target === modalOverlay) {
+      modalOverlay.style.display = "none";
+    }
+  });
 
       // Tap to Scan Button
-    const tapToScanBtn = document.getElementById("tap-to-scan");
-    const qrReaderElement = document.getElementById("qr-reader");
+      const tapToScanBtn = document.getElementById("tap-to-scan");
+      const qrReaderElement = document.getElementById("qr-reader");
 
-    tapToScanBtn.addEventListener("click", () => {
-      qrReaderElement.style.display = "block"; // Show the QR reader
+      tapToScanBtn.addEventListener("click", () => {
+        qrReaderElement.style.display = "block"; // Show the QR reader
 
-      const html5QrCode = new Html5Qrcode("qr-reader");
+        const html5QrCode = new Html5Qrcode("qr-reader");
 
-      // Define a valid QR code value for acceptance
-      const validQrCode = "ACCEPTED_QR_CODE_VALUE";
+        // Define a valid QR code value for acceptance
+        const validQrCode = "ACCEPTED_QR_CODE_VALUE";
 
-      html5QrCode.start(
-        { facingMode: "environment" }, // Use the rear camera
-        {
-          fps: 10, // Set frame per second for scanning
-          qrbox: { width: 250, height: 250 }, // Define the QR scanning box dimensions
-        },
-        (decodedText, decodedResult) => {
-          // Handle the scanned QR code result
-          if (decodedText === validQrCode) {
-            alert("QR Accepted");
-          } else {
-            alert("QR Rejected");
-          }
+        html5QrCode
+          .start(
+            { facingMode: "user" }, // Use the rear camera
+            {
+              fps: 10, // Set frame per second for scanning
+              qrbox: { width: 250, height: 250 }, // Define the QR scanning box dimensions
+            },
+            (decodedText, decodedResult) => {
+              // Handle the scanned QR code result
+              if (decodedText === validQrCode) {
+                alert("QR Accepted");
+              } else {
+                alert("QR Rejected");
+              }
 
-          // Stop the scanner after a scan
-          html5QrCode.stop().then(() => {
-            qrReaderElement.style.display = "none"; // Hide the QR reader
+              // Stop the scanner after a scan
+              html5QrCode.stop().then(() => {
+                qrReaderElement.style.display = "none"; // Hide the QR reader
+              });
+            },
+            (errorMessage) => {
+              // Optional: Handle scan errors or failures (e.g., no QR code detected)
+              console.log("Scanning error: ", errorMessage);
+            }
+          )
+          .catch((err) => {
+            console.error("QR scanner failed to start: ", err);
           });
-        },
-        (errorMessage) => {
-          // Optional: Handle scan errors or failures (e.g., no QR code detected)
-          console.log("Scanning error: ", errorMessage);
-        }
-      ).catch((err) => {
-        console.error("QR scanner failed to start: ", err);
       });
-    });
 
       // Filter Dropdown
       const filterBtn = document.getElementById("filter");
@@ -975,6 +850,18 @@
           row.style.display = matchesUniversity && matchesSearch ? "" : "none";
         });
       }
+      const checkboxes = document.querySelectorAll('table input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            Swal.fire({
+              title: "Good job!",
+              text: `You selected ${checkbox.value}!`,
+              icon: "success",
+            });
+          }
+        });
+      });
     </script>
   </body>
 </html>
