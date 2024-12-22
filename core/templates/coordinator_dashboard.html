@@ -300,11 +300,11 @@
           height: 27px;
         }
         .count {
-        font-size: 1rem;
-      }
-      .box{
-        width: 100%;
-      }
+          font-size: 1rem;
+        }
+        .box {
+          width: 100%;
+        }
       }
       .container {
         max-width: 1048px;
@@ -364,7 +364,7 @@
       .filter-options::-webkit-scrollbar-thumb:hover {
         background: #555; /* Color on hover */
       }
-      #tap-to-scan{
+      #tap-to-scan {
         background-color: #f8f8f8;
         color: #00498d;
         border: 1px solid #00498d;
@@ -387,8 +387,9 @@
           <button id="set-session">Set Session</button>
           <button id="tap-to-scan">Tap to Scan</button>
         </div>
-        <div id="qr-reader" style="display: none"></div>
       </div>
+      <div id="reader"></div>
+      <!-- <div id="reader"></div> -->
 
     <!-- Status Blocks -->
     <div class="status-blocks" id="status-blocks">
@@ -420,9 +421,19 @@
             <label for="session1">Breakfast</label><br />
             <input type="checkbox" id="session2" name="session" value="Lunch" />
             <label for="session2">Lunch</label><br />
-            <input type="checkbox" id="session3" name="session" value="Dinner" />
+            <input
+              type="checkbox"
+              id="session3"
+              name="session"
+              value="Dinner"
+            />
             <label for="session3">Dinner</label><br />
-            <input type="checkbox" id="session4" name="session" value="Goodies" />
+            <input
+              type="checkbox"
+              id="session4"
+              name="session"
+              value="Goodies"
+            />
             <label for="session4">Goodies</label>
           </div>
           <div
@@ -507,85 +518,95 @@
         closeStatusBtn.style.display = "none";
       });
 
-  const setSessionBtn = document.getElementById("set-session");
-  const setSessionModal = document.getElementById("set-session-modal");
-  const selectSessionBtn = document.getElementById("select-session");
-  const cancelSessionBtn = document.getElementById("cancel-session");
-  const modalOverlay = document.getElementById("modal-overlay");
-  const navbarSessionText = document.querySelector(".navbar > div");
+      const setSessionBtn = document.getElementById("set-session");
+      const setSessionModal = document.getElementById("set-session-modal");
+      const selectSessionBtn = document.getElementById("select-session");
+      const cancelSessionBtn = document.getElementById("cancel-session");
+      const modalOverlay = document.getElementById("modal-overlay");
+      const navbarSessionText = document.querySelector(".navbar > div");
 
-  // Open the modal
-  setSessionBtn.addEventListener("click", () => {
-    modalOverlay.style.display = "block";
-  });
+      // Open the modal
+      setSessionBtn.addEventListener("click", () => {
+        modalOverlay.style.display = "block";
+      });
 
-  // Close the modal on "Select Session"
-  selectSessionBtn.addEventListener("click", () => {
-    const selectedSessions = Array.from(
-      document.querySelectorAll('input[name="session"]:checked')
-    ).map((checkbox) => checkbox.value);
+      // Close the modal on "Select Session"
+      selectSessionBtn.addEventListener("click", () => {
+        const selectedSessions = Array.from(
+          document.querySelectorAll('input[name="session"]:checked')
+        ).map((checkbox) => checkbox.value);
 
-    if (selectedSessions.length > 0) {
-      navbarSessionText.textContent = `Current Sessions: ${selectedSessions.join(", ")}`;
-    } else {
-      navbarSessionText.textContent = "No session selected";
-    }
+        if (selectedSessions.length > 0) {
+          navbarSessionText.textContent = `Current Sessions: ${selectedSessions.join(
+            ", "
+          )}`;
+        } else {
+          navbarSessionText.textContent = "No session selected";
+        }
 
-    modalOverlay.style.display = "none";
-  });
+        modalOverlay.style.display = "none";
+      });
 
-  // Close the modal on "Cancel"
-  cancelSessionBtn.addEventListener("click", () => {
-    modalOverlay.style.display = "none";
-  });
+      // Close the modal on "Cancel"
+      cancelSessionBtn.addEventListener("click", () => {
+        modalOverlay.style.display = "none";
+      });
 
-  // Close the modal when clicking outside of it
-  modalOverlay.addEventListener("click", (event) => {
-    if (event.target === modalOverlay) {
-      modalOverlay.style.display = "none";
-    }
-  });
+      // Close the modal when clicking outside of it
+      modalOverlay.addEventListener("click", (event) => {
+        if (event.target === modalOverlay) {
+          modalOverlay.style.display = "none";
+        }
+      });
 
       // Tap to Scan Button
+      const serverURL = '{% url "core:process_qr_data" %}'; // Your Django URL
       const tapToScanBtn = document.getElementById("tap-to-scan");
-      const qrReaderElement = document.getElementById("qr-reader");
+      const qrReaderElement = document.getElementById("reader");
 
       tapToScanBtn.addEventListener("click", () => {
         qrReaderElement.style.display = "block"; // Show the QR reader
 
-        const html5QrCode = new Html5Qrcode("qr-reader");
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+          alert(`${decodedText} `);
 
-        // Define a valid QR code value for acceptance
-        const validQrCode = "ACCEPTED_QR_CODE_VALUE";
+          fetch(serverURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "session-id": "1" },
+            body: decodedText,
+          })
+            .then((response) => response.json())
+            .then((data) => console.log("Server Response:", data))
+            .catch((err) => console.error("Error:", err));
 
-        html5QrCode
-          .start(
-            { facingMode: "user" }, // Use the rear camera
-            {
-              fps: 10, // Set frame per second for scanning
-              qrbox: { width: 250, height: 250 }, // Define the QR scanning box dimensions
-            },
-            (decodedText, decodedResult) => {
-              // Handle the scanned QR code result
-              if (decodedText === validQrCode) {
-                alert("QR Accepted");
-              } else {
-                alert("QR Rejected");
-              }
+          html5QrCode
+            .stop()
+            .then((ignore) => {
+              // QR Code scanning is stopped.
+            })
+            .catch((err) => {
+              // Stop failed, handle it.
+            });
+        };
 
-              // Stop the scanner after a scan
-              html5QrCode.stop().then(() => {
-                qrReaderElement.style.display = "none"; // Hide the QR reader
-              });
-            },
-            (errorMessage) => {
-              // Optional: Handle scan errors or failures (e.g., no QR code detected)
-              console.log("Scanning error: ", errorMessage);
-            }
-          )
-          .catch((err) => {
-            console.error("QR scanner failed to start: ", err);
-          });
+        const config = {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          videoConstraints: {
+            facingMode: "user", // Use back camera
+            width: { ideal: 1920 }, // Request Full HD (1080p)
+            height: { ideal: 1080 }, // Request Full HD (1080p)
+            focusMode: "continuous",
+          },
+        };
+
+        // If you want to prefer back camera
+        html5QrCode.start(
+          { facingMode: "user" },
+          config,
+          qrCodeSuccessCallback
+        );
       });
 
       // Filter Dropdown
@@ -641,14 +662,31 @@
           row.style.display = matchesUniversity && matchesSearch ? "" : "none";
         });
       }
-      const checkboxes = document.querySelectorAll('table input[type="checkbox"]');
+      const checkboxes = document.querySelectorAll(
+        'table input[type="checkbox"]'
+      );
       checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) {
             Swal.fire({
-              title: "Good job!",
-              text: `You selected ${checkbox.value}!`,
-              icon: "success",
+              title: "Are you sure?",
+              // text: "You won't be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes!",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire({
+                  title: "Success!",
+                  // text: "Your file has been deleted.",
+                  icon: "success",
+                });
+              }
+              else{
+                checkbox.checked = false;
+              }
             });
           }
         });
