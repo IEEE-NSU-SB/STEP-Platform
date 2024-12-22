@@ -55,6 +55,7 @@ atlassian-ide-plugin.xml
 .Python build/ 
 develop-eggs/ 
 downloads/ 
+qgen/
 eggs/ 
 .eggs/ 
 lib/ 

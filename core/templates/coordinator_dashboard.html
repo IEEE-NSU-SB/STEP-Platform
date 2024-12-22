@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +8,8 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
     </style>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
     <style>
       body {
         font-family: "Roboto", serif;
@@ -307,7 +310,7 @@
   <body>
       <!-- Navbar -->
       <div class="navbar">
-          <img src="/core/img/SPAC.png " alt="logo">
+          <img src="{% static '/img/SPAC.png' %}" alt="logo">
           <div>Current Session: Lunch</div>
           <button class="logout">Logout</button>
         </div>
@@ -823,7 +826,7 @@
     </div>
 
     <div class="footer">
-        <img src="../img/Logos-For-DOC-1.png" alt="logo">
+        <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
         <p>&copy; 2021</p>
     </div>
     <script>
