@@ -481,6 +481,8 @@
     <div class="footer">
         <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
     </div>
+    <audio id="xyz" src="{% static 'scanner.mp3' %}" preload="auto"></audio>
+
     <script>
       // View Status Button
       const viewStatusBtn = document.getElementById("view-status");
@@ -574,8 +576,8 @@
       const serverURL = '{% url "core:process_qr_data" %}'; // Your Django URL
       const tapToScanBtn = document.getElementById("tap-to-scan");
       const qrReaderElement = document.getElementById("reader");
-
-      var played = true;
+      const audioX = document.getElementById('xyz');
+      {% comment %} var played = true; {% endcomment %}
       {% comment %} var audio = new Audio(); {% endcomment %}
       tapToScanBtn.addEventListener("click", () => {
         qrReaderElement.style.display = "block"; // Show the QR reader
@@ -585,7 +587,7 @@
           {% comment %} audio.autoplay = true;
           if(played)
           {
-              audio.src = "{% static 'store-scanner-beep-90395.mp3' %}";
+              audio.src = "{% static 'scanner.mp3' %}";
               audio.play();  
           }
           else{
@@ -593,6 +595,7 @@
               audio.play();
               played = true;
           } {% endcomment %}
+          audioX.play();
               
           alert(`${decodedText} `);
 
@@ -619,7 +622,7 @@
           fps: 10,
           qrbox: { width: 250, height: 250 },
           videoConstraints: {
-            facingMode: "user", // Use back camera
+            facingMode: "environment", // Use back camera
             width: { ideal: 1920 }, // Request Full HD (1080p)
             height: { ideal: 1080 }, // Request Full HD (1080p)
             focusMode: "continuous",
@@ -628,7 +631,7 @@
 
         // If you want to prefer back camera
         html5QrCode.start(
-          { facingMode: "user" },
+          { facingMode: "environment" },
           config,
           qrCodeSuccessCallback
         );
