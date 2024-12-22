@@ -78,15 +78,14 @@
               });
         };
 
-        const config = { fps: 10, qrbox: { width: 250, height: 250 }, videoConstraints: {facingMode: "environment", // Use back camera
+        const config = { fps: 10, qrbox: { width: 250, height: 250 }, videoConstraints: {facingMode: "user", // Use back camera
         width: { ideal: 1920 },    // Request Full HD (1080p)
         height: { ideal: 1080 },    // Request Full HD (1080p)
         focusMode: "continuous" 
         } };
 
         // If you want to prefer back camera
-        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-
+        html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
 </script>
 
