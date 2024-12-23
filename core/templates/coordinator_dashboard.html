@@ -249,10 +249,96 @@
         background-color: #f8f8f8;
       }
       video {
-        width: 100%;
+        width: 95%;
       }
-      /* Responsive Design */
-      @media (max-width: 768px) {
+      .container {
+        max-width: 1048px;
+        margin: auto;
+      }
+      th {
+        position: sticky;
+        background-color: #f8f8f8;
+        /* z-index: -1; */
+        top: 0;
+      }
+      .stat_name {
+        color: rgb(64, 64, 64);
+      }
+      .stats {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        margin-top: 36px;
+        flex-wrap: wrap;
+      }
+      #cancel-session {
+        background-color: #ff3333;
+        color: white;
+      }
+      input[type="checkbox"] {
+        height: 20px;
+        width: 20px;
+      }
+      table::-webkit-scrollbar {
+        width: 6px; /* Width of the scrollbar */
+      }
+
+      table::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+      }
+
+      table::-webkit-scrollbar-thumb {
+        background: #c5c5c5; /* Color of the thumb */
+        border-radius: 6px; /* Rounded corners for the thumb */
+      }
+
+      table::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color on hover */
+      }
+      .filter-options::-webkit-scrollbar {
+        width: 12px; /* Width of the scrollbar */
+      }
+
+      .filter-options::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+      }
+
+      .filter-options::-webkit-scrollbar-thumb {
+        background: #c5c5c5; /* Color of the thumb */
+        border-radius: 6px; /* Rounded corners for the thumb */
+      }
+
+      .filter-options::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color on hover */
+      }
+      #tap-to-scan {
+        background-color: #f8f8f8;
+        color: #00498d;
+        border: 1px solid #00498d;
+      }
+      #reader {
+  display: none;
+  width: 300px;
+  height: auto; /* Allow dynamic height to include the stop button */
+  margin: 20px auto;
+  text-align: center;
+  position: absolute;
+  top: 150px;
+  background: #f8f8f8;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.details{
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50%;
+  border: 2px solid black;
+  color: black;
+  padding: 0 8px;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
         .navbar {
           flex-direction: column;
           align-items: flex-start;
@@ -327,85 +413,6 @@
           width: 100%;
         }
       }
-      .container {
-        max-width: 1048px;
-        margin: auto;
-      }
-      th {
-        position: sticky;
-        background-color: #f8f8f8;
-        /* z-index: -1; */
-        top: 0;
-      }
-      .stat_name {
-        color: rgb(64, 64, 64);
-      }
-      .stats {
-        display: flex;
-        flex-direction: row;
-        gap: 16px;
-        margin-top: 36px;
-        flex-wrap: wrap;
-      }
-      #cancel-session {
-        background-color: #ff3333;
-        color: white;
-      }
-      input[type="checkbox"] {
-        height: 20px;
-        width: 20px;
-      }
-      table::-webkit-scrollbar {
-        width: 6px; /* Width of the scrollbar */
-      }
-
-      table::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Background of the track */
-      }
-
-      table::-webkit-scrollbar-thumb {
-        background: #c5c5c5; /* Color of the thumb */
-        border-radius: 6px; /* Rounded corners for the thumb */
-      }
-
-      table::-webkit-scrollbar-thumb:hover {
-        background: #555; /* Color on hover */
-      }
-      .filter-options::-webkit-scrollbar {
-        width: 12px; /* Width of the scrollbar */
-      }
-
-      .filter-options::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Background of the track */
-      }
-
-      .filter-options::-webkit-scrollbar-thumb {
-        background: #c5c5c5; /* Color of the thumb */
-        border-radius: 6px; /* Rounded corners for the thumb */
-      }
-
-      .filter-options::-webkit-scrollbar-thumb:hover {
-        background: #555; /* Color on hover */
-      }
-      #tap-to-scan {
-        background-color: #f8f8f8;
-        color: #00498d;
-        border: 1px solid #00498d;
-      }
-      #reader {
-  display: none;
-  width: 250px;
-  height: auto; /* Allow dynamic height to include the stop button */
-  margin: 20px auto;
-  text-align: center;
-  position: absolute;
-  top: 150px;
-  background: #f8f8f8;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid;
-}
-
     </style>
   </head>
   <body>
@@ -478,6 +485,7 @@
               {% for session in token_sessions_all %}
               <th>{{session.session_name}}</th>
               {% endfor %}
+              <th>Details</th>
             </tr>
           </thead>
           <tbody>
@@ -495,6 +503,7 @@
                 {% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
               </td>
               {% endfor %}
+              <td><a href="#" class="details">i</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -808,7 +817,7 @@ closeStatusBtn.addEventListener("click", () => {
 
     const config = {
       fps: 10,
-      qrbox: { width: 150, height: 150 },
+      qrbox: { width: 250, height: 250 },
       videoConstraints: {
         facingMode: "environment", // Use back camera
       },
