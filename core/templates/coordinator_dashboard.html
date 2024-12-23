@@ -68,8 +68,8 @@
         color: #f8f8f8;
       }
 
-      /* Smooth Transition x  xs */
-      .status-x xs {
+      /* Smooth Transition blocks */
+      .status-blocks {
         display: none;
         /* background-color: white; */
         padding: 0 20px 20px;
@@ -116,7 +116,7 @@
         top: 20%;
       }
 
-      .modal .radio-group {
+      .modal .checkbox-group {
         margin-bottom: 14px;
         line-height: 1.7;
       }
@@ -208,7 +208,7 @@
         border-radius: 4px;
         border: 1px solid #f8f8f8;
         max-height: 58vh;
-        display: x  x;
+        display: block;
         margin: 20px;
         overflow: auto;
       }
@@ -382,8 +382,8 @@
     <!-- Navbar -->
     <div class="navbar">
       <img src="{% static '/img/SPAC.png' %}" alt="logo" />
-      <div>Current Session: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-      <a href="#" class="logout">Logout</a>
+      <div>Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+      <a href="{% url 'core:logout' %}" class="logout">Logout</a>
     </div>
 
     <div class="container">
@@ -397,7 +397,7 @@
       </div>
 
 
-    <!-- Status x xs -->
+    <!-- Status blocks -->
     <div class="status-blocks" id="status-blocks">
       <div class="stats">
         <div class="box">
@@ -407,11 +407,11 @@
         {% for session in token_sessions_with_participant_count %}
         <div class="box">
             <div class="stat_name">{{session.session_name}}:</div>
-            <div class="count">{{session.participant_count}}</div>
+            <div id="session_{{session.sessionid}}" class="count">{{session.participant_count}}</div>
         </div> 
         {% endfor %}
-        <button class="close-status" id="close-status">X</button>
       </div>
+      <button class="close-status" id="close-status">X</button>
     </div>
 <!-- Modal -->
 <div id="modal-sessions" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
@@ -447,29 +447,10 @@ border: 1px solid;">
       <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="set-session-modal">
           <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="session1"
-              name="session"
-              value="Breakfast"
-            />
-            <label for="session1">Breakfast</label><br />
-            <input type="checkbox" id="session2" name="session" value="Lunch" />
-            <label for="session2">Lunch</label><br />
-            <input
-              type="checkbox"
-              id="session3"
-              name="session"
-              value="Dinner"
-            />
-            <label for="session3">Dinner</label><br />
-            <input
-              type="checkbox"
-              id="session4"
-              name="session"
-              value="Goodies"
-            />
-            <label for="session4">Goodies</label>
+            {% for session in token_sessions_all %}
+            <input type="checkbox" id="{{session.id}}" name="session" data-name="{{session.session_name}}" value="{{session.id}}" {% if session.is_active %}checked{% endif %}/>
+            <label for="{{session.id}}">{{session.session_name}}</label><br />
+            {% endfor %}
           </div>
           <div
             style="
@@ -480,7 +461,7 @@ border: 1px solid;">
               gap: 4px;
             "
           >
-            <button id="select-session">Select Session</button>
+            <button id="select-session">Update Session</button>
             <button id="cancel-session">Cancel</button>
           </div>
         </div>
@@ -537,6 +518,8 @@ border: 1px solid;">
     <div class="footer">
         <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
     </div>
+    <audio id="xyz" src="{% static 'scanner.mp3' %}" preload="auto"></audio>
+
     <script>
       // View Status Button
       const viewStatusBtn = document.getElementById("view-status");
@@ -573,13 +556,43 @@ border: 1px solid;">
           document.querySelectorAll('input[name="session"]:checked')
         ).map((checkbox) => checkbox.value);
 
-        if (selectedSessions.length > 0) {
-          navbarSessionText.textContent = `Current Sessions: ${selectedSessions.join(
-            ", "
-          )}`;
-        } else {
-          navbarSessionText.textContent = "No session selected";
-        }
+        const selectedSessionsName = Array.from(
+          document.querySelectorAll('input[name="session"]:checked')
+        ).map((checkbox) => checkbox.dataset.name);
+
+        fetch("{% url 'core:update_session' %}", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
+          body: JSON.stringify({"sessions": selectedSessions})
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Server Response:", data);
+
+            if(data.message == 'success') {
+              if (selectedSessions.length > 0) {
+                navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
+                  ", "
+                )}`;
+              } else {
+                navbarSessionText.textContent = "No session selected";
+              }
+
+              Swal.fire({
+                title: "Sessions Updated!",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Sessions could not be updated!",
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+              });
+            }
+          }).catch((err) => console.error("Error:", err));
 
         modalOverlay.style.display = "none";
       });
@@ -605,6 +618,9 @@ const modalSessions = document.getElementById("modal-sessions");
 const sessionUrls = document.getElementById("session-urls");
 const closeModalBtn = document.getElementById("close-modal");
 const stopScanBtn = document.getElementById("stop-scan");
+const audioX = document.getElementById('xyz');
+      {% comment %} var played = true; {% endcomment %}
+      {% comment %} var audio = new Audio(); {% endcomment %}
 
 let html5QrCode; // Global variable to manage QR scanning
 
@@ -643,21 +659,33 @@ sessionUrls.addEventListener("click", (event) => {
     const sessionId = event.target.getAttribute("data-id");
     const sessionUrl = event.target.getAttribute("data-url");
     modalSessions.style.display = "none"; // Close the modal
-    qrReaderElement.style.display = "x  x"; // Show QR reader
+    qrReaderElement.style.display = "block"; // Show QR reader
 
-    // Initialize QR reader
-    html5QrCode = new Html5Qrcode("reader");
-    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-      alert(`Decoded: ${decodedText}`);
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+          {% comment %} audio.autoplay = true;
+          if(played)
+          {
+              audio.src = "{% static 'scanner.mp3' %}";
+              audio.play();  
+          }
+          else{
+              audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+              audio.play();
+              played = true;
+          } {% endcomment %}
+          audioX.play();
+              
+          alert(`${decodedText} `);
 
-      fetch(serverURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "session-id": sessionId },
-        body: JSON.stringify({ url: sessionUrl, data: decodedText }),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log("Server Response:", data))
-        .catch((err) => console.error("Error:", err));
+          fetch(serverURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}", "session-id": "1", },
+            body: decodedText,
+          })
+            .then((response) => response.json())
+            .then((data) => console.log("Server Response:", data))
+            .catch((err) => console.error("Error:", err));
 
       html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
     };
@@ -710,7 +738,7 @@ stopScanBtn.addEventListener("click", () => {
 
       filterBtn.addEventListener("click", () => {
         filterOptions.style.display =
-          filterOptions.style.display === "x  x" ? "none" : "x x";
+          filterOptions.style.display === "block" ? "none" : "block";
       });
 
       filterOptions.addEventListener("change", () => {
@@ -784,6 +812,21 @@ stopScanBtn.addEventListener("click", () => {
           }
         });
       });
+
+      setInterval(GetSessionStatuses, 2000);
+
+      function GetSessionStatuses( )
+      {
+        fetch("{% url 'core:get_session_statuses' %}", {
+          method: "GET",
+        }).then((response) => response.json())
+          .then((data) => {
+            for(var d in data) {
+              console.log(data[d]);
+              document.getElementById(`session_${d}`).innerHTML = data[d];
+            }
+          }).catch((err) => console.error("Error:", err));
+      }
     </script>
   </body>
 </html>
