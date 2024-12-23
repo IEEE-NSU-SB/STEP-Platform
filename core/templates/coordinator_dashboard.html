@@ -240,7 +240,7 @@
         padding: 8px;
         background-color: #f8f8f8;
       }
-      video{
+      video {
         width: 100%;
       }
       /* Responsive Design */
@@ -382,7 +382,9 @@
     <!-- Navbar -->
     <div class="navbar">
       <img src="{% static '/img/SPAC.png' %}" alt="logo" />
-      <div>Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+      <div>
+        Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}
+      </div>
       <a href="{% url 'core:logout' %}" class="logout">Logout</a>
     </div>
 
@@ -396,59 +398,127 @@
         </div>
       </div>
 
-
-    <!-- Status blocks -->
-    <div class="status-blocks" id="status-blocks">
-      <div class="stats">
-        <div class="box">
-          <div class="stat_name">Registered:</div>
-          <div class="count">{{total_participants}}</div>
-        </div>
-        {% for session in token_sessions_with_participant_count %}
-        <div class="box">
+      <!-- Status blocks -->
+      <div class="status-blocks" id="status-blocks">
+        <div class="stats">
+          <div class="box">
+            <div class="stat_name">Registered:</div>
+            <div class="count">{{total_participants}}</div>
+          </div>
+          {% for session in token_sessions_with_participant_count %}
+          <div class="box">
             <div class="stat_name">{{session.session_name}}:</div>
-            <div id="session_{{session.sessionid}}" class="count">{{session.participant_count}}</div>
-        </div> 
-        {% endfor %}
+            <div id="session_{{session.sessionid}}" class="count">
+              {{session.participant_count}}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="close-status" id="close-status">X</button>
       </div>
-      <button class="close-status" id="close-status">X</button>
-    </div>
-<!-- Modal -->
-<div id="modal-sessions" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
-  <div style="margin: 5% auto; background: white; padding: 20px; width: 90%; max-width: 500px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-    <h2 style="font-size: 1.5em; text-align: center;">Select a Session</h2>
-    <ul id="session-urls" style="list-style: none; padding: 0; margin: 20px 0; text-align: center;">
-      <!-- Session links will be dynamically added here -->
-    </ul>
-    <button id="close-modal" style="display: block; margin: 0 auto; padding: 10px 20px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button>
-  </div>
-</div>
-<div>
-<!-- QR Code Reader -->
-<div id="reader" style="display: none;
-width: 300px;
-height: 300px;
-margin: 20px auto;
-text-align: center;
-position: absolute;
-top: 150px;
-background: #f8f8f8;
-padding: 8px;
-border-radius: 4px;
-border: 1px solid;">
-  <div id="reader-container" style="position: relative;">
-    <div id="reader" style="width: 100%; height: 300px;"></div>
-    <button id="stop-scan" style="margin-top: 10px; padding: 10px 20px; background: #FF0000; color: white; border: none; border-radius: 5px; cursor: pointer;">Stop Scanning</button>
-  </div>
-</div>
-</div>
+      <!-- Modal -->
+      <div
+        id="modal-sessions"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+        "
+      >
+        <div
+          style="
+            margin: 5% auto;
+            background: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <h2 style="font-size: 1.5em; text-align: center">Select a Session</h2>
+          <ul
+            id="session-urls"
+            style="
+              list-style: none;
+              padding: 0;
+              margin: 20px 0;
+              text-align: center;
+            "
+          >
+            <!-- Session links will be dynamically added here -->
+          </ul>
+          <button
+            id="close-modal"
+            style="
+              display: block;
+              margin: 0 auto;
+              padding: 10px 20px;
+              background: #007bff;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+            "
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <div>
+        <!-- QR Code Reader -->
+        <div
+          id="reader"
+          style="
+            display: none;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            text-align: center;
+            position: absolute;
+            top: 150px;
+            background: #f8f8f8;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid;
+          "
+        >
+          <div id="reader-container" style="position: relative">
+            <div id="reader" style="width: 100%; height: 300px"></div>
+            <button
+              id="stop-scan"
+              style="
+                margin-top: 10px;
+                padding: 10px 20px;
+                background: #ff0000;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              Stop Scanning
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Modal -->
       <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="set-session-modal">
           <div class="checkbox-group">
             {% for session in token_sessions_all %}
-            <input type="checkbox" id="{{session.id}}" name="session" data-name="{{session.session_name}}" value="{{session.id}}" {% if session.is_active %}checked{% endif %}/>
+            <input
+              type="checkbox"
+              id="{{session.id}}"
+              name="session"
+              data-name="{{session.session_name}}"
+              value="{{session.id}}" {% if session.is_active %} checked {% endif %}
+            />
             <label for="{{session.id}}">{{session.session_name}}</label><br />
             {% endfor %}
           </div>
@@ -467,366 +537,373 @@ border: 1px solid;">
         </div>
       </div>
 
-    <!-- Search and Filter -->
-    <div class="search-filter">
-      <input type="text" id="search" placeholder="Search..." />
-      <button id="filter">Filter</button>
-      <div class="filter-options" id="filter-options">
-        {% for participant_university in participant_universities %}
-        <label
-          ><input type="checkbox" value="{{participant_university.university}}" /> {{participant_university.university}}</label
-        ><br/>
-        {% endfor %}
+      <!-- Search and Filter -->
+      <div class="search-filter">
+        <input type="text" id="search" placeholder="Search..." />
+        <button id="filter">Filter</button>
+        <div class="filter-options" id="filter-options">
+          {% for participant_university in participant_universities %}
+          <label
+            ><input
+              type="checkbox"
+              value="{{participant_university.university}}"
+            />
+            {{participant_university.university}}</label
+          ><br />
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div style="display: flex; justify-content: center">
+        <table>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Name</th>
+              <th>University</th>
+              <th>Tshirt Size</th>
+              <th>Role</th>
+              <th>Contact</th>
+              {% for session in token_sessions_all %}
+              <th>{{session.session_name}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for participant in registered_participants %}
+            <tr>
+              <td>{{participant.id}}</td>
+              <td>{{participant.name}}</td>
+              <td>{{participant.university}}</td>
+              <td>{{participant.t_shirt_size}}</td>
+              <td>{{participant.role}}</td>
+              <td>{{participant.contact_no}}</td>
+              {% for session in token_sessions_all %}
+              <td>
+                <input type="checkbox" {% for token in participant.tokens %}
+                {% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Table -->
-     <div style="display: flex; justify-content: center;">
-    <table>
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Name</th>
-            <th>University</th>
-            <th>Tshirt Size</th>
-            <th>Role</th>
-            <th>Contact</th>
-            {% for session in token_sessions_all %}
-            <th>{{session.session_name}}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for participant in registered_participants %}
-          <tr>
-            <td>{{participant.id}}</td>
-            <td>{{participant.name}}</td>
-            <td>{{participant.university}}</td>
-            <td>{{participant.t_shirt_size}}</td>
-            <td>{{participant.role}}</td>
-            <td>{{participant.contact_no}}</td>
-            {% for session in token_sessions_all %}
-            <td><input type="checkbox" {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} /></td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    </div>
-
     <div class="footer">
-        <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo">
+      <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo" />
     </div>
     <audio id="xyz" src="{% static 'scanner.mp3' %}" preload="auto"></audio>
 
     <script>
-      // View Status Button
-      const viewStatusBtn = document.getElementById("view-status");
-      const statusBlocks = document.getElementById("status-blocks");
-      const closeStatusBtn = document.getElementById("close-status");
+            // View Status Button
+            const viewStatusBtn = document.getElementById("view-status");
+            const statusBlocks = document.getElementById("status-blocks");
+            const closeStatusBtn = document.getElementById("close-status");
 
-      viewStatusBtn.addEventListener("click", () => {
-        statusBlocks.style.display = "flex";
-        viewStatusBtn.style.display = "none";
-        closeStatusBtn.style.display = "block";
-      });
+            viewStatusBtn.addEventListener("click", () => {
+              statusBlocks.style.display = "flex";
+              viewStatusBtn.style.display = "none";
+              closeStatusBtn.style.display = "block";
+            });
 
-      closeStatusBtn.addEventListener("click", () => {
-        statusBlocks.style.display = "none";
-        viewStatusBtn.style.display = "inline-block";
-        closeStatusBtn.style.display = "none";
-      });
+            closeStatusBtn.addEventListener("click", () => {
+              statusBlocks.style.display = "none";
+              viewStatusBtn.style.display = "inline-block";
+              closeStatusBtn.style.display = "none";
+            });
 
-      const setSessionBtn = document.getElementById("set-session");
-      const setSessionModal = document.getElementById("set-session-modal");
-      const selectSessionBtn = document.getElementById("select-session");
-      const cancelSessionBtn = document.getElementById("cancel-session");
-      const modalOverlay = document.getElementById("modal-overlay");
-      const navbarSessionText = document.querySelector(".navbar > div");
+            const setSessionBtn = document.getElementById("set-session");
+            const setSessionModal = document.getElementById("set-session-modal");
+            const selectSessionBtn = document.getElementById("select-session");
+            const cancelSessionBtn = document.getElementById("cancel-session");
+            const modalOverlay = document.getElementById("modal-overlay");
+            const navbarSessionText = document.querySelector(".navbar > div");
 
-      // Open the modal
-      setSessionBtn.addEventListener("click", () => {
-        modalOverlay.style.display = "block";
-      });
+            // Open the modal
+            setSessionBtn.addEventListener("click", () => {
+              modalOverlay.style.display = "block";
+            });
 
-      // Close the modal on "Select Session"
-      selectSessionBtn.addEventListener("click", () => {
-        const selectedSessions = Array.from(
-          document.querySelectorAll('input[name="session"]:checked')
-        ).map((checkbox) => checkbox.value);
+            // Close the modal on "Select Session"
+            selectSessionBtn.addEventListener("click", () => {
+              const selectedSessions = Array.from(
+                document.querySelectorAll('input[name="session"]:checked')
+              ).map((checkbox) => checkbox.value);
 
-        const selectedSessionsName = Array.from(
-          document.querySelectorAll('input[name="session"]:checked')
-        ).map((checkbox) => checkbox.dataset.name);
+              const selectedSessionsName = Array.from(
+                document.querySelectorAll('input[name="session"]:checked')
+              ).map((checkbox) => checkbox.dataset.name);
 
-        fetch("{% url 'core:update_session' %}", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
-          body: JSON.stringify({"sessions": selectedSessions})
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Server Response:", data);
+              fetch("{% url 'core:update_session' %}", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
+                body: JSON.stringify({"sessions": selectedSessions})
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log("Server Response:", data);
 
-            if(data.message == 'success') {
-              if (selectedSessions.length > 0) {
-                navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
-                  ", "
-                )}`;
-              } else {
-                navbarSessionText.textContent = "No session selected";
+                  if(data.message == 'success') {
+                    if (selectedSessions.length > 0) {
+                      navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
+                        ", "
+                      )}`;
+                    } else {
+                      navbarSessionText.textContent = "No session selected";
+                    }
+
+                    Swal.fire({
+                      title: "Sessions Updated!",
+                      icon: "success",
+                      confirmButtonColor: "#3085d6",
+                      confirmButtonText: "OK",
+                    });
+                  }
+                  else {
+                    Swal.fire({
+                      title: "Sessions could not be updated!",
+                      icon: "warning",
+                      confirmButtonColor: "#3085d6",
+                    });
+                  }
+                }).catch((err) => console.error("Error:", err));
+
+              modalOverlay.style.display = "none";
+            });
+
+            // Close the modal on "Cancel"
+            cancelSessionBtn.addEventListener("click", () => {
+              modalOverlay.style.display = "none";
+            });
+
+            // Close the modal when clicking outside of it
+            modalOverlay.addEventListener("click", (event) => {
+              if (event.target === modalOverlay) {
+                modalOverlay.style.display = "none";
               }
+            });
 
-              Swal.fire({
-                title: "Sessions Updated!",
-                icon: "success",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "OK",
-              });
-            }
-            else {
-              Swal.fire({
-                title: "Sessions could not be updated!",
-                icon: "warning",
-                confirmButtonColor: "#3085d6",
-              });
-            }
-          }).catch((err) => console.error("Error:", err));
+            // Tap to Scan Button
+      // JavaScript
+      const serverURL = '{% url "core:process_qr_data" %}';
+      const tapToScanBtn = document.getElementById("tap-to-scan");
+      const qrReaderElement = document.getElementById("reader");
+      const modalSessions = document.getElementById("modal-sessions");
+      const sessionUrls = document.getElementById("session-urls");
+      const closeModalBtn = document.getElementById("close-modal");
+      const stopScanBtn = document.getElementById("stop-scan");
+      const audioX = document.getElementById('xyz');
+            {% comment %} var played = true; {% endcomment %}
+            {% comment %} var audio = new Audio(); {% endcomment %}
 
-        modalOverlay.style.display = "none";
+      let html5QrCode; // Global variable to manage QR scanning
+
+      // Example session URLs
+      const sessions = [
+        { id: 1, url: "https://example.com/session1" },
+        { id: 2, url: "https://example.com/session2" },
+      ];
+
+      // Populate the modal with session URLs
+      const populateModal = () => {
+        sessionUrls.innerHTML = ""; // Clear previous content
+        sessions.forEach((session) => {
+          const li = document.createElement("li");
+          li.style.marginBottom = "10px";
+          li.innerHTML = `<a href="#" data-id="${session.id}" data-url="${session.url}" style="color: #007BFF; text-decoration: none; font-size: 1.2em;">${session.url}</a>`;
+          sessionUrls.appendChild(li);
+        });
+      };
+
+      // Open modal with sessions
+      tapToScanBtn.addEventListener("click", () => {
+        modalSessions.style.display = "block";
+        populateModal();
       });
 
-      // Close the modal on "Cancel"
-      cancelSessionBtn.addEventListener("click", () => {
-        modalOverlay.style.display = "none";
+      // Close modal
+      closeModalBtn.addEventListener("click", () => {
+        modalSessions.style.display = "none";
       });
 
-      // Close the modal when clicking outside of it
-      modalOverlay.addEventListener("click", (event) => {
-        if (event.target === modalOverlay) {
-          modalOverlay.style.display = "none";
+      // Handle URL click to start QR scanning
+      sessionUrls.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          event.preventDefault();
+          const sessionId = event.target.getAttribute("data-id");
+          const sessionUrl = event.target.getAttribute("data-url");
+          modalSessions.style.display = "none"; // Close the modal
+          qrReaderElement.style.display = "block"; // Show QR reader
+
+              const html5QrCode = new Html5Qrcode("reader");
+              const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                {% comment %} audio.autoplay = true;
+                if(played)
+                {
+                    audio.src = "{% static 'scanner.mp3' %}";
+                    audio.play();
+                }
+                else{
+                    audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+                    audio.play();
+                    played = true;
+                } {% endcomment %}
+                audioX.play();
+
+                alert(`${decodedText} `);
+
+                fetch(serverURL, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}", "session-id": "1", },
+                  body: decodedText,
+                })
+                  .then((response) => response.json())
+                  .then((data) => console.log("Server Response:", data))
+                  .catch((err) => console.error("Error:", err));
+
+            html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
+          };
+
+          const config = {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+            videoConstraints: {
+              facingMode: "environment", // Use back camera
+            },
+          };
+
+          html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
         }
       });
 
-      // Tap to Scan Button
-// JavaScript
-const serverURL = '{% url "core:process_qr_data" %}';
-const tapToScanBtn = document.getElementById("tap-to-scan");
-const qrReaderElement = document.getElementById("reader");
-const modalSessions = document.getElementById("modal-sessions");
-const sessionUrls = document.getElementById("session-urls");
-const closeModalBtn = document.getElementById("close-modal");
-const stopScanBtn = document.getElementById("stop-scan");
-const audioX = document.getElementById('xyz');
-      {% comment %} var played = true; {% endcomment %}
-      {% comment %} var audio = new Audio(); {% endcomment %}
-
-let html5QrCode; // Global variable to manage QR scanning
-
-// Example session URLs
-const sessions = [
-  { id: 1, url: "https://example.com/session1" },
-  { id: 2, url: "https://example.com/session2" },
-];
-
-// Populate the modal with session URLs
-const populateModal = () => {
-  sessionUrls.innerHTML = ""; // Clear previous content
-  sessions.forEach((session) => {
-    const li = document.createElement("li");
-    li.style.marginBottom = "10px";
-    li.innerHTML = `<a href="#" data-id="${session.id}" data-url="${session.url}" style="color: #007BFF; text-decoration: none; font-size: 1.2em;">${session.url}</a>`;
-    sessionUrls.appendChild(li);
-  });
-};
-
-// Open modal with sessions
-tapToScanBtn.addEventListener("click", () => {
-  modalSessions.style.display = "block";
-  populateModal();
-});
-
-// Close modal
-closeModalBtn.addEventListener("click", () => {
-  modalSessions.style.display = "none";
-});
-
-// Handle URL click to start QR scanning
-sessionUrls.addEventListener("click", (event) => {
-  if (event.target.tagName === "A") {
-    event.preventDefault();
-    const sessionId = event.target.getAttribute("data-id");
-    const sessionUrl = event.target.getAttribute("data-url");
-    modalSessions.style.display = "none"; // Close the modal
-    qrReaderElement.style.display = "block"; // Show QR reader
-
-        const html5QrCode = new Html5Qrcode("reader");
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-          {% comment %} audio.autoplay = true;
-          if(played)
-          {
-              audio.src = "{% static 'scanner.mp3' %}";
-              audio.play();  
-          }
-          else{
-              audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
-              audio.play();
-              played = true;
-          } {% endcomment %}
-          audioX.play();
-              
-          alert(`${decodedText} `);
-
-          fetch(serverURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}", "session-id": "1", },
-            body: decodedText,
-          })
-            .then((response) => response.json())
-            .then((data) => console.log("Server Response:", data))
-            .catch((err) => console.error("Error:", err));
-
-      html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
-    };
-
-    const config = {
-      fps: 10,
-      qrbox: { width: 250, height: 250 },
-      videoConstraints: {
-        facingMode: "environment", // Use back camera
-      },
-    };
-
-    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-  }
-});
-
-// Stop scanning
-stopScanBtn.addEventListener("click", () => {
-  if (html5QrCode) {
-    html5QrCode.stop()
-      .then(() => {
-        qrReaderElement.style.display = "none"; // Hide QR reader
-        console.log("Scanning stopped");
-      })
-      .catch((err) => console.error("Failed to stop scanning:", err));
-  }
-});
-
-
-// Stop scanning
-stopScanBtn.addEventListener("click", () => {
-  if (html5QrCode) {
-    html5QrCode.stop()
-      .then(() => {
-        qrReaderElement.style.display = "none"; // Hide QR reader
-        console.log("Scanning stopped");
-      })
-      .catch((err) => console.error("Failed to stop scanning:", err));
-  }
-});
-
-
-
-
-      // Filter Dropdown
-      const filterBtn = document.getElementById("filter");
-      const filterOptions = document.getElementById("filter-options");
-      const searchInput = document.getElementById("search");
-      const tableRows = document.querySelectorAll("table tbody tr");
-
-      filterBtn.addEventListener("click", () => {
-        filterOptions.style.display =
-          filterOptions.style.display === "block" ? "none" : "block";
+      // Stop scanning
+      stopScanBtn.addEventListener("click", () => {
+        if (html5QrCode) {
+          html5QrCode.stop()
+            .then(() => {
+              qrReaderElement.style.display = "none"; // Hide QR reader
+              console.log("Scanning stopped");
+            })
+            .catch((err) => console.error("Failed to stop scanning:", err));
+        }
       });
 
-      filterOptions.addEventListener("change", () => {
-        const selectedUniversities = Array.from(
-          filterOptions.querySelectorAll("input:checked")
-        ).map((checkbox) => checkbox.value.toLowerCase());
-        filterTable(selectedUniversities, searchInput.value.toLowerCase());
+
+      // Stop scanning
+      stopScanBtn.addEventListener("click", () => {
+        if (html5QrCode) {
+          html5QrCode.stop()
+            .then(() => {
+              qrReaderElement.style.display = "none"; // Hide QR reader
+              console.log("Scanning stopped");
+            })
+            .catch((err) => console.error("Failed to stop scanning:", err));
+        }
       });
 
-      searchInput.addEventListener("input", function () {
-        const filter = searchInput.value.toLowerCase();
 
-        tableRows.forEach((row) => {
-          const cells = row.querySelectorAll("td");
-          const name = cells[1].textContent.toLowerCase();
-          const university = cells[2].textContent.toLowerCase();
-          const contact = cells[3].textContent.toLowerCase();
-          const ieeeId = cells[5].textContent.toLowerCase();
 
-          // Check if any column matches the search input
-          if (
-            name.includes(filter) ||
-            university.includes(filter) ||
-            contact.includes(filter) ||
-            ieeeId.includes(filter)
-          ) {
-            row.style.display = ""; // Show the row
-          } else {
-            row.style.display = "none"; // Hide the row
-          }
-        });
-      });
 
-      function filterTable(universities, searchTerm) {
-        tableRows.forEach((row) => {
-          const nameCell = row.cells[1].textContent.toLowerCase();
-          const universityCell = row.cells[2].textContent.toLowerCase();
-          const matchesUniversity = universities.length
-            ? universities.includes(universityCell)
-            : true;
-          const matchesSearch = nameCell.includes(searchTerm);
-          row.style.display = matchesUniversity && matchesSearch ? "" : "none";
-        });
-      }
-      const checkboxes = document.querySelectorAll(
-        'table input[type="checkbox"]'
-      );
-      checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
-          if (checkbox.checked) {
-            Swal.fire({
-              title: "Are you sure?",
-              // text: "You won't be able to revert this!",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes!",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire({
-                  title: "Success!",
-                  // text: "Your file has been deleted.",
-                  icon: "success",
-                });
-              }
-              else{
-                checkbox.checked = false;
-              }
+            // Filter Dropdown
+            const filterBtn = document.getElementById("filter");
+            const filterOptions = document.getElementById("filter-options");
+            const searchInput = document.getElementById("search");
+            const tableRows = document.querySelectorAll("table tbody tr");
+
+            filterBtn.addEventListener("click", () => {
+              filterOptions.style.display =
+                filterOptions.style.display === "block" ? "none" : "block";
             });
-          }
-        });
-      });
 
-      setInterval(GetSessionStatuses, 2000);
+            filterOptions.addEventListener("change", () => {
+              const selectedUniversities = Array.from(
+                filterOptions.querySelectorAll("input:checked")
+              ).map((checkbox) => checkbox.value.toLowerCase());
+              filterTable(selectedUniversities, searchInput.value.toLowerCase());
+            });
 
-      function GetSessionStatuses( )
-      {
-        fetch("{% url 'core:get_session_statuses' %}", {
-          method: "GET",
-        }).then((response) => response.json())
-          .then((data) => {
-            for(var d in data) {
-              console.log(data[d]);
-              document.getElementById(`session_${d}`).innerHTML = data[d];
+            searchInput.addEventListener("input", function () {
+              const filter = searchInput.value.toLowerCase();
+
+              tableRows.forEach((row) => {
+                const cells = row.querySelectorAll("td");
+                const name = cells[1].textContent.toLowerCase();
+                const university = cells[2].textContent.toLowerCase();
+                const contact = cells[3].textContent.toLowerCase();
+                const ieeeId = cells[5].textContent.toLowerCase();
+
+                // Check if any column matches the search input
+                if (
+                  name.includes(filter) ||
+                  university.includes(filter) ||
+                  contact.includes(filter) ||
+                  ieeeId.includes(filter)
+                ) {
+                  row.style.display = ""; // Show the row
+                } else {
+                  row.style.display = "none"; // Hide the row
+                }
+              });
+            });
+
+            function filterTable(universities, searchTerm) {
+              tableRows.forEach((row) => {
+                const nameCell = row.cells[1].textContent.toLowerCase();
+                const universityCell = row.cells[2].textContent.toLowerCase();
+                const matchesUniversity = universities.length
+                  ? universities.includes(universityCell)
+                  : true;
+                const matchesSearch = nameCell.includes(searchTerm);
+                row.style.display = matchesUniversity && matchesSearch ? "" : "none";
+              });
             }
-          }).catch((err) => console.error("Error:", err));
-      }
+            const checkboxes = document.querySelectorAll(
+              'table input[type="checkbox"]'
+            );
+            checkboxes.forEach((checkbox) => {
+              checkbox.addEventListener("change", () => {
+                if (checkbox.checked) {
+                  Swal.fire({
+                    title: "Are you sure?",
+                    // text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes!",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      Swal.fire({
+                        title: "Success!",
+                        // text: "Your file has been deleted.",
+                        icon: "success",
+                      });
+                    }
+                    else{
+                      checkbox.checked = false;
+                    }
+                  });
+                }
+              });
+            });
+
+            setInterval(GetSessionStatuses, 2000);
+
+            function GetSessionStatuses( )
+            {
+              fetch("{% url 'core:get_session_statuses' %}", {
+                method: "GET",
+              }).then((response) => response.json())
+                .then((data) => {
+                  for(var d in data) {
+                    console.log(data[d]);
+                    document.getElementById(`session_${d}`).innerHTML = data[d];
+                  }
+                }).catch((err) => console.error("Error:", err));
+            }
     </script>
   </body>
 </html>
