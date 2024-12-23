@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAC | Login</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+      </style>
 </head>
 <style>
     body{
         padding: 0;
         margin: auto;
+        font-family: "Roboto", serif;
     }
     .background{
         display: flex;
@@ -98,7 +102,7 @@
 .login-box .user-box input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #03e9f4;
+  /* color: #03e9f4; */
   font-size: 12px;
 }
 
@@ -115,23 +119,32 @@
   margin-top: 40px;
   letter-spacing: 4px
 }
-
+.login-btn{
+    text-decoration: none;
+    padding: 8px 79px;
+    background-color: transparent;
+    border: 1px solid #f8f8f8;
+    color: #f8f8f8;
+}
 </style>
 <body>
     <div class="background">
     <div class="login-box">
-        <img src="{% static '/img/SPAC.png' %}" alt="">
-        <h2>Login</h2>
-        <form>
+        <img src="{% static '/img/SPAC.png' %}" alt="SPAC LOGO">
+        <!-- <h2>Login</h2> -->
+        <form method="POST">
+        {% csrf_token %}
           <div class="user-box">
-            <input type="text" name="" required="">
+            <input type="text" name="username" id="username" required>
             <label>Username</label>
           </div>
           <div class="user-box">
-            <input type="password" name="" required="">
+            <input type="password" name="password" id="password" required>
             <label>Password</label>
           </div>
-          <input type="submit" value="Login">
+          <div style="display: flex; align-items: center; justify-content: center;">
+              <input type="submit" value="Login" class="login-btn">
+            </div>
         </form>
       </div>
     </div>
