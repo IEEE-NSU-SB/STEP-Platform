@@ -337,6 +337,37 @@
   color: black;
   padding: 0 8px;
 }
+/* Modal Styling */
+.details-modal {
+  display: none; /* Hidden by default */
+  position: absolute;
+  z-index: 999;
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease;
+  left: 0px;
+}
+
+/* Responsiveness for small screens */
+@media (max-width: 600px) {
+  .details-modal {
+    width: 120px;
+    height: 120px;
+    padding: 6px 12px;
+  }
+}
+
+/* For the modal content (the box inside the modal) */
+.modal-content {
+  overflow: auto;
+  text-align: center;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
         .navbar {
@@ -511,6 +542,12 @@
       </div>
     </div>
 
+    <!-- Modal structure -->
+<div id="details-modal" class="details-modal">
+  <div class="modal-content">
+    <p>Details go here</p>
+  </div>
+</div>
     <div class="footer">
       <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo" />
     </div>
@@ -957,6 +994,44 @@ function GetSessionStatuses() {
     })
     .catch((err) => console.error("Error:", err));
 }
+// Get modal elements
+const modal = document.getElementById('details-modal');
+const modalContent = modal.querySelector('.modal-content');
+
+// Add click event to all the details buttons
+document.querySelectorAll('.details').forEach(detailsBtn => {
+  detailsBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const detailsBtn = event.target;
+    
+    // Initially hide modal to make the size calculations accurate
+    modal.style.display = 'none';
+
+    // Get position of the clicked details button
+    const rect = detailsBtn.getBoundingClientRect();
+
+    // Show the modal after calculations are done
+    modal.style.display = 'block';
+
+    // Now calculate the correct position after the modal is displayed
+    setTimeout(() => {
+      modal.style.left = `${rect.left + rect.width - modal.offsetWidth}px`; // Right alignment
+      modal.style.top = `${rect.top + rect.height + 5}px`; // Position above the details button with a little margin
+
+      // Optionally, you can also populate modal with more dynamic content
+      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>`;
+    }, 0); // Delay the positioning until after the modal has been displayed
+  });
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', (event) => {
+  if (!modal.contains(event.target) && !event.target.classList.contains('details')) {
+    modal.style.display = 'none';
+  }
+});
+
+
 
     </script>
   </body>
