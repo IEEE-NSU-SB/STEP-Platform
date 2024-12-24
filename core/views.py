@@ -15,6 +15,9 @@ from core.models import Registered_Participant, Token_Participant, Token_Session
 
 # Create your views here.
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('core:dashboard')
+    
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
