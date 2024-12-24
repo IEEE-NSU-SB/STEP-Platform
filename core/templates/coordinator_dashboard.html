@@ -783,7 +783,7 @@ let html5QrCode; // Global variable to manage QR scanning
 const sessions = [
   {% for session in token_sessions_all %}
   {% if has_scan_any_session_permission or session.is_active %}
-    { id: {{session.id}}, url: "http://example.com" },
+    { id: {{session.id}}, name: "{{session.session_name}}" },
   {% endif %}
   {% endfor %}
 ];
@@ -794,7 +794,7 @@ const populateModal = () => {
   sessions.forEach((session) => {
     const li = document.createElement("li");
     li.style.marginBottom = "10px";
-    li.innerHTML = `<button data-id="${session.id}" data-url="${session.url}" style="color: #007BFF; text-decoration: none; font-size: 1.2em;">${session.url}</button>`;
+    li.innerHTML = `<button data-id="${session.id}" style="color: #007BFF; text-decoration: none; font-size: 1.2em;">${session.name}</button>`;
     sessionUrls.appendChild(li);
   });
 };
