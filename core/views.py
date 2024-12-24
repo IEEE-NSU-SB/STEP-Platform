@@ -3,10 +3,11 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+
+from core.permissions import Site_Permissions
 from .renderData import Core
 
 from core.forms import CSVImportForm
@@ -31,41 +32,13 @@ def logout(request):
     auth.logout(request)
     return redirect('core:login')
 
-def scan_qr(request, session_id=None):
-    if session_id:
-        print(session_id)
-        return render(request, 'scan.html', {'current_session':session_id})
-    else:
-        current_session=Token_Session.current_session()
-        return render(request, 'scan.html', {'current_session':current_session.pk})
-
 def process_qr_data(request):
     
     if request.method == 'POST':
-        try:
-            # Get the POST data from the request body
-            print(f"Received RAW QR Data: {request.body}")  # Print to console (optional)
-            session=request.headers.get('session-id')
-            data = json.loads(request.body)
 
-            print(f"Received QR Data: {data.get('unqc')}")  # Print to console (optional)
-
-            # Here you can save the data to the database if needed
-            # Example:
-            participant = Registered_Participant.objects.get(unique_code=data.get('unqc'))
-            print(participant.name)
-            if len(Token_Participant.objects.filter(registered_participant=participant,token_session=session)) > 0:
-                print('rejected')
-                return JsonResponse({'error': 'Rejected'})
-            else:
-                token_session = Token_Session.objects.get(id=session)
-                Token_Participant.objects.create(registered_participant=participant,token_session=token_session)
-                print('accepted')      
-                return JsonResponse({'message': 'QR data received successfully!', 'receivedData': data})
-                
-        except json.JSONDecodeError as e:
-            print(f"JSON decode error: {e}")
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        response = Core.process_qr_data(request)
+        
+        return response
     else:
         return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
     
@@ -102,6 +75,9 @@ def dashboard(request):
     token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
     universities = Core.get_all_participant_universities()
     registered_participants = Core.get_all_reg_participants_with_sessions()
+    user_permissions = Site_Permissions.get_user_permissions(request)
+    is_admin = Site_Permissions.is_admin(request)
+    has_scan_any_session_permission = is_admin or user_permissions.scan_any_session
 
     total_participants = len(registered_participants)
 
@@ -112,6 +88,9 @@ def dashboard(request):
         'registered_participants':registered_participants,
         'total_participants':total_participants,
         'participant_universities':universities,
+        'user_permissions':user_permissions,
+        'is_admin':is_admin,
+        'has_scan_any_session_permission':has_scan_any_session_permission
     }
 
     return render(request, 'coordinator_dashboard.html', context)
@@ -119,17 +98,11 @@ def dashboard(request):
 class SessionUpdateAjax(View):
     def post(self, request):
         sessions = json.loads(request.body)['sessions']
-        all_sessions = Core.get_all_token_sessions()
-
-        for session in all_sessions:
-            if str(session.id) in sessions:
-                session.is_active = True
-            else:
-                session.is_active = False
-            
-            session.save()
-
-        return JsonResponse({'message':"success"})
+        
+        if(Core.update_session(sessions=sessions)):
+            return JsonResponse({'message':"success"})
+        else:
+            return JsonResponse({'message':"error"})
     
 class GetSessionStatusAjax(View):
     def get(self, request):
@@ -139,3 +112,22 @@ class GetSessionStatusAjax(View):
             data.update({x['sessionid']: x['participant_count']})
                 
         return JsonResponse(data)
+    
+class UpdateParticipantSessionAjax(View):
+    def post(self, request):
+        data = json.loads(request.body)
+
+        participant = Registered_Participant.objects.get(id=data['participant_id'])
+        session = Token_Session.objects.get(id=data['session_id'])
+        if(data['status'] == 'accepted'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) == 0:
+                Token_Participant.objects.create(registered_participant=participant,token_session=session)
+                return JsonResponse({'message':'Accepted', 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is already in session', 'participant': {'sl':participant.id, 'name': participant.name}})
+        elif(data['status'] == 'rejected'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) != 0:
+                Token_Participant.objects.get(registered_participant=participant,token_session=session).delete()
+                return JsonResponse({'message':'Rejected', 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is not session', 'participant': {'sl':participant.id, 'name': participant.name}})

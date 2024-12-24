@@ -1,6 +1,9 @@
 
+import json
 import random
 import string
+
+from django.http import JsonResponse
 from core.models import Registered_Participant, Token_Participant, Token_Session
 from django.db.models import Count, F, Prefetch, Value
 from django.db.models.functions import Coalesce
@@ -33,6 +36,39 @@ class Core:
             )
         )
         return registered_participants
+    
+    def process_qr_data(request):
+        try:
+            # Get the POST data from the request body
+            print(f"Received RAW QR Data: {request.body}")
+            session=request.headers.get('session-id')
+            data = json.loads(request.body)
+
+            participant = Registered_Participant.objects.get(unique_code=data.get('unqc'))
+            print(participant.name)
+            if len(Token_Participant.objects.filter(registered_participant=participant,token_session=session)) > 0:
+                return JsonResponse({'message':'QR Received Successfully', 'status': 'rejected', 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                token_session = Token_Session.objects.get(id=session)
+                Token_Participant.objects.create(registered_participant=participant,token_session=token_session)
+                return JsonResponse({'message':'QR Received Successfully', 'status': 'accepted', 'participant': {'sl':participant.id, 'name': participant.name}})
+                
+        except json.JSONDecodeError as e:
+            print(f"JSON decode error: {e}")
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        
+    def update_session(sessions):
+        all_sessions = Core.get_all_token_sessions()
+
+        for session in all_sessions:
+            if str(session.id) in sessions:
+                session.is_active = True
+            else:
+                session.is_active = False
+            
+            session.save()
+        
+        return True
     
     
     def generate_unique_code(name: str, university: str) -> str:

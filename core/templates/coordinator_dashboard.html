@@ -8,7 +8,7 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
     </style>
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="{% static 'js/html5-qrcode.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
@@ -461,8 +461,12 @@
       <div class="button-group-outerdiv">
         <div class="button-group">
           <button id="view-status">View Status</button>
+          {% if is_admin or user_permissions.update_session %}
           <button id="set-session">Set Session</button>
+          {% endif %}
+          {% if is_admin or user_permissions.scan %}
           <button id="tap-to-scan">Tap to Scan</button>
+          {% endif %}
         </div>
       </div>
 
@@ -514,7 +518,9 @@
               <th>Role</th>
               <th>Contact</th>
               {% for session in token_sessions_all %}
+              {% if has_scan_any_session_permission or session.is_active %}
               <th>{{session.session_name}}</th>
+              {% endif %}
               {% endfor %}
               <th>Details</th>
             </tr>
@@ -529,10 +535,11 @@
               <td>{{participant.role}}</td>
               <td>{{participant.contact_no}}</td>
               {% for session in token_sessions_all %}
-              <td>
-                <input type="checkbox" {% for token in participant.tokens %}
-                {% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
-              </td>
+              {% if has_scan_any_session_permission or session.is_active %}
+                <td>
+                  <input type="checkbox" data-sl="{{participant.id}}" data-session-id={{session.id}} {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
+                </td>
+              {% endif %}
               {% endfor %}
               <td><a href="#" class="details">i</a></td>
             </tr>
@@ -633,35 +640,25 @@
     
   </div>
 
+  {% if is_admin or user_permissions.update_session %}
   <!-- Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal" id="set-session-modal">
       <div class="checkbox-group">
         {% for session in token_sessions_all %}
-        <input
-          type="checkbox"
-          id="{{session.id}}"
-          name="session"
-          data-name="{{session.session_name}}"
-          value="{{session.id}}" {% if session.is_active %} checked {% endif %}
+        <input type="checkbox" id="{{session.id}}" name="session" data-name="{{session.session_name}}"
+        value="{{session.id}}" {% if session.is_active %} checked {% endif %}
         />
         <label for="{{session.id}}">{{session.session_name}}</label><br />
         {% endfor %}
       </div>
-      <div
-        style="
-          display: flex;
-          align-items: flex-end;
-          display: flex;
-          justify-content: center;
-          gap: 4px;
-        "
-      >
-        <button id="select-session">Update Session</button>
-        <button id="cancel-session">Cancel</button>
-      </div>
+      <div style="display: flex; align-items: flex-end; display: flex; justify-content: center; gap: 4px;">
+      <button id="select-session">Update Session</button>
+      <button id="cancel-session">Cancel</button>
     </div>
   </div>
+  {% endif %}
+</div>
     <audio id="xyz" src="{% static 'scanner.mp3' %}" preload="auto"></audio>
 
     <script>
@@ -698,6 +695,7 @@ closeStatusBtn.addEventListener("click", () => {
             const modalOverlay = document.getElementById("modal-overlay");
             const navbarSessionText = document.querySelector(".navbar > div");
 
+            {% if is_admin or user_permissions.update_session %}
             // Open the modal
             setSessionBtn.addEventListener("click", () => {
               modalOverlay.style.display = "block";
@@ -761,6 +759,7 @@ closeStatusBtn.addEventListener("click", () => {
                 modalOverlay.style.display = "none";
               }
             });
+            {% endif %}
 
             // Tap to Scan Button
       // JavaScript
@@ -779,8 +778,11 @@ closeStatusBtn.addEventListener("click", () => {
 
       // Example session URLs
       const sessions = [
-        { id: 1, url: "https://example.com/session1" },
-        { id: 2, url: "https://example.com/session2" },
+      {% for session in token_sessions_all %}
+      {% if has_scan_any_session_permission or session.is_active %}
+        { id: {{session.id}}, url: "http://example.com" },
+      {% endif %}
+      {% endfor %}
       ];
 
       // Populate the modal with session URLs
@@ -818,25 +820,36 @@ closeStatusBtn.addEventListener("click", () => {
 
     const html5QrCode = new Html5Qrcode("reader");
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-      // Display success SweetAlert
-      Swal.fire({
-        title: 'Success!',
-        text: `QR Code scanned successfully: ${decodedText}`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-      });
-
+      
       fetch(serverURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": "{{csrf_token}}",
-          "session-id": "1",
+          "session-id": sessionId,
         },
         body: decodedText,
       })
-        .then((response) => response.json())
-        .then((data) => console.log("Server Response:", data))
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Server Response:", data)
+          // Display success SweetAlert
+          var status = "undefined";
+          if(data.status == 'accepted') {
+            status = `<text style="color: green">${data.status}</text>`; 
+          } else {
+            status = `<text style="color: red">${data.status}</text>`;
+          }
+          Swal.fire({
+            title: `${data.message}`,
+            html: `${decodedText}<br>
+            Sl: ${data.participant.sl}<br>
+            Name: ${data.participant.name}<br>
+            Status: ${status}`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+        })
         .catch((err) => console.error("Error:", err));
 
       html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
@@ -966,6 +979,35 @@ checkboxes.forEach((checkbox) => {
         confirmButtonText: "Yes!",
       }).then((result) => {
         if (result.isConfirmed) {
+
+          fetch("{% url 'core:update_participant_session' %}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{csrf_token}}",
+            },
+            body: JSON.stringify({'participant_id': checkbox.dataset.sl, 'session_id': checkbox.dataset.sessionId, 'status':'accepted'}),
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log("Server Response:", data)
+              // Display success SweetAlert
+              ic = 'warning';
+              if(data.message == 'Accepted') {
+                ic = 'success'; 
+              } else {
+                ic = 'warning';
+              }
+              Swal.fire({
+                title: `${data.message}`,
+                html: `Sl: ${data.participant.sl}<br>
+                Name: ${data.participant.name}`,
+                icon: ic,
+                confirmButtonText: 'OK',
+              });
+            })
+            .catch((err) => console.error("Error:", err));
+
           Swal.fire({
             title: "Success!",
             icon: "success",
@@ -988,7 +1030,6 @@ function GetSessionStatuses() {
     .then((response) => response.json())
     .then((data) => {
       for (var d in data) {
-        console.log(data[d]);
         document.getElementById(`session_${d}`).innerHTML = data[d];
       }
     })
