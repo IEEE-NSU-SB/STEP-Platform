@@ -11,16 +11,48 @@
 </head>
 <style>
     body{
-        padding: 0;
-        margin: auto;
         font-family: "Roboto", serif;
-    }
+            margin:0;
+            padding:0;
+            font-size:12px;
+            background: #2980b9 url('https://static.tumblr.com/03fbbc566b081016810402488936fbae/pqpk3dn/MRSmlzpj3/tumblr_static_bg3.png') repeat 0 0;
+            -webkit-animation: 10s linear 0s normal none infinite animate;
+            -moz-animation: 10s linear 0s normal none infinite animate;
+            -ms-animation: 10s linear 0s normal none infinite animate;
+            -o-animation: 10s linear 0s normal none infinite animate;
+            animation: 10s linear 0s normal none infinite animate;
+            box-sizing: border-box;
+         
+        }
+        @-webkit-keyframes animate {
+            from {background-position:0 0;}
+            to {background-position: 500px 0;}
+        }
+         
+        @-moz-keyframes animate {
+            from {background-position:0 0;}
+            to {background-position: 500px 0;}
+        }
+         
+        @-ms-keyframes animate {
+            from {background-position:0 0;}
+            to {background-position: 500px 0;}
+        }
+         
+        @-o-keyframes animate {
+            from {background-position:0 0;}
+            to {background-position: 500px 0;}
+        }
+         
+        @keyframes animate {
+            from {background-position:0 0;}
+            to {background-position: 500px 0;}
+        }
     .background{
         display: flex;
         justify-content: center;
         align-items: center;
         margin: auto;
-        background: linear-gradient(93deg, #87c4ff, #00498d);
         flex-direction: column;
         height: 100vh;
     }
@@ -54,8 +86,7 @@
   width: 300px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
-  background: linear-gradient(93deg, #87c4ff, #00498d);
+  background: #f8f8f8;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
@@ -68,7 +99,7 @@
 .login-box h2 {
   margin: 0 0 30px;
   padding: 0;
-  color: #fff;
+  color: black;
   text-align: center;
 }
 
@@ -80,10 +111,10 @@
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: black;
   margin-bottom: 30px;
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid black;
   outline: none;
   background: transparent;
 }
@@ -93,7 +124,7 @@
   left: 0;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: black;
   pointer-events: none;
   transition: .5s;
 }
@@ -110,7 +141,7 @@
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: #03e9f4;
+  color: #000;
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -123,8 +154,8 @@
     text-decoration: none;
     padding: 8px 79px;
     background-color: transparent;
-    border: 1px solid #f8f8f8;
-    color: #f8f8f8;
+    border: 1px solid black;
+    color: black;
 }
 </style>
 <body>
