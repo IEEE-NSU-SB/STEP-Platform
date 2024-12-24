@@ -134,3 +134,10 @@ class UpdateParticipantSessionAjax(View):
                 return JsonResponse({'message':'Rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
             else:
                 return JsonResponse({'message':'Participant is not session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+from .qrgenerator import *
+
+@login_required
+def gen(request):
+   generate_qr()
+
+   return JsonResponse({'message':'success'})

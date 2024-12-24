@@ -55,7 +55,6 @@ atlassian-ide-plugin.xml
 .Python build/ 
 develop-eggs/ 
 downloads/ 
-qgen/
 eggs/ 
 .eggs/ 
 lib/ 
@@ -150,3 +149,4 @@ GitHub.sublime-settings
 database-info.txt
 
 #Project Files
+Participant_QR/
