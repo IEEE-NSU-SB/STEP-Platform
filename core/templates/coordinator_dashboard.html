@@ -633,7 +633,7 @@ video{
         style="
           display: block;
           margin: 0 auto;
-          padding: 10px 20px;
+          padding: 7px 28px;
           background: #ff3333;
           color: white;
           border: none;
@@ -794,7 +794,9 @@ const populateModal = () => {
   sessions.forEach((session) => {
     const li = document.createElement("li");
     li.style.marginBottom = "10px";
-    li.innerHTML = `<button data-id="${session.id}" style="color: #007BFF; text-decoration: none; font-size: 1.2em;">${session.name}</button>`;
+    li.innerHTML = `<button data-id="${session.id}" style="color: #007BFF; text-decoration: none; font-size: 1.2em; width: 60%; background: white;
+    border-radius: 4px;
+    color: black;">${session.name}</button>`;
     sessionUrls.appendChild(li);
   });
 };
@@ -829,6 +831,10 @@ sessionUrls.addEventListener("click", (event) => {
     }
 
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+      
+      // Pause scanning
+      html5QrCode.pause();
+
       fetch(serverURL, {
         method: "POST",
         headers: {
@@ -860,11 +866,14 @@ sessionUrls.addEventListener("click", (event) => {
           Name: ${data.participant.name}`,
           icon: ic,
           confirmButtonText: 'OK',
+        }).then((result) => {
+          // Resume scanning
+          html5QrCode.resume();
         });
       })
       .catch((err) => console.error("Error:", err));
 
-      // html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
+      //html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
     };
 
     const qrCodeErrorCallback = (errorMessage) => {
