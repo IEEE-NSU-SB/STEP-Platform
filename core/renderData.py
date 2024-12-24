@@ -73,6 +73,21 @@ class Core:
         
         return True
     
+    def update_participant_session(participant_id, session_id, status):
+        participant = Registered_Participant.objects.get(id=participant_id)
+        session = Token_Session.objects.get(id=session_id)
+        if(status == 'accepted'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) == 0:
+                Token_Participant.objects.create(registered_participant=participant,token_session=session)
+                return JsonResponse({'message':'Accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is already in session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+        elif(status == 'rejected'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) != 0:
+                Token_Participant.objects.get(registered_participant=participant,token_session=session).delete()
+                return JsonResponse({'message':'Rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is not session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
     
     def generate_unique_code(name: str, university: str) -> str:
         # Function to pick a random part of a string
