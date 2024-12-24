@@ -108,11 +108,21 @@ class SessionUpdateAjax(View):
             return JsonResponse({'message':"error"})
     
 class GetSessionStatusAjax(View):
-    def get(self, request):
+    def post(self, request):
+        last_updated_date_time = json.loads(request.body)['last_updated_date_time']
         token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
+
+        new_scans = Core.get_new_token_session_scans(last_updated_date_time)
+
         data = {}
+        status = {}
         for x in token_sessions_with_participant_count:
-            data.update({x['sessionid']: x['participant_count']})
+            status.update({x['sessionid']: x['participant_count']})
+        data.update({'status':status})
+        scans = {}
+        for x in new_scans:
+            scans.update({x['registered_participant']: x['token_session']})
+        data.update({'new_scans': scans})
                 
         return JsonResponse(data)
     
