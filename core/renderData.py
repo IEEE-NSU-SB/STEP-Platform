@@ -41,17 +41,16 @@ class Core:
         try:
             # Get the POST data from the request body
             print(f"Received RAW QR Data: {request.body}")
-            session=request.headers.get('session-id')
+            sessionid=request.headers.get('session-id')
             data = json.loads(request.body)
 
             participant = Registered_Participant.objects.get(unique_code=data.get('unqc'))
-            print(participant.name)
-            if len(Token_Participant.objects.filter(registered_participant=participant,token_session=session)) > 0:
-                return JsonResponse({'message':'QR Received Successfully', 'status': 'rejected', 'participant': {'sl':participant.id, 'name': participant.name}})
+            session = Token_Session.objects.get(id=sessionid)
+            if len(Token_Participant.objects.filter(registered_participant=participant,token_session=sessionid)) > 0:
+                return JsonResponse({'status': 'rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
             else:
-                token_session = Token_Session.objects.get(id=session)
-                Token_Participant.objects.create(registered_participant=participant,token_session=token_session)
-                return JsonResponse({'message':'QR Received Successfully', 'status': 'accepted', 'participant': {'sl':participant.id, 'name': participant.name}})
+                Token_Participant.objects.create(registered_participant=participant,token_session=session)
+                return JsonResponse({'status': 'accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
                 
         except json.JSONDecodeError as e:
             print(f"JSON decode error: {e}")

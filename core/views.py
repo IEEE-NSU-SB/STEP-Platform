@@ -125,12 +125,12 @@ class UpdateParticipantSessionAjax(View):
         if(data['status'] == 'accepted'):
             if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) == 0:
                 Token_Participant.objects.create(registered_participant=participant,token_session=session)
-                return JsonResponse({'message':'Accepted', 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'message':'Accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
             else:
-                return JsonResponse({'message':'Participant is already in session', 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'message':'Participant is already in session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
         elif(data['status'] == 'rejected'):
             if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) != 0:
                 Token_Participant.objects.get(registered_participant=participant,token_session=session).delete()
-                return JsonResponse({'message':'Rejected', 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'message':'Rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
             else:
-                return JsonResponse({'message':'Participant is not session', 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'message':'Participant is not session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
