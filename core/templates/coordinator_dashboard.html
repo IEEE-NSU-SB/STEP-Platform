@@ -846,17 +846,9 @@ sessionUrls.addEventListener("click", (event) => {
         if(data.status == 'accepted') {
           status = '<text style="color: green">Accepted</text>'; 
           ic = "success";
-          Swal.fire({
-                title: `${data.message}`,
-                html: `Sl: ${data.participant.sl}<br>
-                Name: ${data.participant.name}`,
-                icon: ic,
-                confirmButtonText: 'OK',
-              });
         } else {
           status = `<text style="color: red">Rejected</text>`;
           ic = "warning";
-          qrCodeErrorCallback();
         }
 
         audioX.play();
