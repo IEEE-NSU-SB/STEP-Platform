@@ -829,6 +829,10 @@ sessionUrls.addEventListener("click", (event) => {
     }
 
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+      
+      // Pause scanning
+      html5QrCode.pause();
+
       fetch(serverURL, {
         method: "POST",
         headers: {
@@ -860,11 +864,14 @@ sessionUrls.addEventListener("click", (event) => {
           Name: ${data.participant.name}`,
           icon: ic,
           confirmButtonText: 'OK',
+        }).then((result) => {
+          // Resume scanning
+          html5QrCode.resume();
         });
       })
       .catch((err) => console.error("Error:", err));
 
-      html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
+      //html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
     };
 
     const qrCodeErrorCallback = (errorMessage) => {
