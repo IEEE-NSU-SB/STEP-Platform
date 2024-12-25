@@ -1096,7 +1096,7 @@ function GetSessionStatuses() {
     console.log(data);
     last_updated_date_time = new Date();
     for (var d in data['status']) {
-      document.getElementById(`session_${d}`).innerHTML = data[d];
+      document.getElementById(`session_${d}`).innerHTML = data['status'][d];
     }
     for (var f in data['new_scans']) {
       console.log(`${f}}_${data['new_scans'][f]}`)
