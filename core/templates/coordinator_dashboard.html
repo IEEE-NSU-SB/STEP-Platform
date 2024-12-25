@@ -478,7 +478,7 @@ video{
           display: flex;
           align-items: center;
           gap: 5px;">
-        <p style="width: 150px; font-size: smaller;">Refresh in: <span id="countdown">10</span></p>
+        <p style="width: 150px; font-size: smaller; margin: 0;">Refresh in: <span id="countdown">10</span></p>
         <a href="{% url 'core:logout' %}" class="logout">Logout</a>
       </div>
     </div>
@@ -1161,7 +1161,7 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
       modal.style.top = `${rect.top + rect.height + 5}px`; // Position above the details button with a little margin
 
       // Optionally, you can also populate modal with more dynamic content
-      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>
+      modalContent.innerHTML = `
           <img style='width:100%' src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
