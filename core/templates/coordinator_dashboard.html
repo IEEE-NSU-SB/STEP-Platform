@@ -1130,7 +1130,8 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
       modal.style.top = `${rect.top + rect.height + 5}px`; // Position above the details button with a little margin
 
       // Optionally, you can also populate modal with more dynamic content
-      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>`;
+      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>
+          <img src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
 });
