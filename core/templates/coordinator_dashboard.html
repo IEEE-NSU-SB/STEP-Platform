@@ -571,7 +571,7 @@ video{
               {% for session in token_sessions_all %}
               {% if has_scan_any_session_permission or session.is_active %}
                 <td>
-                  <input type="checkbox" data-sl="{{participant.id}}" data-session-id={{session.id}} {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
+                  <input type="checkbox" id="{{participant.id}}_{{session.id}}" data-sl="{{participant.id}}" data-session-id={{session.id}} {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
                 </td>
               {% endif %}
               {% endfor %}
@@ -846,7 +846,6 @@ sessionUrls.addEventListener("click", (event) => {
       })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Server Response:", data);
         var status = "undefined";
         var ic = "error";
         if(data.status == 'accepted') {
@@ -869,6 +868,8 @@ sessionUrls.addEventListener("click", (event) => {
         }).then((result) => {
           // Resume scanning
           html5QrCode.resume();
+          document.getElementById(`${data.participant.sl}_${data.session_id}`).checked = true;
+          
         });
       })
       .catch((err) => console.error("Error:", err));
@@ -1012,7 +1013,6 @@ checkboxes.forEach((checkbox) => {
           })
           .then((response) => response.json())
           .then((data) => {
-              console.log("Server Response:", data)
               // Display success SweetAlert
               ic = 'warning';
               if(data.message == 'Accepted') {
@@ -1080,17 +1080,30 @@ checkboxes.forEach((checkbox) => {
 });
 
 // Periodically fetch session statuses
-setInterval(GetSessionStatuses, 2000);
+setInterval(GetSessionStatuses, 10000);
+
+var last_updated_date_time = new Date();
 
 function GetSessionStatuses() {
   fetch("{% url 'core:get_session_statuses' %}", {
-    method: "GET",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{csrf_token}}",
+    },
+    body: JSON.stringify({'last_updated_date_time':last_updated_date_time})
   })
-    .then((response) => response.json())
-    .then((data) => {
-      for (var d in data) {
-        document.getElementById(`session_${d}`).innerHTML = data[d];
-      }
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    last_updated_date_time = new Date();
+    for (var d in data['status']) {
+      document.getElementById(`session_${d}`).innerHTML = data['status'][d];
+    }
+    for (var f in data['new_scans']) {
+      console.log(`${f}}_${data['new_scans'][f]}`)
+      document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
+    }
     })
     .catch((err) => console.error("Error:", err));
 }
@@ -1119,7 +1132,8 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
       modal.style.top = `${rect.top + rect.height + 5}px`; // Position above the details button with a little margin
 
       // Optionally, you can also populate modal with more dynamic content
-      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>`;
+      modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>
+          <img src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
 });

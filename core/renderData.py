@@ -37,6 +37,10 @@ class Core:
         )
         return registered_participants
     
+    def get_new_token_session_scans(last_updated_date_time):
+        
+        return Token_Participant.objects.filter(date_time__gte=last_updated_date_time).values('token_session', 'registered_participant')
+    
     def process_qr_data(request):
         try:
             # Get the POST data from the request body
@@ -47,10 +51,10 @@ class Core:
             participant = Registered_Participant.objects.get(unique_code=data.get('unqc'))
             session = Token_Session.objects.get(id=sessionid)
             if len(Token_Participant.objects.filter(registered_participant=participant,token_session=sessionid)) > 0:
-                return JsonResponse({'status': 'rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'status': 'rejected', 'session':session.session_name, 'session_id':session.id, 'participant': {'sl':participant.id, 'name': participant.name}})
             else:
                 Token_Participant.objects.create(registered_participant=participant,token_session=session)
-                return JsonResponse({'status': 'accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+                return JsonResponse({'status': 'accepted', 'session':session.session_name, 'session_id':session.id, 'participant': {'sl':participant.id, 'name': participant.name}})
                 
         except json.JSONDecodeError as e:
             print(f"JSON decode error: {e}")
@@ -69,6 +73,21 @@ class Core:
         
         return True
     
+    def update_participant_session(participant_id, session_id, status):
+        participant = Registered_Participant.objects.get(id=participant_id)
+        session = Token_Session.objects.get(id=session_id)
+        if(status == 'accepted'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) == 0:
+                Token_Participant.objects.create(registered_participant=participant,token_session=session)
+                return JsonResponse({'message':'Accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is already in session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+        elif(status == 'rejected'):
+            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) != 0:
+                Token_Participant.objects.get(registered_participant=participant,token_session=session).delete()
+                return JsonResponse({'message':'Rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+            else:
+                return JsonResponse({'message':'Participant is not session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
     
     def generate_unique_code(name: str, university: str) -> str:
         # Function to pick a random part of a string

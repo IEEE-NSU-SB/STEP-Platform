@@ -11,7 +11,7 @@ from core.permissions import Site_Permissions
 from .renderData import Core
 
 from core.forms import CSVImportForm
-from core.models import Registered_Participant, Token_Participant, Token_Session
+from core.models import Registered_Participant
 
 # Create your views here.
 def login(request):
@@ -108,11 +108,21 @@ class SessionUpdateAjax(View):
             return JsonResponse({'message':"error"})
     
 class GetSessionStatusAjax(View):
-    def get(self, request):
+    def post(self, request):
+        last_updated_date_time = json.loads(request.body)['last_updated_date_time']
         token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
+
+        new_scans = Core.get_new_token_session_scans(last_updated_date_time)
+
         data = {}
+        status = {}
         for x in token_sessions_with_participant_count:
-            data.update({x['sessionid']: x['participant_count']})
+            status.update({x['sessionid']: x['participant_count']})
+        data.update({'status':status})
+        scans = {}
+        for x in new_scans:
+            scans.update({x['registered_participant']: x['token_session']})
+        data.update({'new_scans': scans})
                 
         return JsonResponse(data)
     
@@ -120,20 +130,9 @@ class UpdateParticipantSessionAjax(View):
     def post(self, request):
         data = json.loads(request.body)
 
-        participant = Registered_Participant.objects.get(id=data['participant_id'])
-        session = Token_Session.objects.get(id=data['session_id'])
-        if(data['status'] == 'accepted'):
-            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) == 0:
-                Token_Participant.objects.create(registered_participant=participant,token_session=session)
-                return JsonResponse({'message':'Accepted', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
-            else:
-                return JsonResponse({'message':'Participant is already in session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
-        elif(data['status'] == 'rejected'):
-            if len(Token_Participant.objects.filter(registered_participant=participant, token_session=session)) != 0:
-                Token_Participant.objects.get(registered_participant=participant,token_session=session).delete()
-                return JsonResponse({'message':'Rejected', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
-            else:
-                return JsonResponse({'message':'Participant is not session', 'session':session.session_name, 'participant': {'sl':participant.id, 'name': participant.name}})
+        response = Core.update_participant_session(data['participant_id'], data['session_id'], data['status'])
+        return response
+    
 from .qrgenerator import *
 
 @login_required
