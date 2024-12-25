@@ -373,7 +373,15 @@
 video{
   width: 300px;
 }
-
+.modal-sessions-container{
+  margin: 5% auto;
+  background: #f8f8f8;
+  padding: 20px;
+  width: 90%;
+  max-width: 300px;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
         .navbar {
@@ -427,7 +435,7 @@ video{
         }
 
         .modal {
-          width: 100%;
+          width: 76%;
           max-width: none;
           padding: 15px;
         }
@@ -449,6 +457,13 @@ video{
         .box {
           width: 100%;
         }
+        .modal-sessions-container{
+          margin: 5%;
+          width: 76%;
+        }
+        .search-filter > input{
+          width: 90%;
+        }
       }
     </style>
   </head>
@@ -459,7 +474,13 @@ video{
       <div>
         Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}
       </div>
-      <a href="{% url 'core:logout' %}" class="logout">Logout</a>
+      <div style="
+          display: flex;
+          align-items: center;
+          gap: 5px;">
+        <p style="width: 150px; font-size: smaller;">Refresh in: <span id="countdown">10</span></p>
+        <a href="{% url 'core:logout' %}" class="logout">Logout</a>
+      </div>
     </div>
 
     <div class="container">
@@ -606,15 +627,7 @@ video{
     "
   >
     <div
-      style="
-        margin: 5% auto;
-        background: white;
-        padding: 20px;
-        width: 90%;
-        max-width: 300px;
-        border-radius: 6px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      "
+    class="modal-sessions-container"
     >
       <h2 style="font-size: 1.5em; text-align: center">Select a Session</h2>
       <ul
@@ -630,16 +643,14 @@ video{
       </ul>
       <button
         id="close-modal"
-        style="
-          display: block;
-          margin: 0 auto;
-          padding: 7px 28px;
-          background: #ff3333;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        "
+        style="  display: block;
+        margin: 0 auto;
+        padding: 7px 28px;
+        background: #ff3333;
+        color: #f8f8f8;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;"
       >
         Close
       </button>
@@ -1083,30 +1094,48 @@ checkboxes.forEach((checkbox) => {
 setInterval(GetSessionStatuses, 10000);
 
 var last_updated_date_time = new Date();
+  var countdown = 10;
 
-function GetSessionStatuses() {
-  fetch("{% url 'core:get_session_statuses' %}", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": "{{csrf_token}}",
-    },
-    body: JSON.stringify({'last_updated_date_time':last_updated_date_time})
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    last_updated_date_time = new Date();
-    for (var d in data['status']) {
-      document.getElementById(`session_${d}`).innerHTML = data['status'][d];
-    }
-    for (var f in data['new_scans']) {
-      console.log(`${f}}_${data['new_scans'][f]}`)
-      document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
-    }
+  // Function to fetch session statuses
+  function GetSessionStatuses() {
+    fetch("{% url 'core:get_session_statuses' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{csrf_token}}",
+      },
+      body: JSON.stringify({ last_updated_date_time: last_updated_date_time })
     })
-    .catch((err) => console.error("Error:", err));
-}
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        last_updated_date_time = new Date();
+        for (var d in data['status']) {
+          document.getElementById(`session_${d}`).innerHTML = data['status'][d];
+        }
+        for (var f in data['new_scans']) {
+          console.log(`${f}}_${data['new_scans'][f]}`);
+          document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
+        }
+      })
+      .catch((err) => console.error("Error:", err));
+  }
+
+  // Countdown function
+  function startCountdown() {
+    const countdownElement = document.getElementById("countdown");
+    setInterval(() => {
+      countdown--;
+      if (countdown <= 0) {
+        countdown = 10; // Reset countdown
+        GetSessionStatuses(); // Trigger the fetch function
+      }
+      countdownElement.textContent = countdown; // Update the countdown display
+    }, 1000);
+  }
+
+  // Start the countdown
+  startCountdown();
 // Get modal elements
 const modal = document.getElementById('details-modal');
 const modalContent = modal.querySelector('.modal-content');
@@ -1133,7 +1162,7 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
 
       // Optionally, you can also populate modal with more dynamic content
       modalContent.innerHTML = `<p>Details for ${detailsBtn.closest('tr').querySelector('td:nth-child(2)').textContent}</p>
-          <img src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
+          <img style='width:100%' src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
 });
