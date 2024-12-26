@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import json
 import os
+from time import sleep
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,7 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
 
 from insb_spac24 import settings
 
@@ -21,7 +23,7 @@ from insb_spac24 import settings
 @login_required
 def send_emails(request):
 
-    credentials = get_credentials(request)
+    credentials = get_credentials()
     # if not credentials:
     #     print("NOT OKx")
     #     return False
@@ -29,52 +31,59 @@ def send_emails(request):
     service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
     print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
 
-    add = ['armanmokammel@gmail.com']
-    files = ['1.png']
+    add = []
 
-    message = MIMEMultipart()
-    # print(to_email_list_final)
-    # print(cc_email_list_final)
-    # print(bcc_email_list_final)
+    for i in range(6):
+        try:
+            message = MIMEMultipart()
 
-    message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
-    message["To"] = ','.join(add)
-    # message["Cc"] = ','.join(cc_email_list_final)
-    # message["Bcc"] = ','.join(bcc_email_list_final)
-    message["Subject"] = 'HI'
+            message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+            message["To"] = add[i]
+            # message["Cc"] = ','.join(cc_email_list_final)
+            # message["Bcc"] = ','.join(bcc_email_list_final)
+            message["Subject"] = '[TEST] Confirmation of Your Participation and Guidelines in SPAC’24 organised by IEEE NSU Student Branch'
 
-    message.attach(MIMEText('This is a test', 'plain'))
+            message.attach(MIMEText(render_to_string('email_template.html', {'name':add[i]}), 'html'))
 
-    for file in files:
-        content_file = open("Participant Files/Participant_QR/"+file, "rb")
+            content_file = open(f"Participant Files/Participant_QR/{i+1}.png", "rb")
 
-        # Reset the file pointer to the beginning
-        # file.seek(0)
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(content_file.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                'Content-Disposition',
+                f'attachment; filename={i+1}.png',
+            )
+            message.attach(part)
 
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(content_file.read())
-        encoders.encode_base64(part)
-        part.add_header(
-            'Content-Disposition',
-            f'attachment; filename={file}',
-        )
-        message.attach(part)
+            content_file2 = open(f"Participant Files/SPAC24 Event Timeline.pdf", "rb")
 
-    # encoded message
-    encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
-    
-    create_message = {"raw": encoded_message}
+            part2 = MIMEBase('application', 'octet-stream')
+            part2.set_payload(content_file2.read())
+            encoders.encode_base64(part2)
+            part2.add_header(
+                'Content-Disposition',
+                f'attachment; filename=SPAC24 Event Timeline.pdf',
+            )
+            message.attach(part2)
 
-    send_message = (
-        service.users()
-        .messages()
-        .send(userId="me", body=create_message)
-        .execute()
-    )
+            # encoded message
+            encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+            
+            create_message = {"raw": encoded_message}
 
-    print(f'Message Id: {send_message["id"]}')
-    # except:
-    #     return JsonResponse({'message':'error'})
+            send_message = (
+                service.users()
+                .messages()
+                .send(userId="me", body=create_message)
+                .execute()
+            )
+
+            print(f'Message Id: {send_message["id"]}')
+            sleep(5)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'message':'error'})
 
     return JsonResponse({'message':'success'})
 
@@ -195,7 +204,7 @@ def save_credentials(credentials):
             settings.GOOGLE_CLOUD_EXPIRY = credentials.expiry.isoformat()
 
 
-def get_credentials(request=None):
+def get_credentials():
     
         creds = None
 
