@@ -110,6 +110,9 @@ class SessionUpdateAjax(View):
             global active_sessions
             active_sessions += 1
 
+            if active_sessions > 10000:
+                active_sessions = 1
+
             return JsonResponse({'message':"success"})
         else:
             return JsonResponse({'message':"error"})
