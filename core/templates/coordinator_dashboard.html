@@ -1090,8 +1090,6 @@ checkboxes.forEach((checkbox) => {
   });
 });
 
-// Periodically fetch session statuses
-setInterval(GetSessionStatuses, 10000);
 
 var last_updated_date_time = new Date();
   var countdown = 10;
@@ -1108,19 +1106,40 @@ var last_updated_date_time = new Date();
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         last_updated_date_time = new Date();
+
+        {% if has_scan_any_session_permission %}
         for (var d in data['status']) {
           document.getElementById(`session_${d}`).innerHTML = data['status'][d];
         }
         for (var f in data['new_scans']) {
-          console.log(`${f}}_${data['new_scans'][f]}`);
-          document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
+          try {
+            document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
+          } catch (e) {
+
+          }
         }
+        {% else %}
+        if('session_update' in data) {
+          location.reload();
+        } else {
+          for (var d in data['status']) {
+            document.getElementById(`session_${d}`).innerHTML = data['status'][d];
+          }
+          for (var f in data['new_scans']) {
+            try {
+              document.getElementById(`${f}_${data['new_scans'][f]}`).checked = true;
+            } catch (e) {
+
+            }
+          }
+        }
+        {% endif %}
       })
       .catch((err) => console.error("Error:", err));
   }
 
+  // Periodically fetch session statuses
   // Countdown function
   function startCountdown() {
     const countdownElement = document.getElementById("countdown");
