@@ -3,6 +3,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import json
 import os
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
@@ -78,43 +79,45 @@ def send_emails(request):
     return JsonResponse({'message':'success'})
 
 @login_required
-def send_email(request, participant_id):
+def send_email(request):
     
     credentials = get_credentials(request)
-    # if not credentials:
-    #     print("NOT OKx")
-    #     return False
-    # try:
-    service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
-    print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
-    message = MIMEMultipart()
-    message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
-    message["To"] = 'armanmokammel@gmail.com'
-    message["Subject"] = 'HI'
-    message.attach(MIMEText('This is a test', 'plain'))
+
+    data = json.loads(request.body)
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = data['emailAddr']
+        message["Subject"] = 'HI'
+        message.attach(MIMEText('This is a test', 'plain'))
+        
+        content_file = open(f"Participant Files/Participant_QR/{data['participant_id']}.png", "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(content_file.read())
+        encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition',
+            f'attachment; filename={data["participant_id"]}.png',
+        )
+        message.attach(part)
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        return JsonResponse({'message':'error'})
     
-    content_file = open(f"Participant Files/Participant_QR/{participant_id}.png", "rb")
-    part = MIMEBase('application', 'octet-stream')
-    part.set_payload(content_file.read())
-    encoders.encode_base64(part)
-    part.add_header(
-        'Content-Disposition',
-        f'attachment; filename={participant_id}.png',
-    )
-    message.attach(part)
-    # encoded message
-    encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
-    
-    create_message = {"raw": encoded_message}
-    send_message = (
-        service.users()
-        .messages()
-        .send(userId="me", body=create_message)
-        .execute()
-    )
-    print(f'Message Id: {send_message["id"]}')
-    # except:
-    #     return JsonResponse({'message':'error'})
     return JsonResponse({'message':'success'})
 
 @login_required
