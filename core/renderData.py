@@ -58,7 +58,7 @@ class Core:
                 
         except json.JSONDecodeError as e:
             print(f"JSON decode error: {e}")
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+            return JsonResponse({'status': 'error','error': 'Invalid JSON'})
         
     def update_session(sessions):
         all_sessions = Core.get_all_token_sessions()
