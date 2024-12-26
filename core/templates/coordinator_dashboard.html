@@ -347,7 +347,7 @@
   position: absolute;
   z-index: 999;
   width: 150px;
-  height: 150px;
+  /* height: 150px; */
   background: #fff;
   padding: 8px 16px;
   border-radius: 4px;
@@ -360,7 +360,7 @@
 @media (max-width: 600px) {
   .details-modal {
     width: 120px;
-    height: 120px;
+    /* height: 120px; */
     padding: 6px 12px;
   }
 }
@@ -381,6 +381,14 @@ video{
   max-width: 300px;
   border-radius: 6px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.send_qr{
+  margin: 0;
+  padding: 8px 18px;
+  background-color: #3949ab;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;  
 }
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -1172,7 +1180,7 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
   detailsBtn.addEventListener('click', (event) => {
     event.preventDefault();
     const detailsBtn = event.target;
-    
+
     // Initially hide modal to make the size calculations accurate
     modal.style.display = 'none';
 
@@ -1187,9 +1195,11 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
       modal.style.left = `${rect.left + rect.width - modal.offsetWidth}px`; // Right alignment
       modal.style.top = `${rect.top + rect.height + 5}px`; // Position above the details button with a little margin
 
-      // Optionally, you can also populate modal with more dynamic content
+      // Populate modal with dynamic content
       modalContent.innerHTML = `
-          <img style='width:100%' src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">`;
+          <img style='width:100%' src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">
+          <input type="email" id="email" style="width:100px;padding: 2px 4px;border-radius:4px;margin-bottom:5px;" name="email" placeholder="Enter email" required>
+          <button type="submit" class="send_qr">Send QR</button>`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
 });
