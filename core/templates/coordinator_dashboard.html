@@ -464,6 +464,9 @@ video{
         .search-filter > input{
           width: 90%;
         }
+        .details{
+          padding: 0 6px;
+        }
       }
     </style>
   </head>
@@ -815,12 +818,14 @@ const populateModal = () => {
 // Open modal with sessions
 tapToScanBtn.addEventListener("click", () => {
   modalSessions.style.display = "block";
+  tapToScanBtn.style.display = "none";
   populateModal();
 });
 
 // Close modal
 closeModalBtn.addEventListener("click", () => {
   modalSessions.style.display = "none";
+  tapToScanBtn.style.display = "block";
 });
 
 // Handle URL click to start QR scanning
@@ -918,6 +923,7 @@ stopScanBtn.addEventListener("click", () => {
       .then(() => {
         qrReaderElement.style.display = "none";
         stopScanBtn.style.display = "none"; 
+        tapToScanBtn.style.display = "block";
       })
       .catch((err) => console.error("Failed to stop scanning:", err));
   }
