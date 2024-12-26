@@ -70,6 +70,8 @@ def import_csv(request):
     
     return render(request, 'csv.html', {'form': form})
 
+active_sessions = 0
+
 @login_required
 def dashboard(request):
 
@@ -83,6 +85,8 @@ def dashboard(request):
     has_scan_any_session_permission = is_admin or user_permissions.scan_any_session
 
     total_participants = len(registered_participants)
+            
+    request.session['active_sessions'] = active_sessions
 
     context = {
         'token_sessions':token_sessions,
@@ -103,6 +107,12 @@ class SessionUpdateAjax(View):
         sessions = json.loads(request.body)['sessions']
         
         if(Core.update_session(sessions=sessions)):
+            global active_sessions
+            active_sessions += 1
+
+            if active_sessions > 10000:
+                active_sessions = 1
+
             return JsonResponse({'message':"success"})
         else:
             return JsonResponse({'message':"error"})
@@ -123,6 +133,9 @@ class GetSessionStatusAjax(View):
         for x in new_scans:
             scans.update({x['registered_participant']: x['token_session']})
         data.update({'new_scans': scans})
+
+        if(request.session['active_sessions'] != active_sessions):
+            data.update({'session_update':''})
                 
         return JsonResponse(data)
     

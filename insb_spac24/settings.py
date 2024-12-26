@@ -27,7 +27,10 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+if os.environ.get('SETTINGS') == 'dev':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'emails',
 ]
 
 MIDDLEWARE = [
@@ -79,12 +83,31 @@ WSGI_APPLICATION = 'insb_spac24.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+if(os.environ.get('SETTINGS')=='dev'):
+
+    # Sqlite3 in Development
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+if(os.environ.get('SETTINGS')=='prod'):
+    DATABASES = {
+        
+        # MySQL in Production
+        'default': {
+            
+            'ENGINE': 'django.db.backends.mysql', 
+            'NAME': os.environ.get('PROD_DATABASE_NAME'),
+            'USER': os.environ.get('PROD_DATABASE_USER'),
+            'PASSWORD': os.environ.get('PROD_DATABASE_PASSWORD'),
+            'HOST': os.environ.get('PROD_DATABASE_HOST'),
+            'PORT': '3306',
+            
+        }
+        
+    }
 
 
 # Password validation
@@ -133,3 +156,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'Participant Files/')
 MEDIA_URL = "/media_files/"
 LOGIN_URL = '/'
+
+
+GOOGLE_CLOUD_CLIENT_ID=os.environ.get('DEV_GOOGLE_CLOUD_CLIENT_ID')
+GOOGLE_CLOUD_PROJECT_ID=os.environ.get('DEV_GOOGLE_CLOUD_PROJECT_ID')
+GOOGLE_CLOUD_AUTH_URI=os.environ.get('DEV_GOOGLE_CLOUD_AUTH_URI')
+GOOGLE_CLOUD_TOKEN_URI=os.environ.get('DEV_GOOGLE_CLOUD_TOKEN_URI')
+GOOGLE_CLOUD_AUTH_PROVIDER_x509_cert_url=os.environ.get('DEV_GOOGLE_CLOUD_AUTH_PROVIDER_x509_cert_url')
+GOOGLE_CLOUD_CLIENT_SECRET=os.environ.get('DEV_GOOGLE_CLOUD_CLIENT_SECRET')
+SCOPES=os.environ.get('DEV_SCOPES').split(',')
+
+GOOGLE_MAIL_API_NAME=os.environ.get('GOOGLE_MAIL_API_NAME')
+GOOGLE_MAIL_API_VERSION=os.environ.get('GOOGLE_MAIL_API_VERSION')
+
+GOOGLE_CLOUD_TOKEN=os.environ.get('GOOGLE_CLOUD_TOKEN')
+GOOGLE_CLOUD_REFRESH_TOKEN=os.environ.get('GOOGLE_CLOUD_REFRESH_TOKEN')
+GOOGLE_CLOUD_EXPIRY=os.environ.get('GOOGLE_CLOUD_EXPIRY')

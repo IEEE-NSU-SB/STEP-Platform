@@ -17,7 +17,7 @@ def generate_qr():
         img = qrcode.make(json.dumps({"unqc":data[0]}))
     
         # Saving each QR code as an image file
-        img.save(f'Participant_QR/{i}.png')
+        img.save(f'Participant Files/Participant_QR/{i}.png')
         print(f'QR Code {i} saved as {i}.png')
 
     print("All QR codes have been generated successfully!")
