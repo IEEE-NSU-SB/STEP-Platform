@@ -876,33 +876,54 @@ sessionUrls.addEventListener("click", (event) => {
       .then((data) => {
         var status = "undefined";
         var ic = "error";
+        var rejected_reason = "";
         if(data.status == 'accepted') {
           status = '<text style="color: green">Accepted</text>'; 
           ic = "success";
-        } else {
+        } else if(data.status == 'rejected'){
           status = `<text style="color: red">Rejected</text>`;
           ic = "warning";
+          rejected_reason = '<br><text style="color: red">Participant has already been scanned in this session!</text>'
+        } else {
+          status = `<text style="color: red">Error</text>`;
+          ic = "error";
+          rejected_reason = '<text style="color: red">Invalid Scan!</text>'
         }
 
         audioX.play();
           
-        Swal.fire({
-          title: `${status}`,
-          html: `Session: ${data.session}<br>
-          Serial no: ${data.participant.sl}<br>
-          Name: ${data.participant.name}`,
-          icon: ic,
-          confirmButtonText: 'OK',
-        }).then((result) => {
-          // Resume scanning
-          html5QrCode.resume();
-          document.getElementById(`${data.participant.sl}_${data.session_id}`).checked = true;
+        try {
           
-        });
-      })
-      .catch((err) => console.error("Error:", err));
+          Swal.fire({
+            title: `${status}`,
+            html: `Session: ${data.session}<br>
+            Serial no: ${data.participant.sl}<br>
+            Name: ${data.participant.name}
+            ${rejected_reason}`,
+            icon: ic,
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            // Resume scanning
+            html5QrCode.resume();
+            if(data.status == 'accepted') {
+              document.getElementById(`${data.participant.sl}_${data.session_id}`).checked = true;
+            }
+            
+          });
+        } catch (e) {
+          Swal.fire({
+            title: `${status}`,
+            html: `${rejected_reason}`,
+            icon: ic,
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            // Resume scanning
+            html5QrCode.resume();
+            
+          });
+        }
+      }).catch((err) => console.error("Error:", err));
 
-      //html5QrCode.stop().catch((err) => console.error("Failed to stop:", err));
     };
 
     const qrCodeErrorCallback = (errorMessage) => {
