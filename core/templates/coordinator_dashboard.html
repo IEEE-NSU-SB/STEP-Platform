@@ -619,9 +619,11 @@ video{
 
     <!-- Modal structure -->
 <div id="details-modal" class="details-modal">
-  <div class="modal-content">
-    <p>Details go here</p>
-  </div>
+  <form id='details-form' method="POST">
+    <div class="modal-content">
+      <p>Details go here</p>
+    </div>
+  </form>
 </div>
     <div class="footer">
       <img src="{% static '/img/Logos-For-DOC-1.png' %}" alt="logo" />
@@ -887,7 +889,7 @@ sessionUrls.addEventListener("click", (event) => {
         Swal.fire({
           title: `${status}`,
           html: `Session: ${data.session}<br>
-          Sl: ${data.participant.sl}<br>
+          Serial no: ${data.participant.sl}<br>
           Name: ${data.participant.name}`,
           icon: ic,
           confirmButtonText: 'OK',
@@ -1049,7 +1051,7 @@ checkboxes.forEach((checkbox) => {
               }
               Swal.fire({
                 title: `${data.message}`,
-                html: `Sl: ${data.participant.sl}<br>
+                html: `Serial no: ${data.participant.sl}<br>
                 Name: ${data.participant.name}`,
                 icon: ic,
                 confirmButtonText: 'OK',
@@ -1091,7 +1093,7 @@ checkboxes.forEach((checkbox) => {
               }
               Swal.fire({
                 title: `${data.message}`,
-                html: `Sl: ${data.participant.sl}<br>
+                html: `Serial no: ${data.participant.sl}<br>
                 Name: ${data.participant.name}`,
                 icon: ic,
                 confirmButtonText: 'OK',
@@ -1198,7 +1200,7 @@ document.querySelectorAll('.details').forEach(detailsBtn => {
       // Populate modal with dynamic content
       modalContent.innerHTML = `
           <img style='width:100%' src="/media_files/Participant_QR/${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}.png">
-          <input type="email" id="email" style="width:100px;padding: 2px 4px;border-radius:4px;margin-bottom:5px;" name="email" placeholder="Enter email" required>
+          <input type="email" id="email" data-sl="${detailsBtn.closest('tr').querySelector('td:nth-child(1)').textContent}" style="width:100px;padding: 2px 4px;border-radius:4px;margin-bottom:5px;" name="email" placeholder="Enter email" required>
           <button type="submit" class="send_qr">Send QR</button>`;
     }, 0); // Delay the positioning until after the modal has been displayed
   });
@@ -1211,7 +1213,40 @@ window.addEventListener('click', (event) => {
   }
 });
 
+let details_form = document.getElementById("details-form");
 
+details_form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  emailDiv = document.getElementById('email');
+
+  fetch("{% url 'emails:send_email' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{csrf_token}}",
+    },
+    body: JSON.stringify({'participant_id': emailDiv.dataset.sl, 'emailAddr': emailDiv.value}),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      console.log("Server Response:", data)
+      // Display success SweetAlert
+      ic = 'warning';
+      if(data.message == 'success') {
+        ic = 'success'; 
+      } else {
+        ic = 'error';
+      }
+      Swal.fire({
+        title: `${data.message}`,
+        {% comment %} html: `Serial no: ${data.participant.sl}<br> {% endcomment %}
+        {% comment %} Name: ${data.participant.name}`, {% endcomment %}
+        icon: ic,
+        confirmButtonText: 'OK',
+      });
+    }).catch((err) => console.error("Error:", err));
+});
 
     </script>
   </body>

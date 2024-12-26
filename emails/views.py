@@ -3,6 +3,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import json
 import os
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
@@ -78,6 +79,48 @@ def send_emails(request):
     return JsonResponse({'message':'success'})
 
 @login_required
+def send_email(request):
+    
+    credentials = get_credentials(request)
+
+    data = json.loads(request.body)
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = data['emailAddr']
+        message["Subject"] = 'HI'
+        message.attach(MIMEText('This is a test', 'plain'))
+        
+        content_file = open(f"Participant Files/Participant_QR/{data['participant_id']}.png", "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(content_file.read())
+        encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition',
+            f'attachment; filename={data["participant_id"]}.png',
+        )
+        message.attach(part)
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})
+
+@login_required
 def authorize(request):
 
     credentials = get_credentials(request)
@@ -131,9 +174,9 @@ def get_google_auth_flow(request):
         }
     }
     if(request.META['HTTP_HOST'] == "127.0.0.1:8000" or request.META['HTTP_HOST'] == "localhost:8000"):
-        redirect_uri=f"http://{request.META['HTTP_HOST']}/portal/oauth2callback"
+        redirect_uri=f"http://{request.META['HTTP_HOST']}/init/oauth2callback"
     else:
-        redirect_uri=f"https://{request.META['HTTP_HOST']}/portal/oauth2callback"
+        redirect_uri=f"https://{request.META['HTTP_HOST']}/init/oauth2callback"
 
     return Flow.from_client_config(
         client_config,
