@@ -889,7 +889,7 @@ sessionUrls.addEventListener("click", (event) => {
         Swal.fire({
           title: `${status}`,
           html: `Session: ${data.session}<br>
-          Sl: ${data.participant.sl}<br>
+          Serial no: ${data.participant.sl}<br>
           Name: ${data.participant.name}`,
           icon: ic,
           confirmButtonText: 'OK',
@@ -1051,7 +1051,7 @@ checkboxes.forEach((checkbox) => {
               }
               Swal.fire({
                 title: `${data.message}`,
-                html: `Sl: ${data.participant.sl}<br>
+                html: `Serial no: ${data.participant.sl}<br>
                 Name: ${data.participant.name}`,
                 icon: ic,
                 confirmButtonText: 'OK',
@@ -1093,7 +1093,7 @@ checkboxes.forEach((checkbox) => {
               }
               Swal.fire({
                 title: `${data.message}`,
-                html: `Sl: ${data.participant.sl}<br>
+                html: `Serial no: ${data.participant.sl}<br>
                 Name: ${data.participant.name}`,
                 icon: ic,
                 confirmButtonText: 'OK',
@@ -1240,7 +1240,7 @@ details_form.addEventListener("submit", (e) => {
       }
       Swal.fire({
         title: `${data.message}`,
-        {% comment %} html: `Sl: ${data.participant.sl}<br> {% endcomment %}
+        {% comment %} html: `Serial no: ${data.participant.sl}<br> {% endcomment %}
         {% comment %} Name: ${data.participant.name}`, {% endcomment %}
         icon: ic,
         confirmButtonText: 'OK',
