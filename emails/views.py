@@ -17,6 +17,7 @@ from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 
+from core.models import Registered_Participant
 from insb_spac24 import settings
 
 # Create your views here.
@@ -31,28 +32,33 @@ def send_emails(request):
     service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
     print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
 
-    add = []
+    registered_participants = Registered_Participant.objects.all()
 
-    for i in range(6):
+    for participant in registered_participants:
         try:
             message = MIMEMultipart()
 
             message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
-            message["To"] = add[i]
-            # message["Cc"] = ','.join(cc_email_list_final)
-            # message["Bcc"] = ','.join(bcc_email_list_final)
-            message["Subject"] = '[TEST] Confirmation of Your Participation and Guidelines in SPAC’24 organised by IEEE NSU Student Branch'
+            message["To"] = participant.email
+            message["Cc"] = 'sb-nsu@ieee.org'
+            message["Subject"] = 'Confirmation of Your Participation and Guidelines in SPAC’24 organised by IEEE NSU Student Branch'
 
-            message.attach(MIMEText(render_to_string('email_template.html', {'name':add[i]}), 'html'))
+            booth = '3 and 4'
+            if(participant.university == 'North South University'):
+                booth = '3 and 4'
+            else:
+                booth = '1 and 2'
 
-            content_file = open(f"Participant Files/Participant_QR/{i+1}.png", "rb")
+            message.attach(MIMEText(render_to_string('email_template.html', {'name':participant.name, 'university':participant.university, 'booth':booth}), 'html'))
+
+            content_file = open(f"Participant Files/Participant_QR/{participant.id}.png", "rb")
 
             part = MIMEBase('application', 'octet-stream')
             part.set_payload(content_file.read())
             encoders.encode_base64(part)
             part.add_header(
                 'Content-Disposition',
-                f'attachment; filename={i+1}.png',
+                f'attachment; filename={participant.id}.png',
             )
             message.attach(part)
 
@@ -79,8 +85,8 @@ def send_emails(request):
                 .execute()
             )
 
-            print(f'Message Id: {send_message["id"]}')
-            sleep(5)
+            print(f'Serial: {participant.id}, Message Id: {send_message["id"]}')
+            sleep(3)
         except Exception as e:
             print(e)
             return JsonResponse({'message':'error'})
@@ -90,7 +96,7 @@ def send_emails(request):
 @login_required
 def send_email(request):
     
-    credentials = get_credentials(request)
+    credentials = get_credentials()
 
     data = json.loads(request.body)
     if not credentials:
@@ -105,7 +111,11 @@ def send_email(request):
         message.attach(MIMEText(f'''Dear Participant,
                                 
 Your QR code for SPAC'24 event is attached in this email.
-This QR code is essential to collect your food and goodies.''', 'plain'))
+This QR code is essential to collect your food and goodies.
+                                
+Best regards,
+                                
+IEEE NSU SB.''', 'plain'))
         
         content_file = open(f"Participant Files/Participant_QR/{data['participant_id']}.png", "rb")
         part = MIMEBase('application', 'octet-stream')

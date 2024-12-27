@@ -6,7 +6,7 @@ app_name='emails'
 
 urlpatterns = [
     path('init/send_emails/', send_emails),
-    path('send_email/', send_email, name='send_email'),
+    path('api/send_email/', send_email, name='send_email'),
     path('authorise/', authorize),
     path('init/oauth2callback/', oauth2callback, name='oauth2callback'),
 ]
