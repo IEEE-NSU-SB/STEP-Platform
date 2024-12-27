@@ -92,8 +92,11 @@ def send_email(request):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = data['emailAddr']
-        message["Subject"] = 'HI'
-        message.attach(MIMEText('This is a test', 'plain'))
+        message["Subject"] = "QR Code for SPAC'24"
+        message.attach(MIMEText(f'''Dear Participant,
+                                
+Your QR code for SPAC'24 event is attached in this email.
+This QR code is essential to collect your food and goodies.''', 'plain'))
         
         content_file = open(f"Participant Files/Participant_QR/{data['participant_id']}.png", "rb")
         part = MIMEBase('application', 'octet-stream')
