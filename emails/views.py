@@ -33,7 +33,6 @@ def send_emails(request):
     print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
 
     registered_participants = Registered_Participant.objects.all()
-
     for participant in registered_participants:
         try:
             message = MIMEMultipart()
@@ -58,7 +57,7 @@ def send_emails(request):
             encoders.encode_base64(part)
             part.add_header(
                 'Content-Disposition',
-                f'attachment; filename={participant.id}.png',
+                f'attachment; filename={participant.name}.png',
             )
             message.attach(part)
 
