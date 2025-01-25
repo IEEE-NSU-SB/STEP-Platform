@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 class Site_Permissions:
         
     def get_user_permissions(request):
+        '''Returns all permissions from the `user_permissions` model.'''
+
         username = request.user.username
         try:
             user = User.objects.get(username=username)
@@ -16,6 +18,8 @@ class Site_Permissions:
             return None
         
     def is_admin(request):
+        '''Returns True if the user is an admin.'''
+        
         username = request.user.username
         user = User.objects.get(username=username)
         
