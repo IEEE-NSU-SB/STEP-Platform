@@ -2,7 +2,14 @@
 
 This repository contains the **SPAC '24 Management System**, a web-based tool developed for the flagship event **"SPAC '24"** organized by the **IEEE NSU Student Branch**. The system streamlines the management of **food distribution**, **goodies allocation**, and other logistical processes by providing participants with unique QR codes for each session.  
 
+## Acknowledgments  
+
+Special thanks to the **IEEE NSU Student Branch** for their support and for organizing **SPAC '24**, where this system was successfully implemented.  
+
+This system was developed by the **IEEE NSU SB Website Development Team**, whose efforts made the event management process efficient and streamlined.  
+
 ---
+
 
 ## Key Features  
 
