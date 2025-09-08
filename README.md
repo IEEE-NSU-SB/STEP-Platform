@@ -1,10 +1,10 @@
-# SPAC '24 Management System  
+# STEP '25 Management System  
 
-This repository contains the **SPAC '24 Management System**, a web-based tool developed for the flagship event **"SPAC '24"** organized by the **IEEE NSU Student Branch**. The system streamlines the management of **food distribution**, **goodies allocation**, and other logistical processes by providing participants with unique QR codes for each session.  
+This repository contains the **STEP '25 Management System**, a web-based tool developed for the flagship event **"STEP '25"** organized by the **IEEE NSU Student Branch**. The system streamlines the management of **food distribution**, **goodies allocation**, and other logistical processes by providing participants with unique QR codes for each session.  
 
 ## Acknowledgments  
 
-Special thanks to the **IEEE NSU Student Branch** for their support and for organizing **SPAC '24**, where this system was successfully implemented.  
+Special thanks to the **IEEE NSU Student Branch** for their support and for organizing **STEP '25**, where this system was successfully implemented.  
 
 This system was developed by the **IEEE NSU SB Website Development Team**, whose efforts made the event management process efficient and streamlined.  
 
@@ -74,8 +74,8 @@ This system was developed by the **IEEE NSU SB Website Development Team**, whose
 
 1. Clone this repository:  
    ```bash
-   git clone https://github.com/ArmanMokammel/SPAC-24.git
-   cd SPAC-24
+   git clone https://github.com/IEEE-NSU-SB/STEP-Platform.git
+   cd STEP-Platform
    ```  
 2. Install dependencies:
    ```bash
