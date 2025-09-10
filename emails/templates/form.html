@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      class="rounded-full"
+      href="./assets/ieee_image.jpeg"
+      type="image/x-icon"
+    />
+    <title>📝Form</title>
+    <!-- tailwind and daisy ui  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- for primary and secondary color  -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#055f8b",
+              secondary: "#f17727",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 min-h-screen py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+      <!-- Form Container -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header with Background Image -->
+        <div
+          class="w-full bg-center bg-no-repeat bg-cover px-6"
+          style="background-image: url('./assets/ieee_image.jpeg')"
+        >
+          <div class="mb-4 h-24 md:h-48 w-24">
+            <!-- Necessary evil -->
+          </div>
+        </div>
+
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold text-center uppercase">
+            IEEE STEP 25
+          </h1>
+          <p class="mt-4 text-lg md:text-xl text-center">
+            Empowering Future Innovators
+          </p>
+        </div>
+
+        <!-- Form Content -->
+        <form class="p-6 md:p-8 space-y-6">
+          <!-- Name Field -->
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Full Name *
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <!-- University Field -->
+          <div>
+            <label
+              for="university"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              University *
+            </label>
+            <input
+              type="text"
+              id="university"
+              name="university"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+              placeholder="Enter your university name"
+            />
+          </div>
+
+          <!-- NSU ID and IEEE ID Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                for="nsu_id"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                NSU ID *
+              </label>
+              <input
+                type="text"
+                id="nsu_id"
+                name="nsu_id"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+                placeholder="Enter NSU ID"
+              />
+            </div>
+            <div>
+              <label
+                for="ieee_id"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                IEEE ID
+              </label>
+              <input
+                type="text"
+                id="ieee_id"
+                name="ieee_id"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+                placeholder="Enter IEEE ID (if applicable)"
+              />
+            </div>
+          </div>
+
+          <!-- Email and Phone Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <label
+                for="phone"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
+                placeholder="Enter your phone number"
+              />
+            </div>
+          </div>
+
+          <!-- Membership Type -->
+          <div>
+            <fieldset>
+              <legend class="block text-sm font-medium text-gray-700 mb-4">
+                Membership Type *
+              </legend>
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <input
+                    id="ieee_member"
+                    name="membership_type"
+                    type="radio"
+                    value="ieee_member"
+                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                  />
+                  <label
+                    for="ieee_member"
+                    class="ml-3 block text-sm font-medium text-gray-700"
+                  >
+                    IEEE Member
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input
+                    id="non_ieee_member"
+                    name="membership_type"
+                    type="radio"
+                    value="non_ieee_member"
+                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                  />
+                  <label
+                    for="non_ieee_member"
+                    class="ml-3 block text-sm font-medium text-gray-700"
+                  >
+                    Non-IEEE Member
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full bg-primary hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="text-center mt-6 text-gray-600 text-sm">
+        <p>© 2025 IEEE NSU SB. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script>
+      // Form validation a
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+
+        // Basic validation
+        if (
+          !data.name ||
+          !data.university ||
+          !data.nsu_id ||
+          !data.email ||
+          !data.phone ||
+          !data.membership_type
+        ) {
+          alert("Please fill in all required fields.");
+          return;
+        }
+
+        // Simulate form submission
+        alert("Form submitted successfully! Thank you for your application.");
+        console.log("Form Data:", data); // main data ei khane paben
+      });
+
+      // Phone number validation
+      document.getElementById("phone").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+
+        // Limit to 11 digits and must start with 01
+        if (value.length > 11) {
+          value = value.substring(0, 11);
+        }
+
+        e.target.value = value;
+      });
+    </script>
+  </body>
+</html>
