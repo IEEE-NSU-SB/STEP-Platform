@@ -1,264 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      class="rounded-full"
-      href="./assets/ieee_image.jpeg"
-      type="image/x-icon"
-    />
-    <title>📝Form</title>
-    <!-- tailwind and daisy ui  -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@5"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- for primary and secondary color  -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#055f8b",
-              secondary: "#f17727",
-            },
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📝 Stepped Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#055f8b",
+            secondary: "#f17727",
           },
         },
-      };
-    </script>
-  </head>
-  <body class="bg-white min-h-screen py-8 px-4">
-    <div class="max-w-2xl mx-auto">
-      <!-- Form Container -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <!-- Header with Background Image -->
-        <div
-          class="w-full bg-center bg-no-repeat bg-cover px-6"
-          style="background-image: url('./assets/ieee_image.jpeg')"
-        >
-          <div class="mb-4 h-24 md:h-48 w-24">
-            <!-- Necessary evil -->
-          </div>
-        </div>
+      },
+    };
+  </script>
+</head>
 
-        <div>
-          <h1 class="text-3xl md:text-4xl font-bold text-center uppercase">
-            IEEE STEP 25
-          </h1>
-          <p class="mt-4 text-lg md:text-xl text-center">
-            Empowering Future Innovators
-          </p>
-        </div>
-
-        <!-- Form Content -->
-        <form class="p-6 md:p-8 space-y-6">
-          <!-- Name Field -->
-          <div>
-            <label
-              for="name"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Full Name *
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-              placeholder="Enter your full name"
-            />
-          </div>
-
-          <!-- University Field -->
-          <div>
-            <label
-              for="university"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              University *
-            </label>
-            <input
-              type="text"
-              id="university"
-              name="university"
-              required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-              placeholder="Enter your university name"
-            />
-          </div>
-
-          <!-- NSU ID and IEEE ID Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label
-                for="nsu_id"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                NSU ID *
-              </label>
-              <input
-                type="text"
-                id="nsu_id"
-                name="nsu_id"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                placeholder="Enter NSU ID"
-              />
-            </div>
-            <div>
-              <label
-                for="ieee_id"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                IEEE ID
-              </label>
-              <input
-                type="text"
-                id="ieee_id"
-                name="ieee_id"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                placeholder="Enter IEEE ID (if applicable)"
-              />
-            </div>
-          </div>
-
-          <!-- Email and Phone Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label
-                for="email"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Email Address *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                placeholder="Enter your email"
-              />
-            </div>
-            <div>
-              <label
-                for="phone"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                placeholder="Enter your phone number"
-              />
-            </div>
-          </div>
-
-          <!-- Membership Type -->
-          <div>
-            <fieldset>
-              <legend class="block text-sm font-medium text-gray-700 mb-4">
-                Membership Type *
-              </legend>
-              <div class="space-y-3">
-                <div class="flex items-center">
-                  <input
-                    id="ieee_member"
-                    name="membership_type"
-                    type="radio"
-                    value="ieee_member"
-                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                  />
-                  <label
-                    for="ieee_member"
-                    class="ml-3 block text-sm font-medium text-gray-700"
-                  >
-                    IEEE Member
-                  </label>
-                </div>
-                <div class="flex items-center">
-                  <input
-                    id="non_ieee_member"
-                    name="membership_type"
-                    type="radio"
-                    value="non_ieee_member"
-                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                  />
-                  <label
-                    for="non_ieee_member"
-                    class="ml-3 block text-sm font-medium text-gray-700"
-                  >
-                    Non-IEEE Member
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="pt-4">
-            <button
-              type="submit"
-              class="w-full bg-primary hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Footer Info -->
-      <div class="text-center mt-6 text-gray-600 text-sm">
-        <p>© 2025 IEEE NSU SB. All rights reserved.</p>
-      </div>
+<body class="bg-white min-h-screen py-8">
+   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between ">
+    <div class="w-40 h-10">
+      <img src="./assets/ieee-logo.png" alt="">
+    </div>
+    <div class="w-40 h-10">
+      <img src="./assets/ieee-logo.png" alt="">
+    </div>
+  </nav><br><br><br>
+  <div class="w-11/12 md:w-3/5 mx-auto">
+    <!-- Step indicator -->
+    <div class="flex justify-between mb-8">
+      <div id="step1Indicator" class="w-1/3 text-center font-bold text-primary">1. Basic Info</div>
+      <div id="step2Indicator" class="w-1/3 text-center text-gray-500">2. Questionnaire</div>
+      <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
     </div>
 
-    <script>
-      // Form validation a
-      document.querySelector("form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        // Get form data
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
+    <!-- Step 1: Basic Info -->
+    <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+      <p>IEEE NSU Student Branch is looking for passionate and enthusiastic members as Team Volunteers for its
+        respective Teams
+        If you are interested in learning and developing your technical skills, and most importantly, if you want to get
+        a full-fledged volunteering experience, then fill out the form without hesitation. Check out the eligibility
+        requirements before applying.</p>
+      <p>Teams Available:</p>
+      <ol class="list-decimal list-inside">
+        <li>Content Writing and Publications Team</li>
+        <li>Events and Management Team</li>
+        <li>Finance and Corporate Team</li>
+        <li>Graphics Team</li>
+        <li>Logistics and Operations Team</li>
+        <li>Media Team</li>
+        <li>Membership Development Team</li>
+        <li>Public Relations Team</li>
+        <li>Promotions Team</li>
+        <li>Website Development Team</li>
+      </ol>
+      <p>Team Volunteers will have the opportunity to work for their desired teams while being supervised by
+        the In-charges. They will be supervised by the In-charges while gaining information and skills through
+        task-based learning.</p>
+        <p>Application Conditions for Team Volunteers:</p>
+      <ul class="list-disc  pl-5">
+        <li>Candidates must have an active IEEE membership.</li>
+        <li>Candidates can apply for maximum 5 teams and minimum 2 teams.   </li>
+      </ul>
+      <p>Steps to Apply:</p>
+      <p>All the applicants must complete the following:</p>
+      <ul class="list-disc  pl-5">
+        <li>Fill up the Application Form.</li>
+        <li>Must attend all the stages of the process announced by the Selection Committee. </li>
+        <li>Candidates have to sit for a Viva Session after the completion and submission of the form.</li>
+        <li>Absence of any required information will automatically invalidate your application.</li>
+      </ul>
+      <p>Deadline: 7th May, 2025; 10:00 PM</p>
+      <p>Good Luck!!</p>
+      <p>For any queries, contact:</p>
+      <h4>Shohan Islam</h4>
+      <h4>Executive</h4>
+      <h4>Website Development Team</h4>
+      <h4>Phone: 01771669649</h4>
+      <h4>Shohan12727@northsouth.edu</h4>
+      <!-- next person  -->
+      <h4 class="mt-4">Rajesh G.</h4>
+      <h4>Sub-Executive</h4>
+      <h4>Media Team</h4>
+      <h4>Phone: 01745430372</h4>
+      <h4>fahim.morshed@northsouth.edu</h4>
+      <h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">Full Name<span class="text-red-500">*</span></label>
+        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your name" required/>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">Email<span class="text-red-500">*</span></label>
+        <input type="email" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your email" required/>
+      </div>
+      <div class="flex justify-end">
+        <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+      </div>
+    </section>
 
-        // Basic validation
-        if (
-          !data.name ||
-          !data.university ||
-          !data.nsu_id ||
-          !data.email ||
-          !data.phone ||
-          !data.membership_type
-        ) {
-          alert("Please fill in all required fields.");
-          return;
-        }
+    <!-- Step 2: Questionnaire -->
+    <section id="step2" class="hidden shadow-md p-5 font-medium rounded-md">
+      <h2 class="font-bold text-center text-2xl mb-4">Questionnaire</h2>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">1. What do you know about IEEE YP AG?<span class="text-red-500">*</span></label>
+        <textarea rows="4" class="w-full border rounded-md p-2" required></textarea>
+      </div>
+      <div class="flex justify-between">
+        <button onclick="prevStep(2)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
+        <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+      </div>
+    </section>
 
-        // Simulate form submission
-        alert("Form submitted successfully! Thank you for your application.");
-        console.log("Form Data:", data); // main data ei khane paben
+    <!-- Step 3: Payment -->
+    <section id="step3" class="hidden shadow-md p-5 font-medium rounded-md">
+      <h2 class="font-bold text-center text-2xl mb-4">Payment Section</h2>
+      <p class="mb-4">IEEE Student Member 360 BDT | IEEE Member 510 BDT | Non-IEEE Member 560 BDT</p>
+      <label><input type="radio" name="payment" value="Nagad"> Nagad </label><br>
+       <label> <input type="radio" name="payment" value="Bkash"> Bkash
+      <div class="mb-4">
+        <label class="block font-bold mb-2">Transaction ID<span class="text-red-500">*</span></label>
+        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your transaction ID" required/>
+        <br><br><br>
+        <table class="w-full border-collapse text-xs sm:text-sm min-w-full">
+        <thead>
+          <tr>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700">
+              Description</th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">S
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">M
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">L
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">2XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">3XL
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Width</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">36"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">38"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">40"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">42"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">44"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">46"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Height
+            </td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">25"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body Length</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
+          </tr>
+        </tbody>
+      </table>
+      <label for="level" class="block   mb-2 font-bold">
+        Select T-Shirt size<span class="text-red-500">*</span>
+      </label>
+      <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="S" class="form-radio text-blue-500">
+          S
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          M
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          L
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          X
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          XL
+        </label>
+         <label for="level" class="block text-sm font-bold mb-2">
+        Any Comments:
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+      </div>
+      <div class="flex justify-between">
+        <button onclick="prevStep(3)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function nextStep(current) {
+      document.getElementById(`step${current}`).classList.add("hidden");
+      document.getElementById(`step${current + 1}`).classList.remove("hidden");
+      updateIndicators(current + 1);
+    }
+
+    function prevStep(current) {
+      document.getElementById(`step${current}`).classList.add("hidden");
+      document.getElementById(`step${current - 1}`).classList.remove("hidden");
+      updateIndicators(current - 1);
+    }
+
+    function updateIndicators(step) {
+      [1, 2, 3].forEach(num => {
+        document.getElementById(`step${num}Indicator`).classList.remove("text-primary", "font-bold");
+        document.getElementById(`step${num}Indicator`).classList.add("text-gray-500");
       });
+      document.getElementById(`step${step}Indicator`).classList.remove("text-gray-500");
+      document.getElementById(`step${step}Indicator`).classList.add("text-primary", "font-bold");
+    }
+  </script>
+</body>
 
-      // Phone number validation
-      document.getElementById("phone").addEventListener("input", function (e) {
-        let value = e.target.value.replace(/\D/g, "");
-
-        // Limit to 11 digits and must start with 01
-        if (value.length > 11) {
-          value = value.substring(0, 11);
-        }
-
-        e.target.value = value;
-      });
-    </script>
-  </body>
 </html>
