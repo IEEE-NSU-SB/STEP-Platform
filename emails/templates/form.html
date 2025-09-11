@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📝 Stepped Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#055f8b",
+            secondary: "#f17727",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-white min-h-screen py-8">
+   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between ">
+    <div class="w-40 h-10">
+      <img src="./assets/ieee-logo.png" alt="">
+    </div>
+    <div class="w-40 h-10">
+      <img src="./assets/ieee-logo.png" alt="">
+    </div>
+  </nav><br><br><br>
+  <div class="w-11/12 md:w-3/5 mx-auto">
+    <!-- Step indicator -->
+    <div class="flex justify-between mb-8">
+      <div id="step1Indicator" class="w-1/3 text-center font-bold text-primary">1. Basic Info</div>
+      <div id="step2Indicator" class="w-1/3 text-center text-gray-500">2. Questionnaire</div>
+      <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
+    </div>
+
+    <!-- Step 1: Basic Info -->
+    <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+      <p>IEEE NSU Student Branch is looking for passionate and enthusiastic members as Team Volunteers for its
+        respective Teams
+        If you are interested in learning and developing your technical skills, and most importantly, if you want to get
+        a full-fledged volunteering experience, then fill out the form without hesitation. Check out the eligibility
+        requirements before applying.</p>
+      <p>Teams Available:</p>
+      <ol class="list-decimal list-inside">
+        <li>Content Writing and Publications Team</li>
+        <li>Events and Management Team</li>
+        <li>Finance and Corporate Team</li>
+        <li>Graphics Team</li>
+        <li>Logistics and Operations Team</li>
+        <li>Media Team</li>
+        <li>Membership Development Team</li>
+        <li>Public Relations Team</li>
+        <li>Promotions Team</li>
+        <li>Website Development Team</li>
+      </ol>
+      <p>Team Volunteers will have the opportunity to work for their desired teams while being supervised by
+        the In-charges. They will be supervised by the In-charges while gaining information and skills through
+        task-based learning.</p>
+        <p>Application Conditions for Team Volunteers:</p>
+      <ul class="list-disc  pl-5">
+        <li>Candidates must have an active IEEE membership.</li>
+        <li>Candidates can apply for maximum 5 teams and minimum 2 teams.   </li>
+      </ul>
+      <p>Steps to Apply:</p>
+      <p>All the applicants must complete the following:</p>
+      <ul class="list-disc  pl-5">
+        <li>Fill up the Application Form.</li>
+        <li>Must attend all the stages of the process announced by the Selection Committee. </li>
+        <li>Candidates have to sit for a Viva Session after the completion and submission of the form.</li>
+        <li>Absence of any required information will automatically invalidate your application.</li>
+      </ul>
+      <p>Deadline: 7th May, 2025; 10:00 PM</p>
+      <p>Good Luck!!</p>
+      <p>For any queries, contact:</p>
+      <h4>Shohan Islam</h4>
+      <h4>Executive</h4>
+      <h4>Website Development Team</h4>
+      <h4>Phone: 01771669649</h4>
+      <h4>Shohan12727@northsouth.edu</h4>
+      <!-- next person  -->
+      <h4 class="mt-4">Rajesh G.</h4>
+      <h4>Sub-Executive</h4>
+      <h4>Media Team</h4>
+      <h4>Phone: 01745430372</h4>
+      <h4>fahim.morshed@northsouth.edu</h4>
+      <h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">Full Name<span class="text-red-500">*</span></label>
+        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your name" required/>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">Email<span class="text-red-500">*</span></label>
+        <input type="email" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your email" required/>
+      </div>
+      <div class="flex justify-end">
+        <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Questionnaire -->
+    <section id="step2" class="hidden shadow-md p-5 font-medium rounded-md">
+      <h2 class="font-bold text-center text-2xl mb-4">Questionnaire</h2>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2">1. What do you know about IEEE YP AG?<span class="text-red-500">*</span></label>
+        <textarea rows="4" class="w-full border rounded-md p-2" required></textarea>
+      </div>
+      <div class="flex justify-between">
+        <button onclick="prevStep(2)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
+        <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Payment -->
+    <section id="step3" class="hidden shadow-md p-5 font-medium rounded-md">
+      <h2 class="font-bold text-center text-2xl mb-4">Payment Section</h2>
+      <p class="mb-4">IEEE Student Member 360 BDT | IEEE Member 510 BDT | Non-IEEE Member 560 BDT</p>
+      <label><input type="radio" name="payment" value="Nagad"> Nagad </label><br>
+       <label> <input type="radio" name="payment" value="Bkash"> Bkash
+      <div class="mb-4">
+        <label class="block font-bold mb-2">Transaction ID<span class="text-red-500">*</span></label>
+        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your transaction ID" required/>
+        <br><br><br>
+        <table class="w-full border-collapse text-xs sm:text-sm min-w-full">
+        <thead>
+          <tr>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700">
+              Description</th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">S
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">M
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">L
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">2XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">3XL
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Width</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">36"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">38"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">40"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">42"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">44"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">46"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Height
+            </td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">25"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body Length</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
+          </tr>
+        </tbody>
+      </table>
+      <label for="level" class="block   mb-2 font-bold">
+        Select T-Shirt size<span class="text-red-500">*</span>
+      </label>
+      <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="S" class="form-radio text-blue-500">
+          S
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          M
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          L
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          X
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          XL
+        </label>
+         <label for="level" class="block text-sm font-bold mb-2">
+        Any Comments:
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+      </div>
+      <div class="flex justify-between">
+        <button onclick="prevStep(3)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function nextStep(current) {
+      document.getElementById(`step${current}`).classList.add("hidden");
+      document.getElementById(`step${current + 1}`).classList.remove("hidden");
+      updateIndicators(current + 1);
+    }
+
+    function prevStep(current) {
+      document.getElementById(`step${current}`).classList.add("hidden");
+      document.getElementById(`step${current - 1}`).classList.remove("hidden");
+      updateIndicators(current - 1);
+    }
+
+    function updateIndicators(step) {
+      [1, 2, 3].forEach(num => {
+        document.getElementById(`step${num}Indicator`).classList.remove("text-primary", "font-bold");
+        document.getElementById(`step${num}Indicator`).classList.add("text-gray-500");
+      });
+      document.getElementById(`step${step}Indicator`).classList.remove("text-gray-500");
+      document.getElementById(`step${step}Indicator`).classList.add("text-primary", "font-bold");
+    }
+  </script>
+</body>
+
+</html>
