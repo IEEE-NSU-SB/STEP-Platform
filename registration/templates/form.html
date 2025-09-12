@@ -44,7 +44,7 @@
       </button>
 
       <!-- Download Excel Button (staff only) -->
-      <a href="{% url 'emails:download_excel' %}"
+      <a href="{% url 'registration:download_excel' %}"
         class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
@@ -151,7 +151,7 @@
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="flex justify-center">
-      <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+      <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]" type="button">Continue</button>
     </div>
     </section>
 
@@ -160,7 +160,7 @@
       <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button onclick="prevStep(2)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors">
+        <button onclick="prevStep(2)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors" type="button">
           Back
         </button>
       </div>
@@ -205,7 +205,7 @@
         placeholder="Type your answer here..." required></textarea>
     </div>
       <div class="flex justify-center">
-        <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+        <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]" type="button">Continue</button>
       </div>
     </section>
 
@@ -215,7 +215,7 @@
     <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button  onclick="prevStep(3)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors">
+        <button  onclick="prevStep(3)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors" type="button">
           Back
         </button>
       </div>
@@ -431,7 +431,7 @@
     const publishCheckbox = document.getElementById('publishCheckbox');
     if (publishCheckbox) {
       publishCheckbox.addEventListener('change', function() {
-        fetch('{% url "emails:toggle_publish" %}', {
+        fetch('{% url "registration:toggle_publish" %}', {
           method: 'POST',
           headers: {
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
