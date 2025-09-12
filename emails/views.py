@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import json
 import os
 from time import sleep
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from dotenv import set_key
@@ -23,6 +23,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.http import require_POST
+import csv
 
 # Create your views here.
 @login_required
@@ -346,3 +347,19 @@ def submit_form(request):
         'success': False,
         'message': 'Invalid request method'
     })
+    
+@staff_member_required
+def download_excel(request):
+    participants = Registered_Participant.objects.all().values()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="participants.csv"'
+    writer = csv.writer(response)
+    rows = list(participants)
+    if rows:
+        writer.writerow(rows[0].keys())
+        for row in rows:
+            writer.writerow(row.values())
+    else:
+        writer.writerow(['message'])
+        writer.writerow(['No participants'])
+    return response
