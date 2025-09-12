@@ -17,8 +17,10 @@ from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 
-from core.models import Registered_Participant
+from emails.models import Registered_Participant
 from insb_spac24 import settings
+from django.contrib import messages
+from django.shortcuts import render
 
 # Create your views here.
 @login_required
@@ -243,3 +245,70 @@ def get_credentials():
             return creds
 
         return creds
+
+def registration_form(request):
+    """Display the registration form"""
+    return render(request, 'form.html')
+
+def submit_form(request):
+    """Handle form submission and save participant data"""
+    if request.method == 'POST':
+        try:
+            # Get form data
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            contact_number = request.POST.get('contact_number')
+            membership_type = request.POST.get('membership_type')
+            ieee_id = request.POST.get('ieee_id')
+            university = request.POST.get('university')
+            department = request.POST.get('department')
+            university_id = request.POST.get('university_id')
+            payment_method = request.POST.get('payment_method')
+            transaction_id = request.POST.get('transaction_id')
+            tshirt_size = request.POST.get('tshirt_size')
+            comments = request.POST.get('comments', '')
+            
+            # Collect questionnaire answers
+            answers = {
+                'question1': request.POST.get('question1', ''),
+                'question2': request.POST.get('question2', ''),
+                'question3': request.POST.get('question3', ''),
+                'question4': request.POST.get('question4', ''),
+            }
+            
+            # Create and save participant
+            participant = Registered_Participant.objects.create(
+                name=name,
+                email=email,
+                contact_number=contact_number,
+                membership_type=membership_type,
+                ieee_id=ieee_id,
+                university=university,
+                department=department,
+                university_id=university_id,
+                payment_method=payment_method,
+                transaction_id=transaction_id,
+                tshirt_size=tshirt_size,
+                comments=comments,
+                answers=answers
+            )
+            
+            # Return success response
+            return JsonResponse({
+                'success': True,
+                'message': 'Registration successful! Your participant ID is: ' + str(participant.id),
+                'participant_id': participant.id
+            })
+            
+        except Exception as e:
+            # Return error response
+            return JsonResponse({
+                'success': False,
+                'message': 'Registration failed: ' + str(e)
+            })
+    
+    # If not POST request, return error
+    return JsonResponse({
+        'success': False,
+        'message': 'Invalid request method'
+    })

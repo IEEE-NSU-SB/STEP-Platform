@@ -74,74 +74,78 @@
       <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
     </div>
 
-    <!-- Step 1: Basic Info -->
-    <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+    <!-- Form wrapper -->
+    <form id="registrationForm" method="post" action="/submit-form/">
+      {% csrf_token %}
+      
+      <!-- Step 1: Basic Info -->
+      <section id="step1" class="shadow-md p-5 font-medium rounded-md">
 <h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="name" class="block text-sm font-bold mb-2">
         Full Name (The Name Will be Used in certificate)<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your Name"
+      <input type="text" name="name" id="name" placeholder="Enter your Name"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
 
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="email" class="block text-sm font-bold mb-2">
         Email Address<span class="text-red-500">*</span>
       </label>
-      <input type="email" placeholder="Enter your Email"
+      <input type="email" name="email" id="email" placeholder="Enter your Email"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="contact_number" class="block text-sm font-bold mb-2">
         Contact Number<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your Contact Number"
+      <input type="text" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label class="block text-sm font-bold mb-2">
         Select you Membership Grade<span class="text-red-500">*</span>
       </label>
       <label>
-        <input type="radio" name="member">
+        <input type="radio" name="membership_type" value="student">
         IEEE Student Member (Undergraduate Students, Grade Students Membership)
       </label><br>
       <label>
-        <input type="radio" name="member">
+        <input type="radio" name="membership_type" value="member">
         IEEE Member (IEEE Senior Members, Professional Membership, Faculty Members, Fellow)
       </label><br>
       <label>
-        <input type="radio" name="member">
+        <input type="radio" name="membership_type" value="non_ieee">
         Non-IEEE Member
       </label><br>
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="ieee_id" class="block text-sm font-bold mb-2">
         IEEE Membership ID<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your Membership ID"
+      <input type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="university" class="block text-sm font-bold mb-2">
         University Name<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your University Name"
+      <input type="text" name="university" id="university" placeholder="Enter your University Name"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="department" class="block text-sm font-bold mb-2">
         University Department Name<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your University Department Name"
+      <input type="text" name="department" id="department" placeholder="Enter your University Department Name"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="mb-4">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="university_id" class="block text-sm font-bold mb-2">
         University ID<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your University ID"
+      <input type="text" name="university_id" id="university_id" placeholder="Enter your University ID"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
     </div>
     <div class="flex justify-center">
@@ -166,37 +170,37 @@
     </div>
 
     <div class="mb-3">
-      <label for="level" class="block text-sm font-bold mb-2">
-        1.What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      <label for="question1" class="block text-sm font-bold mb-2">
+        1.What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
       </label>
-      <textarea id="level" name="level" maxlength="250" rows="4"
+      <textarea id="question1" name="question1" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..."></textarea>
+        placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="question2" class="block text-sm font-bold mb-2">
         2.What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
           class="text-red-500">*</span>
       </label>
-      <textarea id="level" name="level" maxlength="250" rows="4"
+      <textarea id="question2" name="question2" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..."></textarea>
+        placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="question3" class="block text-sm font-bold mb-2">
         3.Why do you want to be a participant of STEP? (250 characters max)<span class="text-red-500">*</span>
       </label>
-      <textarea id="level" name="level" maxlength="250" rows="4"
+      <textarea id="question3" name="question3" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..."></textarea>
+        placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="question4" class="block text-sm font-bold mb-2">
         4.What is your expectation from STEP? (250 characters max)*<span class="text-red-500">*</span>
       </label>
-      <textarea id="level" name="level" maxlength="250" rows="4"
+      <textarea id="question4" name="question4" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..."></textarea>
+        placeholder="Type your answer here..." required></textarea>
     </div>
       <div class="flex justify-center">
         <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
@@ -226,25 +230,25 @@
       Non-IEEE Member 560 taka
     </p>
     <div class="my-8">
-      <label for="level" class="block   mb-2 font-bold">
+      <label class="block   mb-2 font-bold">
         Select Payment Method:<span class="text-red-500">*</span>
       </label>
 
       <label class="mr-4">
-        <input type="radio" name="payment" value="Nagad">
+        <input type="radio" name="payment_method" value="Nagad" required>
         Nagad
       </label>
       <label>
-        <input type="radio" name="payment" value="Bkash">
+        <input type="radio" name="payment_method" value="Bkash" required>
         Bkash
       </label>
     </div>
 
     <div class="mb-4">
-      <label for="level" class="block  font-bold mb-2">
+      <label for="transaction_id" class="block  font-bold mb-2">
         Transaction ID<span class="text-red-500">*</span>
       </label>
-      <input type="text" placeholder="Enter your Transaction ID*"
+      <input type="text" name="transaction_id" id="transaction_id" placeholder="Enter your Transaction ID*"
         class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
     </div>
 
@@ -305,33 +309,50 @@
     </div>
 
     <div class="mt-4">
-      <label for="level" class="block   mb-2 font-bold">
+      <label class="block   mb-2 font-bold">
         Select T-Shirt size<span class="text-red-500">*</span>
       </label>
       <div class="flex flex-col gap-2 ml-6">
         <label class="flex items-center gap-2">
-          <input type="radio" name="size" value="S" class="form-radio text-blue-500">
+          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" required>
           S
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
+          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" required>
+          M
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" required>
           L
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" required>
+          XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" required>
+          2XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" required>
+          3XL
         </label>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="level" class="block text-sm font-bold mb-2">
+      <label for="comments" class="block text-sm font-bold mb-2">
         Any Comments:
       </label>
-      <textarea id="level" name="level" maxlength="250" rows="4"
+      <textarea id="comments" name="comments" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..."></textarea>
     </div>
       <div class="flex justify-center">
-        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
       </div>
     </section>
+    </form>
   </div>
 
   <script>
@@ -355,6 +376,51 @@
       document.getElementById(`step${step}Indicator`).classList.remove("text-gray-500");
       document.getElementById(`step${step}Indicator`).classList.add("text-primary", "font-bold");
     }
+
+    // Handle form submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+      
+      // Submit form data
+      const formData = new FormData(this);
+      
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          alert('Registration successful! Your participant ID is: ' + data.participant_id);
+          // Reset form
+          this.reset();
+          // Go back to step 1
+          document.getElementById('step3').classList.add('hidden');
+          document.getElementById('step1').classList.remove('hidden');
+          updateIndicators(1);
+        } else {
+          alert('Registration failed: ' + data.message);
+        }
+      })
+      .catch(error => {
+        alert('Registration failed: ' + error.message);
+      })
+      .finally(() => {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      });
+    });
   </script>
 </body>
 
