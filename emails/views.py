@@ -17,10 +17,12 @@ from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 
-from emails.models import Registered_Participant
+from emails.models import Registered_Participant, EventFormStatus
 from insb_spac24 import settings
 from django.contrib import messages
 from django.shortcuts import render
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 @login_required
@@ -246,9 +248,41 @@ def get_credentials():
 
         return creds
 
+def _get_publish_status() -> bool:
+    status = EventFormStatus.objects.order_by('-updated_at').first()
+    return bool(status and status.is_published)
+
 def registration_form(request):
-    """Display the registration form"""
-    return render(request, 'form.html')
+    """Display the registration form for general users. Hidden if not published."""
+    # If staff/superuser hits the user URL, send them to the admin view
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('emails:registration_admin')
+    context = {
+        'is_staff_view': False,
+        'is_published': _get_publish_status(),
+    }
+    return render(request, 'form.html', context)
+
+@staff_member_required
+def registration_admin(request):
+    """Staff-only admin view to manage and preview the form regardless of publish state."""
+    context = {
+        'is_staff_view': True,
+        'is_published': _get_publish_status(),
+    }
+    return render(request, 'form.html', context)
+
+@staff_member_required
+@require_POST
+def toggle_publish(request):
+    """Toggle EventFormStatus.is_published and return current status."""
+    status = EventFormStatus.objects.order_by('-updated_at').first()
+    if not status:
+        status = EventFormStatus.objects.create(is_published=True)
+    else:
+        status.is_published = not status.is_published
+        status.save(update_fields=['is_published'])
+    return JsonResponse({'success': True, 'is_published': status.is_published})
 
 def submit_form(request):
     """Handle form submission and save participant data"""
