@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAC | Login</title>
+    <title>STEP | Login</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
 
     <style>
@@ -88,7 +88,7 @@
   width: 300px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: #f8f8f8;
+  background: #efefef;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
@@ -101,7 +101,7 @@
 .login-box h2 {
   margin: 0 0 30px;
   padding: 0;
-  color: black;
+  color: rgb(37, 37, 37);
   text-align: center;
 }
 
@@ -113,10 +113,10 @@
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: black;
+  color: rgb(37, 37, 37);
   margin-bottom: 30px;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(37, 37, 37);
   outline: none;
   background: transparent;
 }
@@ -126,7 +126,7 @@
   left: 0;
   padding: 10px 0;
   font-size: 16px;
-  color: black;
+  color: rgb(37, 37, 37);
   pointer-events: none;
   transition: .5s;
 }
@@ -156,14 +156,18 @@
     text-decoration: none;
     padding: 8px 79px;
     background-color: transparent;
-    border: 1px solid black;
-    color: black;
+    border: 1px solid rgb(37, 37, 37);
+    color: rgb(37, 37, 37);
+    border-radius: 2px;
+    cursor: pointer;
 }
 </style>
 <body>
     <div class="background">
     <div class="login-box">
-        <img src="{% static '/img/STEP-25.png' %}" alt="SPAC LOGO">
+        <div style="width: 300px;">
+          <img src="{% static '/img/STEP-25.png' %}" alt="STEP LOGO">
+        </div>
         <!-- <h2>Login</h2> -->
         <form method="POST">
         {% csrf_token %}
