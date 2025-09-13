@@ -30,6 +30,41 @@
       <img src="./assets/ieee-logo.png" alt="">
     </div>
   </nav><br><br><br>
+  <!-- admin feature part  -->
+  <!-- Button Header -->
+  <div class="w-11/12 md:w-3/5 mx-auto px-6 py-5">
+    <div class="flex flex-wrap gap-3 items-center justify-center">
+
+      <!-- Publish Form Toggle Button -->
+      <label class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm cursor-pointer">
+  <input
+    id="publishToggle"
+    type="checkbox"
+    class="toggle border-indigo-600 bg-indigo-500 checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800"
+  />
+  <span class="text-xl">Publish Form</span>
+</label>
+
+      <!-- Download Excel Button -->
+      <button
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+        </svg>
+        <span>Download Excel Sheet</span>
+      </button>
+
+      <!-- See Responses Button -->
+      <button
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path
+            d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,17H7V15H17V17M17,13H7V11H17V13M17,9H7V7H17V9Z" />
+        </svg>
+        <span>See Responses</span>
+      </button>
+    </div>
+  </div>
   <div class="w-11/12 md:w-3/5 mx-auto">
     <!-- Step indicator -->
     <div class="flex justify-between mb-8">
@@ -40,92 +75,183 @@
 
     <!-- Step 1: Basic Info -->
     <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-      <p>IEEE NSU Student Branch is looking for passionate and enthusiastic members as Team Volunteers for its
-        respective Teams
-        If you are interested in learning and developing your technical skills, and most importantly, if you want to get
-        a full-fledged volunteering experience, then fill out the form without hesitation. Check out the eligibility
-        requirements before applying.</p>
-      <p>Teams Available:</p>
-      <ol class="list-decimal list-inside">
-        <li>Content Writing and Publications Team</li>
-        <li>Events and Management Team</li>
-        <li>Finance and Corporate Team</li>
-        <li>Graphics Team</li>
-        <li>Logistics and Operations Team</li>
-        <li>Media Team</li>
-        <li>Membership Development Team</li>
-        <li>Public Relations Team</li>
-        <li>Promotions Team</li>
-        <li>Website Development Team</li>
-      </ol>
-      <p>Team Volunteers will have the opportunity to work for their desired teams while being supervised by
-        the In-charges. They will be supervised by the In-charges while gaining information and skills through
-        task-based learning.</p>
-        <p>Application Conditions for Team Volunteers:</p>
-      <ul class="list-disc  pl-5">
-        <li>Candidates must have an active IEEE membership.</li>
-        <li>Candidates can apply for maximum 5 teams and minimum 2 teams.   </li>
-      </ul>
-      <p>Steps to Apply:</p>
-      <p>All the applicants must complete the following:</p>
-      <ul class="list-disc  pl-5">
-        <li>Fill up the Application Form.</li>
-        <li>Must attend all the stages of the process announced by the Selection Committee. </li>
-        <li>Candidates have to sit for a Viva Session after the completion and submission of the form.</li>
-        <li>Absence of any required information will automatically invalidate your application.</li>
-      </ul>
-      <p>Deadline: 7th May, 2025; 10:00 PM</p>
-      <p>Good Luck!!</p>
-      <p>For any queries, contact:</p>
-      <h4>Shohan Islam</h4>
-      <h4>Executive</h4>
-      <h4>Website Development Team</h4>
-      <h4>Phone: 01771669649</h4>
-      <h4>Shohan12727@northsouth.edu</h4>
-      <!-- next person  -->
-      <h4 class="mt-4">Rajesh G.</h4>
-      <h4>Sub-Executive</h4>
-      <h4>Media Team</h4>
-      <h4>Phone: 01745430372</h4>
-      <h4>fahim.morshed@northsouth.edu</h4>
-      <h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
-      <div class="mb-4">
-        <label class="block text-sm font-bold mb-2">Full Name<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your name" required/>
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-bold mb-2">Email<span class="text-red-500">*</span></label>
-        <input type="email" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your email" required/>
-      </div>
-      <div class="flex justify-end">
-        <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
-      </div>
+<h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        Full Name (The Name Will be Used in certificate)<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        Email Address<span class="text-red-500">*</span>
+      </label>
+      <input type="email" placeholder="Enter your Email"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        Contact Number<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your Contact Number"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        Select you Membership Grade<span class="text-red-500">*</span>
+      </label>
+      <label>
+        <input type="radio" name="member">
+        IEEE Student Member (Undergraduate Students, Grade Students Membership)
+      </label><br>
+      <label>
+        <input type="radio" name="member">
+        IEEE Member (IEEE Senior Members, Professional Membership, Faculty Members, Fellow)
+      </label><br>
+      <label>
+        <input type="radio" name="member">
+        Non-IEEE Member
+      </label><br>
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        IEEE Membership ID<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your Membership ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        University Name<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your University Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        University Department Name<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your University Department Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+    </div>
+    <div class="mb-4">
+      <label for="level" class="block text-sm font-bold mb-2">
+        University ID<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your University ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+    </div>
+    <div class="flex justify-center">
+      <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
+    </div>
     </section>
 
     <!-- Step 2: Questionnaire -->
     <section id="step2" class="hidden shadow-md p-5 font-medium rounded-md">
-      <h2 class="font-bold text-center text-2xl mb-4">Questionnaire</h2>
-      <div class="mb-4">
-        <label class="block text-sm font-bold mb-2">1. What do you know about IEEE YP AG?<span class="text-red-500">*</span></label>
-        <textarea rows="4" class="w-full border rounded-md p-2" required></textarea>
+      <div class="flex items-center justify-between mb-8">
+      <!-- Back button on the left -->
+      <div class="z-10">
+        <button onclick="prevStep(2)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors">
+          Back
+        </button>
       </div>
-      <div class="flex justify-between">
-        <button onclick="prevStep(2)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
+
+      <!-- Centered Questionnaire Section -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
+        <h2 class="font-bold text-lg sm:text-2xl truncate text-center">Questionnaire Section</h2>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="level" class="block text-sm font-bold mb-2">
+        1.What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="level" class="block text-sm font-bold mb-2">
+        2.What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
+          class="text-red-500">*</span>
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="level" class="block text-sm font-bold mb-2">
+        3.Why do you want to be a participant of STEP? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="level" class="block text-sm font-bold mb-2">
+        4.What is your expectation from STEP? (250 characters max)*<span class="text-red-500">*</span>
+      </label>
+      <textarea id="level" name="level" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..."></textarea>
+    </div>
+      <div class="flex justify-center">
         <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]">Continue</button>
       </div>
     </section>
 
     <!-- Step 3: Payment -->
     <section id="step3" class="hidden shadow-md p-5 font-medium rounded-md">
-      <h2 class="font-bold text-center text-2xl mb-4">Payment Section</h2>
-      <p class="mb-4">IEEE Student Member 360 BDT | IEEE Member 510 BDT | Non-IEEE Member 560 BDT</p>
-      <label><input type="radio" name="payment" value="Nagad"> Nagad </label><br>
-       <label> <input type="radio" name="payment" value="Bkash"> Bkash
-      <div class="mb-4">
-        <label class="block font-bold mb-2">Transaction ID<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter your transaction ID" required/>
-        <br><br><br>
-        <table class="w-full border-collapse text-xs sm:text-sm min-w-full">
+      <!--  back button and title  -->
+    <div class="flex items-center justify-between mb-8">
+      <!-- Back button on the left -->
+      <div class="z-10">
+        <button  onclick="prevStep(3)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors">
+          Back
+        </button>
+      </div>
+
+      <!-- Centered Questionnaire Section -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
+        <h2 class="font-bold text-lg sm:text-2xl truncate text-center">Payment Section </h2>
+      </div>
+    </div>
+
+    <p class="font-bold">
+      IEEE Student Member 360 taka <br>
+      IEEE Member 510 taka <br>
+      Non-IEEE Member 560 taka
+    </p>
+    <div class="my-8">
+      <label for="level" class="block   mb-2 font-bold">
+        Select Payment Method:<span class="text-red-500">*</span>
+      </label>
+
+      <label class="mr-4">
+        <input type="radio" name="payment" value="Nagad">
+        Nagad
+      </label>
+      <label>
+        <input type="radio" name="payment" value="Bkash">
+        Bkash
+      </label>
+    </div>
+
+    <div class="mb-4">
+      <label for="level" class="block  font-bold mb-2">
+        Transaction ID<span class="text-red-500">*</span>
+      </label>
+      <input type="text" placeholder="Enter your Transaction ID*"
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+    </div>
+
+    <!-- shirt table  -->
+    <h2 class="font-bold mb-2">Size Chart</h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-xs sm:text-sm min-w-full">
         <thead>
           <tr>
             <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700">
@@ -175,42 +301,88 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="mt-4">
       <label for="level" class="block   mb-2 font-bold">
         Select T-Shirt size<span class="text-red-500">*</span>
       </label>
-      <label class="flex items-center gap-2">
+      <div class="flex flex-col gap-2 ml-6">
+        <label class="flex items-center gap-2">
           <input type="radio" name="size" value="S" class="form-radio text-blue-500">
           S
         </label>
         <label class="flex items-center gap-2">
           <input type="radio" name="size" value="L" class="form-radio text-blue-500">
-          M
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
           L
         </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
-          X
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="size" value="L" class="form-radio text-blue-500">
-          XL
-        </label>
-         <label for="level" class="block text-sm font-bold mb-2">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="level" class="block text-sm font-bold mb-2">
         Any Comments:
       </label>
       <textarea id="level" name="level" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..."></textarea>
-      </div>
-      <div class="flex justify-between">
-        <button onclick="prevStep(3)" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Back</button>
-        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
-      </div>
+    </div>
+      <div class="flex justify-center">
+  <button type="button" onclick="submitForm()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+    Submit
+  </button>
+</div>
     </section>
   </div>
+  <div id="responsesSection" class="hidden w-11/12 md:w-3/5 mx-auto mt-8">
+  <h2 class="text-2xl font-bold mb-4 text-center">Form Responses</h2>
+  <div class="overflow-x-auto shadow-lg rounded-lg">
+    <table class="table-auto border-collapse border border-gray-300 w-full text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border border-gray-300 px-4 py-2">Name</th>
+          <th class="border border-gray-300 px-4 py-2">Email</th>
+          <th class="border border-gray-300 px-4 py-2">Contact</th>
+          <th class="border border-gray-300 px-4 py-2">Membership</th>
+          <th class="border border-gray-300 px-4 py-2">University</th>
+          <th class="border border-gray-300 px-4 py-2">Payment</th>
+          <th class="border border-gray-300 px-4 py-2">T-Shirt Size</th>
+        </tr>
+      </thead>
+      <tbody id="responsesTableBody">
+        <!-- Rows will be added dynamically -->
+      </tbody>
+    </table>
+  </div>
+  <div class="flex justify-center mt-6">
+    <button id="backToFormBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+       Back to Form
+    </button>
+  </div>
+</div>
+</div>
+<div id="publishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
+    <h2 class="text-xl font-semibold mb-4">Confirm Publish</h2>
+    <p class="text-gray-600 mb-6">Are you sure you want to publish this form? Once published, it will be available for users to fill.</p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelPublish" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+      <button id="confirmPublish" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Yes, Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Unpublish Confirmation Modal -->
+<div id="unpublishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
+    <h2 class="text-xl font-semibold mb-4">Confirm Unpublish</h2>
+    <p class="text-gray-600 mb-6">Are you sure you want to unpublish this form? Users will no longer be able to fill it.</p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelUnpublish" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+      <button id="confirmUnpublish" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Yes, Unpublish</button>
+    </div>
+  </div>
+</div>
 
   <script>
     function nextStep(current) {
@@ -233,6 +405,95 @@
       document.getElementById(`step${step}Indicator`).classList.remove("text-gray-500");
       document.getElementById(`step${step}Indicator`).classList.add("text-primary", "font-bold");
     }
+  
+   function submitForm() {
+    // Collect values from the form
+    const name = document.querySelector("input[placeholder='Enter your Name']").value;
+    const email = document.querySelector("input[placeholder='Enter your Email']").value;
+    const contact = document.querySelector("input[placeholder='Enter your Contact Number']").value;
+    const membership = document.querySelector("input[name='member']:checked")?.nextSibling.textContent.trim() || "";
+    const university = document.querySelector("input[placeholder='Enter your University Name']").value;
+    const payment = document.querySelector("input[name='payment']:checked")?.value || "";
+    const tshirt = document.querySelector("input[name='size']:checked")?.value || "";
+
+    // Append row to the table
+    const tableBody = document.getElementById("responsesTableBody");
+    const row = document.createElement("tr");
+    row.classList.add("hover:bg-gray-50");
+    row.innerHTML = `
+      <td class="border border-gray-300 px-4 py-2">${name}</td>
+      <td class="border border-gray-300 px-4 py-2">${email}</td>
+      <td class="border border-gray-300 px-4 py-2">${contact}</td>
+      <td class="border border-gray-300 px-4 py-2">${membership}</td>
+      <td class="border border-gray-300 px-4 py-2">${university}</td>
+      <td class="border border-gray-300 px-4 py-2">${payment}</td>
+      <td class="border border-gray-300 px-4 py-2">${tshirt}</td>
+    `;
+    tableBody.appendChild(row);
+
+    // Reset form fields
+    document.querySelectorAll("input[type=text], input[type=email], textarea").forEach(el => el.value = "");
+    document.querySelectorAll("input[type=radio]").forEach(el => el.checked = false);
+
+    // Jump back to step 1 for next entry
+    document.getElementById("step3").classList.add("hidden");
+    document.getElementById("step1").classList.remove("hidden");
+    updateIndicators(1);
+  }
+
+  // Find the "See Responses" button and make it show only the table
+  const seeResponsesBtn = [...document.querySelectorAll("button")].find(btn =>
+    btn.textContent.includes("See Responses")
+  );
+
+  seeResponsesBtn.addEventListener("click", () => {
+    // Hide all form steps
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.add("hidden");
+
+    // Show only responses section
+    document.getElementById("responsesSection").classList.remove("hidden");
+  });
+   document.getElementById("backToFormBtn").addEventListener("click", () => {
+    document.getElementById("responsesSection").classList.add("hidden");
+    document.getElementById("step1").classList.remove("hidden");
+    updateIndicators(1);
+  });
+const publishToggle = document.getElementById("publishToggle");
+
+  // Handle toggle
+  publishToggle.addEventListener("change", () => {
+    if (publishToggle.checked) {
+      // User wants to publish
+      document.getElementById("publishModal").classList.remove("hidden");
+    } else {
+      // User wants to unpublish
+      document.getElementById("unpublishModal").classList.remove("hidden");
+    }
+  });
+
+  // --- Publish Modal ---
+  document.getElementById("cancelPublish").addEventListener("click", () => {
+    document.getElementById("publishModal").classList.add("hidden");
+    publishToggle.checked = false; // revert toggle
+  });
+
+  document.getElementById("confirmPublish").addEventListener("click", () => {
+    document.getElementById("publishModal").classList.add("hidden");
+    
+  });
+
+  // --- Unpublish Modal ---
+  document.getElementById("cancelUnpublish").addEventListener("click", () => {
+    document.getElementById("unpublishModal").classList.add("hidden");
+    publishToggle.checked = true; // revert toggle
+  });
+
+  document.getElementById("confirmUnpublish").addEventListener("click", () => {
+    document.getElementById("unpublishModal").classList.add("hidden");
+    
+  });
   </script>
 </body>
 
