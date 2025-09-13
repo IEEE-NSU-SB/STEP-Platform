@@ -8,6 +8,8 @@ from core.models import Registered_Participant, Token_Participant, Token_Session
 from django.db.models import Count, F, Prefetch, Value
 from django.db.models.functions import Coalesce
 
+from registration.models import Form_Participant
+
 class Core:
 
     def get_active_token_sessions():
@@ -165,3 +167,24 @@ class Core:
         unique_code = combined[:random.randint(13, 16)]
         
         return unique_code
+    
+    def import_participants_from_reg():
+        '''Imports all participants from form_participant table to registered_participant table and also generates their unique codes\n
+            This is done when participants are confirmed for event.'''
+        
+        objects = [
+            Registered_Participant(
+                name=participant.name,
+                university=participant.university,
+                contact_no=participant.contact_number,
+                email=participant.email,
+                t_shirt_size=participant.tshirt_size,
+                unique_code=Core.generate_unique_code(participant.name, participant.university),
+            )
+            for participant in Form_Participant.objects.all()
+        ]
+
+        Registered_Participant.objects.bulk_create(objects)
+
+        return True
+        

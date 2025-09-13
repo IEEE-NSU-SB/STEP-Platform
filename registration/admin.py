@@ -4,5 +4,5 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-admin.site.register(Registered_Participant)
+admin.site.register(Form_Participant)
 admin.site.register(EventFormStatus)

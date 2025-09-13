@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/update_participant_session', UpdateParticipantSessionAjax.as_view(), name="update_participant_session"),
     # path('init/import_csv/', import_csv, name='import_csv'),
     path('init/gen_qr/', gen),
+    path('init/import_reg_participants/', import_reg_participants),
 ]

@@ -1,10 +1,10 @@
 import csv
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from .models import EventFormStatus, Registered_Participant
+from .models import EventFormStatus, Form_Participant
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -21,16 +21,20 @@ def registration_form(request):
     }
     return render(request, 'form.html', context)
 
-@staff_member_required
+@login_required
 def registration_admin(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
+
+    registration_count = Form_Participant.objects.count()
+
     context = {
         'is_staff_view': True,
         'is_published': _get_publish_status(),
+        'registration_count':registration_count,
     }
     return render(request, 'form.html', context)
 
-@staff_member_required
+@login_required
 @require_POST
 def toggle_publish(request):
     """Toggle EventFormStatus.is_published and return current status."""
@@ -69,7 +73,7 @@ def submit_form(request):
             }
             
             # Create and save participant
-            participant = Registered_Participant.objects.create(
+            participant = Form_Participant.objects.create(
                 name=name,
                 email=email,
                 contact_number=contact_number,
@@ -105,9 +109,9 @@ def submit_form(request):
         'message': 'Invalid request method'
     })
     
-@staff_member_required
+@login_required
 def download_excel(request):
-    participants = Registered_Participant.objects.all().values()
+    participants = Form_Participant.objects.all().values()
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="participants.csv"'
     writer = csv.writer(response)

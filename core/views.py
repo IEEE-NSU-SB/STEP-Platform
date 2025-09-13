@@ -153,3 +153,10 @@ def gen(request):
    generate_qr()
 
    return JsonResponse({'message':'success'})
+
+@login_required
+def import_reg_participants(request):
+
+    Core.import_participants_from_reg()
+
+    return JsonResponse({'message':'success'})

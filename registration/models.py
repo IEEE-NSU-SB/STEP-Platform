@@ -9,7 +9,7 @@ class EventFormStatus(models.Model):
         return "Published" if self.is_published else "Unpublished"
 
 
-class Registered_Participant(models.Model):
+class Form_Participant(models.Model):
     MEMBERSHIP_CHOICES = [
         ("student", "IEEE Student Member"),
         ("member", "IEEE Member"),
