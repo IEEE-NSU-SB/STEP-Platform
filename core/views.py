@@ -13,10 +13,6 @@ from .renderData import Core
 from core.forms import CSVImportForm
 from core.models import Registered_Participant
 
-def api_login_required(view_func):
-    decorated_view_func = login_required(view_func, redirect_field_name=None)
-    return decorated_view_func
-
 # Create your views here.
 def login(request):
     if request.user.is_authenticated:
