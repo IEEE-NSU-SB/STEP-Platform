@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,21 +20,25 @@
       },
     };
   </script>
+  <style>
+    body{
+        background-image: url("{% static '/img/Step4.png' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+  </style>
 </head>
 
-<body class="bg-white min-h-screen py-8">
-   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between ">
-    <div class="w-40 h-10">
-      <img src="./assets/ieee-logo.png" alt="">
+<body class="min-h-screen py-8">
+   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between my-4">
+    <div class="rounded overflow-hidden object-cover">
+      <img src="{% static '/img/StepBanner.jpeg' %}" alt="">
     </div>
-    <div class="w-40 h-10">
-      <img src="./assets/ieee-logo.png" alt="">
-    </div>
-  </nav><br><br><br>
+  </nav>
   {% if is_staff_view %}
   <!-- admin feature part  -->
   <!-- Button Header -->
-  <div class="w-11/12 md:w-3/5 mx-auto px-6 py-5">
+  <div class="bg-gray-50 w-11/12 md:w-3/5 mx-auto px-6 py-5">
     <div class="flex flex-wrap gap-3 items-center justify-center">
 
       <!-- Publish Form Toggle Button (staff only) -->
@@ -45,7 +50,7 @@
 
       <!-- Download Excel Button (staff only) -->
       <a href="{% url 'registration:download_excel' %}"
-        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
         </svg>
@@ -54,7 +59,7 @@
 
       <!-- See Responses Button (staff only) -->
       <button
-        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none focus:ring-blue-500 focus:ring-offset-2">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,17H7V15H17V17M17,13H7V11H17V13M17,9H7V7H17V9Z" />
         </svg>
@@ -63,18 +68,18 @@
     </div>
   </div>
   {% endif %}
-  <div class="w-11/12 md:w-3/5 mx-auto">
+  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto rounded" style="backdrop-filter:blur(7px);">
     {% if not is_staff_view and not is_published %}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
         Registration is not open yet. Please check back later.
       </div>
     {% else %}
-    <!-- Step indicator -->
+    <!-- Step indicator
     <div class="flex justify-between mb-8">
       <div id="step1Indicator" class="w-1/3 text-center font-bold text-primary">1. Basic Info</div>
       <div id="step2Indicator" class="w-1/3 text-center text-gray-500">2. Questionnaire</div>
       <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
-    </div>
+    </div> -->
 
     <!-- Form wrapper -->
     <form id="registrationForm" method="post" action="/submit-form/">
@@ -82,32 +87,32 @@
       
       <!-- Step 1: Basic Info -->
       <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-<h2 class="font-bold text-center text-2xl mb-4">Basic Info</h2>
+<h2 class=" text-center text-2xl mb-4">Basic Info</h2>
     <div class="mb-4">
-      <label for="name" class="block text-sm font-bold mb-2">
+      <label for="name" class="block text-sm  mb-2">
         Full Name (The Name Will be Used in certificate)<span class="text-red-500">*</span>
       </label>
       <input type="text" name="name" id="name" placeholder="Enter your Name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none " required />
 
     </div>
     <div class="mb-4">
-      <label for="email" class="block text-sm font-bold mb-2">
+      <label for="email" class="block text-sm  mb-2">
         Email Address<span class="text-red-500">*</span>
       </label>
       <input type="email" name="email" id="email" placeholder="Enter your Email"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none " required />
     </div>
     <div class="mb-4">
-      <label for="contact_number" class="block text-sm font-bold mb-2">
+      <label for="contact_number" class="block text-sm  mb-2">
         Contact Number<span class="text-red-500">*</span>
       </label>
       <input type="text" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none" required />
     </div>
     <div class="mb-4">
-      <label class="block text-sm font-bold mb-2">
-        Select you Membership Grade<span class="text-red-500">*</span>
+      <label class="block text-sm  mb-2">
+        Select Your Membership Grade<span class="text-red-500">*</span>
       </label>
       <label>
         <input type="radio" name="membership_type" value="student">
@@ -123,35 +128,35 @@
       </label><br>
     </div>
     <div class="mb-4">
-      <label for="ieee_id" class="block text-sm font-bold mb-2">
+      <label for="ieee_id" class="block text-sm  mb-2">
         IEEE Membership ID<span class="text-red-500">*</span>
       </label>
       <input type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none" required />
     </div>
     <div class="mb-4">
-      <label for="university" class="block text-sm font-bold mb-2">
+      <label for="university" class="block text-sm  mb-2">
         University Name<span class="text-red-500">*</span>
       </label>
       <input type="text" name="university" id="university" placeholder="Enter your University Name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none" required />
     </div>
     <div class="mb-4">
-      <label for="department" class="block text-sm font-bold mb-2">
+      <label for="department" class="block text-sm  mb-2">
         University Department Name<span class="text-red-500">*</span>
       </label>
       <input type="text" name="department" id="department" placeholder="Enter your University Department Name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none" required />
     </div>
     <div class="mb-4">
-      <label for="university_id" class="block text-sm font-bold mb-2">
+      <label for="university_id" class="block text-sm  mb-2">
         University ID<span class="text-red-500">*</span>
       </label>
       <input type="text" name="university_id" id="university_id" placeholder="Enter your University ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2" required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none" required />
     </div>
     <div class="flex justify-center">
-      <button onclick="nextStep(1)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]" type="button">Continue</button>
+      <button onclick="nextStep(1)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
     </div>
     </section>
 
@@ -160,28 +165,28 @@
       <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button onclick="prevStep(2)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors" type="button">
-          Back
+        <button onclick="prevStep(2)" class="cursor-pointer" type="button">
+          < Back
         </button>
       </div>
 
       <!-- Centered Questionnaire Section -->
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="font-bold text-lg sm:text-2xl truncate text-center">Questionnaire Section</h2>
+        <h2 class=" text-lg sm:text-2xl truncate text-center">Questionnaire Section</h2>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="question1" class="block text-sm font-bold mb-2">
-        1.What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      <label for="question1" class="block text-sm  mb-2">
+        1. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question1" name="question1" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="question2" class="block text-sm font-bold mb-2">
-        2.What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
+      <label for="question2" class="block text-sm  mb-2">
+        2. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
           class="text-red-500">*</span>
       </label>
       <textarea id="question2" name="question2" maxlength="250" rows="4"
@@ -189,23 +194,23 @@
         placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="question3" class="block text-sm font-bold mb-2">
-        3.Why do you want to be a participant of STEP? (250 characters max)<span class="text-red-500">*</span>
+      <label for="question3" class="block text-sm  mb-2">
+        3. Why do you want to be a participant of STEP? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question3" name="question3" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." required></textarea>
     </div>
     <div class="mb-3">
-      <label for="question4" class="block text-sm font-bold mb-2">
-        4.What is your expectation from STEP? (250 characters max)*<span class="text-red-500">*</span>
+      <label for="question4" class="block text-sm  mb-2">
+        4. What is your expectation from STEP? (250 characters max)*<span class="text-red-500">*</span>
       </label>
       <textarea id="question4" name="question4" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." required></textarea>
     </div>
       <div class="flex justify-center">
-        <button onclick="nextStep(2)" class="bg-primary text-white px-4 py-2 rounded hover:bg-[#004970]" type="button">Continue</button>
+        <button onclick="nextStep(2)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
       </div>
     </section>
 
@@ -215,24 +220,24 @@
     <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button  onclick="prevStep(3)" class="bg-[#006699] text-white font-bold py-2 px-4 rounded hover:bg-[#005580] transition-colors" type="button">
-          Back
+        <button  onclick="prevStep(3)" class="cursor-pointer" type="button">
+          < Back
         </button>
       </div>
 
       <!-- Centered Questionnaire Section -->
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="font-bold text-lg sm:text-2xl truncate text-center">Payment Section </h2>
+        <h2 class=" text-lg sm:text-2xl truncate text-center">Payment Section </h2>
       </div>
     </div>
 
-    <p class="font-bold">
+    <p class="">
       IEEE Student Member 360 taka <br>
       IEEE Member 510 taka <br>
       Non-IEEE Member 560 taka
     </p>
     <div class="my-8">
-      <label class="block   mb-2 font-bold">
+      <label class="block   mb-2 ">
         Select Payment Method:<span class="text-red-500">*</span>
       </label>
 
@@ -247,18 +252,18 @@
     </div>
 
     <div class="mb-4">
-      <label for="transaction_id" class="block  font-bold mb-2">
+      <label for="transaction_id" class="block   mb-2">
         Transaction ID<span class="text-red-500">*</span>
       </label>
       <input type="text" name="transaction_id" id="transaction_id" placeholder="Enter your Transaction ID*"
-        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 " required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-lg focus:outline-none " required />
     </div>
 
     <!-- shirt table  -->
-    <h2 class="font-bold mb-2">Size Chart</h2>
+    <h2 class=" mb-2">Size Chart</h2>
 
     <div class="overflow-x-auto">
-      <table class="w-full border-collapse text-xs sm:text-sm min-w-full">
+      <table class="w-full border-collapse text-xs sm:text-sm min-w-full bg-gray-50">
         <thead>
           <tr>
             <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700">
@@ -311,7 +316,7 @@
     </div>
 
     <div class="mt-4">
-      <label class="block   mb-2 font-bold">
+      <label class="block   mb-2 ">
         Select T-Shirt size<span class="text-red-500">*</span>
       </label>
       <div class="flex flex-col gap-2 ml-6">
@@ -343,7 +348,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="comments" class="block text-sm font-bold mb-2">
+      <label for="comments" class="block text-sm  mb-2">
         Any Comments:
       </label>
       <textarea id="comments" name="comments" maxlength="250" rows="4"
