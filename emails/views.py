@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import json
 import os
 from time import sleep
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from dotenv import set_key
@@ -16,9 +16,15 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
-
 from core.models import Registered_Participant
 from insb_spac24 import settings
+from django.contrib import messages
+from django.shortcuts import render
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_POST
+import csv
+
+from registration.models import EventFormStatus
 
 # Create your views here.
 @login_required
@@ -243,3 +249,4 @@ def get_credentials():
             return creds
 
         return creds
+
