@@ -13,6 +13,10 @@ from .renderData import Core
 from core.forms import CSVImportForm
 from core.models import Registered_Participant
 
+def api_login_required(view_func):
+    decorated_view_func = login_required(view_func, redirect_field_name=None)
+    return decorated_view_func
+
 # Create your views here.
 def login(request):
     if request.user.is_authenticated:
@@ -35,15 +39,20 @@ def logout(request):
     auth.logout(request)
     return redirect('core:login')
 
-def process_qr_data(request):
-    
-    if request.method == 'POST':
-
-        response = Core.process_qr_data(request)
+class Process_QR_Data(View):
+    def post(self, request):
+        try:
+            if request.user.is_authenticated:
+                response = Core.process_qr_data(request)
+                
+                return response
+            else:
+                return render(request, '404.html')
+        except:
+            return JsonResponse({'message':'error'})
         
-        return response
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+    def get(self, request):
+        return render(request, '404.html')
     
 @login_required
 def import_csv(request):
@@ -74,7 +83,7 @@ active_sessions = 0
 
 @login_required
 def dashboard(request):
-
+    
     token_sessions = Core.get_active_token_sessions()
     token_sessions_all = Core.get_all_token_sessions()
     token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
@@ -104,59 +113,92 @@ def dashboard(request):
 
 class SessionUpdateAjax(View):
     def post(self, request):
-        sessions = json.loads(request.body)['sessions']
-        
-        if(Core.update_session(sessions=sessions)):
-            global active_sessions
-            active_sessions += 1
+        try:
+            if request.user.is_authenticated:
+                sessions = json.loads(request.body)['sessions']
+                
+                if(Core.update_session(sessions=sessions)):
+                    global active_sessions
+                    active_sessions += 1
 
-            if active_sessions > 10000:
-                active_sessions = 1
+                    if active_sessions > 10000:
+                        active_sessions = 1
 
-            return JsonResponse({'message':"success"})
-        else:
-            return JsonResponse({'message':"error"})
+                    return JsonResponse({'message':"success"})
+                else:
+                    return JsonResponse({'message':"error"})
+            else:
+                return render(request, '404.html')
+        except:
+            return JsonResponse({'message':'error'})
     
+    def get(self, request):
+        return render(request, '404.html')
+
 class GetSessionStatusAjax(View):
     def post(self, request):
-        last_updated_date_time = json.loads(request.body)['last_updated_date_time']
-        token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
+        try:
+            if request.user.is_authenticated:
+                last_updated_date_time = json.loads(request.body)['last_updated_date_time']
+                token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
 
-        new_scans = Core.get_new_token_session_scans(last_updated_date_time)
+                new_scans = Core.get_new_token_session_scans(last_updated_date_time)
 
-        data = {}
-        status = {}
-        for x in token_sessions_with_participant_count:
-            status.update({x['sessionid']: x['participant_count']})
-        data.update({'status':status})
-        scans = {}
-        for x in new_scans:
-            scans.update({x['registered_participant']: x['token_session']})
-        data.update({'new_scans': scans})
+                data = {}
+                status = {}
+                for x in token_sessions_with_participant_count:
+                    status.update({x['sessionid']: x['participant_count']})
+                data.update({'status':status})
+                scans = {}
+                for x in new_scans:
+                    scans.update({x['registered_participant']: x['token_session']})
+                data.update({'new_scans': scans})
 
-        if(request.session['active_sessions'] != active_sessions):
-            data.update({'session_update':''})
-                
-        return JsonResponse(data)
-    
+                if(request.session['active_sessions'] != active_sessions):
+                    data.update({'session_update':''})
+                        
+                return JsonResponse(data)
+            else:
+                return render(request, '404.html')
+        except:
+            return JsonResponse({'message':'error'})
+        
+    def get(self, request):
+        return render(request, '404.html')
+
 class UpdateParticipantSessionAjax(View):
     def post(self, request):
-        data = json.loads(request.body)
+        try:
+            if request.user.is_authenticated:
+                data = json.loads(request.body)
 
-        response = Core.update_participant_session(data['participant_id'], data['session_id'], data['status'])
-        return response
+                response = Core.update_participant_session(data['participant_id'], data['session_id'], data['status'])
+                return response
+            else:
+                return render(request, '404.html')
+        except:
+            return JsonResponse({'message':'error'})
+    
+    def get(self, request):
+        return render(request, '404.html')
     
 from .qrgenerator import *
 
 @login_required
 def gen(request):
-   generate_qr()
+   
+    if(Site_Permissions.is_superuser(request)):
+        generate_qr()
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
 
-   return JsonResponse({'message':'success'})
 
 @login_required
 def import_reg_participants(request):
 
-    Core.import_participants_from_reg()
-
-    return JsonResponse({'message':'success'})
+    if(Site_Permissions.is_superuser(request)):
+        Core.import_participants_from_reg()
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
