@@ -46,14 +46,14 @@
   <!-- Button Header -->
   <div class="rounded">
 
-  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px);">
+  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px); border-radius: 4px 4px 0 0;">
     <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
       <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 items-center justify-between">
       <div>
         <!-- Publish Form Toggle Button (staff only) -->
         <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-sm">
           <input id="publishCheckbox" type="checkbox" {% if is_published %}checked="checked"{% endif %}
-          class="toggle border-gray-600 bg-gray-500 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
+          class="toggle border-gray-300 bg-gray-400 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
           <span class="text-xl" id="publishText">{% if is_published %}Unpublish Form{% else %}Publish Form{% endif %}</span>
         </button>
       </div>
@@ -87,7 +87,7 @@
 
 </div>
   {% endif %}
-  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:0 0z 4px 4px">
+  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:0 0 4px 4px">
     {% if not is_staff_view and not is_published %}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
         Registration is not open yet. Please check back later.
@@ -375,7 +375,7 @@
         placeholder="Your comment..."></textarea>
     </div>
       <div class="flex justify-center">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer">Submit</button>
       </div>
     </section>
     </form>
