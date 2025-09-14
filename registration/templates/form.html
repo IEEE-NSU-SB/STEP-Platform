@@ -403,7 +403,13 @@
 }
    function nextStep(current) {
   if (!validateStep(current)) {
-    alert('Please fill all required fields!');
+   //alert('Please fill all required fields!');
+   Swal.fire({
+  title: "Please fill all required fields!",
+  icon: "error",
+  draggable: true
+});
+
     return;
   }
   document.getElementById(`step${current}`).classList.add("hidden");
