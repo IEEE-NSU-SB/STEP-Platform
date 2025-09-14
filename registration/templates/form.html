@@ -501,29 +501,44 @@ updateIndicators(1);
       });
     });
 
-    // handle publish toggle
-    const publishCheckbox = document.getElementById('publishCheckbox');
-    if (publishCheckbox) {
-      publishCheckbox.addEventListener('change', function() {
-        fetch('{% url "registration:toggle_publish" %}', {
-          method: 'POST',
-          headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-          }
-        })
-        .then(r => r.json())
-        .then(data => {
-          const publishText = document.getElementById('publishText');
-          if (data.is_published) {
-            publishText.textContent = 'Unpublish Form';
-          } else {
-            publishText.textContent = 'Publish Form';
-          }
-          alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
-        })
-        .catch(err => alert('Failed to toggle publish: ' + err.message));
-      });
+  const publishCheckbox = document.getElementById("publishCheckbox");
+
+  // Listen to checkbox changes
+  publishCheckbox.addEventListener("change", () => {
+    if (publishCheckbox.checked) {
+      // Show Publish modal
+      document.getElementById("publishModal").classList.remove("hidden");
+    } else {
+      // Show Unpublish modal
+      document.getElementById("unpublishModal").classList.remove("hidden");
     }
+  });
+
+  // --- Publish Modal ---
+  document.getElementById("cancelPublish").addEventListener("click", () => {
+    document.getElementById("publishModal").classList.add("hidden");
+    publishCheckbox.checked = false; // revert back
+     publishText.textContent = 'Publish Form';
+  });
+
+  document.getElementById("confirmPublish").addEventListener("click", () => {
+    document.getElementById("publishModal").classList.add("hidden");
+    publishCheckbox.checked = true; // confirm publish
+    publishText.textContent = 'Unpublish Form';
+  });
+
+  // --- Unpublish Modal ---
+  document.getElementById("cancelUnpublish").addEventListener("click", () => {
+    document.getElementById("unpublishModal").classList.add("hidden");
+    publishCheckbox.checked = true; // revert back
+    publishText.textContent = 'Unpublish Form';
+  });
+
+  document.getElementById("confirmUnpublish").addEventListener("click", () => {
+    document.getElementById("unpublishModal").classList.add("hidden");
+    publishCheckbox.checked = false; // confirm unpublish
+     publishText.textContent = 'Publish Form';
+  });
   </script>
 </body>
 
