@@ -112,10 +112,10 @@ def send_email(request):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = data['emailAddr']
-        message["Subject"] = "QR Code for SPAC'24"
+        message["Subject"] = "QR Code for STEP'25"
         message.attach(MIMEText(f'''Dear Participant,
                                 
-Your QR code for SPAC'24 event is attached in this email.
+Your QR code for STEP'25 event is attached in this email.
 This QR code is essential to collect your food and goodies.
                                 
 Best regards,
