@@ -15,9 +15,12 @@ def registration_form(request):
     # If staff/superuser hits the user URL, send them to the admin view
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('registration:registration_admin')
+    registration_count = Form_Participant.objects.count()
+    registration_closed = registration_count >= 100
     context = {
         'is_staff_view': False,
         'is_published': _get_publish_status(),
+        'registration_closed': registration_closed,
     }
     return render(request, 'form.html', context)
 
