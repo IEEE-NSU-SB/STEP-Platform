@@ -52,7 +52,7 @@
 <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
    <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between my-4">
-    <div class="rounded overflow-hidden object-cover">
+    <div class="rounded overflow-hidden object-cover" style="box-shadow: 0 2px 6px 0px #00000078;">
       <img src="{% static '/img/StepBanner.jpeg' %}" alt="">
     </div>
   </nav>
@@ -61,7 +61,7 @@
   <!-- Button Header -->
   <div class="rounded">
 
-  <div class="bg-white w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px); border-radius: 4px 4px 0 0;">
+  <div class="bg-white w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px); border-radius: 4px 4px; box-shadow: 0 2px 6px 0px #00000078; position: relative; top: 14px;">
     <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
       <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 items-center justify-between">
       <div>
@@ -102,7 +102,7 @@
 
 </div>
   {% endif %}
-  <div class="bg-white w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:0 0 4px 4px">
+  <div class="bg-white w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; box-shadow: 0 2px 6px 0px #00000078;">
     {% if not is_staff_view and not is_published and not registration_closed%}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
         Registration is not open yet. Please check back later.
@@ -553,44 +553,68 @@ updateIndicators(1);
       });
     });
 
-    const publishCheckbox = document.getElementById("publishCheckbox");
+// Get elements
+const publishToggle = document.getElementById('publishCheckbox');
+const publishText = document.getElementById('publishText');
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-  // Listen to checkbox changes
-  publishCheckbox.addEventListener("change", () => {
-    if (publishCheckbox.checked) {
-      // Show Publish modal
-      document.getElementById("publishModal").classList.remove("hidden");
+if (publishToggle) {
+  publishToggle.addEventListener('change', () => {
+    if (publishToggle.checked) {
+      // Show Publish Modal
+      document.getElementById('publishModal').classList.remove('hidden');
     } else {
-      // Show Unpublish modal
-      document.getElementById("unpublishModal").classList.remove("hidden");
+      // Show Unpublish Modal
+      document.getElementById('unpublishModal').classList.remove('hidden');
     }
   });
 
   // --- Publish Modal ---
-  document.getElementById("cancelPublish").addEventListener("click", () => {
-    document.getElementById("publishModal").classList.add("hidden");
-    publishCheckbox.checked = false; // revert back
-     publishText.textContent = 'Publish Form';
+  document.getElementById('cancelPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    publishToggle.checked = false; // revert toggle
   });
 
-  document.getElementById("confirmPublish").addEventListener("click", () => {
-    document.getElementById("publishModal").classList.add("hidden");
-    publishCheckbox.checked = true; // confirm publish
-    publishText.textContent = 'Unpublish Form';
+  document.getElementById('confirmPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    // Send AJAX request to publish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
   });
 
   // --- Unpublish Modal ---
-  document.getElementById("cancelUnpublish").addEventListener("click", () => {
-    document.getElementById("unpublishModal").classList.add("hidden");
-    publishCheckbox.checked = true; // revert back
-    publishText.textContent = 'Unpublish Form';
+  document.getElementById('cancelUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    publishToggle.checked = true; // revert toggle
   });
 
-  document.getElementById("confirmUnpublish").addEventListener("click", () => {
-    document.getElementById("unpublishModal").classList.add("hidden");
-    publishCheckbox.checked = false; // confirm unpublish
-     publishText.textContent = 'Publish Form';
+  document.getElementById('confirmUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    // Send AJAX request to unpublish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
   });
+}
   </script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
