@@ -401,7 +401,9 @@
     {% endif %}
   </div>
 </div>
-  <div id="publishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+
+{% if is_staff_view %}
+<div id="publishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
   <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
     <h2 class="text-xl font-semibold mb-4">Confirm Publish</h2>
     <p class="text-gray-600 mb-6">Are you sure you want to publish this form? Once published, it will be available for users to fill.</p>
@@ -423,6 +425,8 @@
     </div>
   </div>
 </div>
+{% endif %}
+
 <div class="flex justify-center items-center mt-3">
   <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
 </div>
@@ -459,6 +463,7 @@ function validateStep(stepNumber) {
 
 function nextStep(current) {
   if (!validateStep(current)) {
+    Swal.fire("Please fill in all the required fields!");
     return; // stop here if invalid
   }
 
@@ -553,6 +558,8 @@ updateIndicators(1);
       });
     });
 
+
+{% if is_staff_view %}
 // Get elements
 const publishToggle = document.getElementById('publishCheckbox');
 const publishText = document.getElementById('publishText');
@@ -615,7 +622,8 @@ if (publishToggle) {
     .catch(err => alert('Failed to toggle publish: ' + err.message));
   });
 }
-  </script>
+{% endif %}
+</script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
   particlesJS("particles-js", {"particles":{"number":{"value":600,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":1,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":4,"size_min":0.3,"sync":false}},"line_linked":{"enable":false,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":1,"direction":"none","random":true,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":600}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":false,"mode":"bubble"},"onclick":{"enable":false,"mode":"repulse"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":250,"size":0,"duration":2,"opacity":0,"speed":3},"repulse":{"distance":400,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
