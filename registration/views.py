@@ -1,4 +1,6 @@
 import csv
+import pandas as pd
+from io import BytesIO
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
@@ -114,17 +116,71 @@ def submit_form(request):
     
 @login_required
 def download_excel(request):
-    participants = Form_Participant.objects.all().values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="participants.csv"'
-    writer = csv.writer(response)
-    rows = list(participants)
-    if rows:
-        writer.writerow(rows[0].keys())
-        for row in rows:
-            writer.writerow(row.values())
-    else:
-        writer.writerow(['message'])
-        writer.writerow(['No participants'])
+    participants = Form_Participant.objects.all()
+    
+    # Prepare data for Sheet 1: Basic Information (without questionnaire answers)
+    basic_data = []
+    for participant in participants:
+        basic_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Contact Number': participant.contact_number,
+            'Membership Type': participant.membership_type,
+            'IEEE ID': participant.ieee_id,
+            'University': participant.university,
+            'Department': participant.department,
+            'University ID': participant.university_id,
+            'Payment Method': participant.payment_method,
+            'Transaction ID': participant.transaction_id,
+            'T-shirt Size': participant.tshirt_size,
+            'Comments': participant.comments,
+            'Created At': participant.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        }
+        basic_data.append(basic_row)
+    
+    # Prepare data for Sheet 2: Questionnaire Answers
+    questionnaire_data = []
+    for participant in participants:
+        answers = participant.answers or {}
+        questionnaire_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Contact': participant.contact_number,
+            'Q1': answers.get('question1', ''),
+            'Q2': answers.get('question2', ''),
+            'Q3': answers.get('question3', ''),
+            'Q4': answers.get('question4', ''),
+        }
+        questionnaire_data.append(questionnaire_row)
+    
+    # Create Excel file with two sheets
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        # Sheet 1: Basic Information
+        if basic_data:
+            df_basic = pd.DataFrame(basic_data)
+            df_basic.to_excel(writer, index=False, sheet_name='Basic Information')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No participants registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='Basic Information')
+        
+        # Sheet 2: Questionnaire Answers
+        if questionnaire_data:
+            df_questionnaire = pd.DataFrame(questionnaire_data)
+            df_questionnaire.to_excel(writer, index=False, sheet_name='Questionnaire Answers')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No participants registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='Questionnaire Answers')
+    
+    output.seek(0)
+    response = HttpResponse(
+        output.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="participants_data.xlsx"'
     return response
 
