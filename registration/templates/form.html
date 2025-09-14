@@ -459,6 +459,7 @@ function validateStep(stepNumber) {
 
 function nextStep(current) {
   if (!validateStep(current)) {
+    Swal.fire("Please fill in all the required fields!");
     return; // stop here if invalid
   }
 
