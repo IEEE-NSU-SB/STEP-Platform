@@ -29,7 +29,7 @@
     }
     @media screen and (max-width:500px){
       .response_count{
-        margin: auto;
+        margin: 0 auto;
       }
     }
   </style>
@@ -47,7 +47,8 @@
   <div class="rounded">
 
   <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px);">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
+    <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
+      <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 items-center justify-between">
       <div>
         <!-- Publish Form Toggle Button (staff only) -->
         <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-lg font-medium text-sm">
@@ -57,7 +58,7 @@
         </button>
       </div>
       
-      <div>
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-center sm:justify-end w-full sm:w-auto"> 
         <!-- Download Excel Button (staff only) -->
         <a href="{% url 'registration:download_excel' %}"
         class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1  bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
@@ -68,7 +69,7 @@
       </a>
 
         <a href="{% url 'core:dashboard' %}"
-        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
+        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
         <span>Dashboard</span>
       </a>
       
@@ -133,7 +134,7 @@
         Select Your Membership Grade<span class="text-red-500">*</span>
       </label>
       <label>
-        <input type="radio" name="membership_type" value="student">
+        <input type="radio" name="membership_type" value="student" required>
         IEEE Student Member (Undergraduate Students, Grade Students Membership)
       </label><br>
       <label>
@@ -221,7 +222,7 @@
     </div>
     <div class="mb-3">
       <label for="question4" class="block text-sm  mb-2">
-        4. What is your expectation from STEP? (250 characters max)*<span class="text-red-500">*</span>
+        4. What is your expectation from STEP? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question4" name="question4" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
@@ -382,11 +383,32 @@
   </div>
 </div>
   <script>
-    function nextStep(current) {
-      document.getElementById(`step${current}`).classList.add("hidden");
-      document.getElementById(`step${current + 1}`).classList.remove("hidden");
-      updateIndicators(current + 1);
+    function validateStep(stepNumber) {
+  const currentStep = document.getElementById(`step${stepNumber}`);
+  const requiredFields = currentStep.querySelectorAll('[required]');
+  let isValid = true;
+  
+  requiredFields.forEach(field => {
+    if (field.type === 'radio') {
+      const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
+      const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+      if (!isChecked) isValid = false;
+    } else if (!field.value.trim()) {
+      isValid = false;
     }
+  });
+  
+  return isValid;
+}
+   function nextStep(current) {
+  if (!validateStep(current)) {
+    alert('Please fill all required fields!');
+    return;
+  }
+  document.getElementById(`step${current}`).classList.add("hidden");
+  document.getElementById(`step${current + 1}`).classList.remove("hidden");
+  updateIndicators(current + 1);
+}
 
     function prevStep(current) {
       document.getElementById(`step${current}`).classList.add("hidden");
@@ -394,14 +416,26 @@
       updateIndicators(current - 1);
     }
 
-    function updateIndicators(step) {
-      [1, 2, 3].forEach(num => {
-        document.getElementById(`step${num}Indicator`).classList.remove("text-primary", "font-bold");
-        document.getElementById(`step${num}Indicator`).classList.add("text-gray-500");
-      });
-      document.getElementById(`step${step}Indicator`).classList.remove("text-gray-500");
-      document.getElementById(`step${step}Indicator`).classList.add("text-primary", "font-bold");
+   function updateIndicators(step) {
+  // Check if indicators exist
+  if (!document.getElementById('step1Indicator')) {
+    return;
+  }
+  
+  [1, 2, 3].forEach(num => {
+    const indicator = document.getElementById(`step${num}Indicator`);
+    if (indicator) {
+      indicator.classList.remove("text-primary", "font-bold");
+      indicator.classList.add("text-gray-500");
     }
+  });
+  
+  const activeIndicator = document.getElementById(`step${step}Indicator`);
+  if (activeIndicator) {
+    activeIndicator.classList.remove("text-gray-500");
+    activeIndicator.classList.add("text-primary", "font-bold");
+  }
+}
 
     // Handle form submission
     document.getElementById('registrationForm').addEventListener('submit', function(e) {
@@ -420,9 +454,9 @@
       // fetch API to submit form data
       fetch(this.action, {
         method: 'POST',
-        body: formData,
+        body: formData, 
         headers: {
-          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value || ''
         }
       })
       .then(response => response.json())
@@ -432,10 +466,12 @@
           alert('Registration successful! Your participant ID is: ' + data.participant_id);
           // Reset form
           this.reset();
-          // Go back to step 1
-          document.getElementById('step3').classList.add('hidden');
-          document.getElementById('step1').classList.remove('hidden');
-          updateIndicators(1);
+        // Go back to step 1
+const step3 = document.getElementById('step3');
+const step1 = document.getElementById('step1');
+if (step3) step3.classList.add('hidden');
+if (step1) step1.classList.remove('hidden');
+updateIndicators(1);
         } else {
           alert('Registration failed: ' + data.message);
         }
