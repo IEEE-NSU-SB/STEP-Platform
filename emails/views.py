@@ -150,7 +150,7 @@ IEEE NSU SB.''', 'plain'))
 @login_required
 def authorize(request):
 
-    credentials = get_credentials(request)
+    credentials = get_credentials()
     if not credentials:
         flow = get_google_auth_flow(request)
         if(request.META['HTTP_HOST'] == "127.0.0.1:8000" or request.META['HTTP_HOST'] == "localhost:8000"):
