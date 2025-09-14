@@ -7,10 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration Form</title>
   <link rel="icon" href="{% static '/img/logo.gif' %}" />
+  <!--daisy ui-->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <!--tailwind-->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- sweet alert  -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!--particles.js-->
+   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -25,7 +30,7 @@
   </script>
   <style>
     body{
-        background-image: url("{% static '/img/StepBG.png' %}");
+        /* background-image: url("{% static '/img/StepBG.png' %}"); */
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -34,10 +39,19 @@
         margin: 0 auto;
       }
     }
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #0d47a1; /* Example background */
+      top: 0;
+      left: 0;
+    }
   </style>
 </head>
 
 <body class="min-h-screen py-8">
+  <div id="particles-js">
    <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between my-4">
     <div class="rounded overflow-hidden object-cover">
       <img src="{% static '/img/StepBanner.jpeg' %}" alt="">
@@ -97,6 +111,7 @@
     {% elif not is_staff_view and registration_closed %}
       <div class="p-6 bg-red-50 border border-red-300 rounded text-red-900 text-center">
         Registration is closed as we have reached the maximum number of participants.  
+      </div>
     {% else %}
     <!-- Step indicator
     <div class="flex justify-between mb-8">
@@ -386,7 +401,8 @@
     </form>
     {% endif %}
   </div>
-
+</div>
+</div>
   <div id="publishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
   <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
     <h2 class="text-xl font-semibold mb-4">Confirm Publish</h2>
@@ -412,7 +428,6 @@
 <div class="flex justify-center items-center">
   <p class="text-black-400 font-bold"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
 </div>
-
   <script>
 function validateStep(stepNumber) {
   const currentStep = document.getElementById(`step${stepNumber}`);
@@ -513,10 +528,11 @@ function prevStep(current) {
           // Show success message
         //  alert('Registration successful! Your participant ID is: ' + data.participant_id);
         Swal.fire({
-  title: "Submitted Successfully",
-  icon: "success",
-  draggable: true
-});
+          title: "Registration Complete 🎊",
+          text: "Thanks for signing up! Get ready for an amazing experience.",
+          icon: "success",
+          draggable: true
+        });
           // Reset form
           this.reset();
         // Go back to step 1
@@ -577,6 +593,118 @@ updateIndicators(1);
     publishCheckbox.checked = false; // confirm unpublish
      publishText.textContent = 'Publish Form';
   });
+  </script>
+  <script>
+    particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 600,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#ffffff"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "image": {
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
+      }
+    },
+    "opacity": {
+      "value": 1,
+      "random": true,
+      "anim": {
+        "enable": true,
+        "speed": 1,
+        "opacity_min": 0,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 4,
+        "size_min": 0.3,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": false,
+      "distance": 150,
+      "color": "#ffffff",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 1,
+      "direction": "none",
+      "random": true,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 600
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": false,
+        "mode": "bubble"
+      },
+      "onclick": {
+        "enable": false,
+        "mode": "repulse"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 400,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 250,
+        "size": 0,
+        "duration": 2,
+        "opacity": 0,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 400,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
   </script>
 </body>
 
