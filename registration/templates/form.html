@@ -44,15 +44,13 @@
   {% if is_staff_view %}
   <!-- admin feature part  -->
   <!-- Button Header -->
-  <div class="rounded">
-
-  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px);">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
+  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px);border-radius:0 0z 4px 4pxborder-radius: 4px 4px 0 0;">
+    <div class="flex flex-wrap gap-2 items-center justify-between">
       <div>
         <!-- Publish Form Toggle Button (staff only) -->
         <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-sm">
           <input id="publishCheckbox" type="checkbox" {% if is_published %}checked="checked"{% endif %}
-          class="toggle border-indigo-600 bg-indigo-500 checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800" />
+          class="toggle border-gray-600 bg-gray-500 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
           <span class="text-xl" id="publishText">{% if is_published %}Unpublish Form{% else %}Publish Form{% endif %}</span>
         </button>
       </div>
@@ -68,7 +66,7 @@
       </a>
 
         <a href="{% url 'core:dashboard' %}"
-        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-md font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-md font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg focus:outline-none focus:ring-emerald-500 focus:ring-offset-2">
         <span>Dashboard</span>
       </a>
       
@@ -86,7 +84,7 @@
 
 </div>
   {% endif %}
-  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);">
+  <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:0 0z 4px 4px">
     {% if not is_staff_view and not is_published %}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
         Registration is not open yet. Please check back later.
@@ -380,7 +378,6 @@
     </form>
     {% endif %}
   </div>
-</div>
   <script>
     function nextStep(current) {
       document.getElementById(`step${current}`).classList.add("hidden");
