@@ -473,39 +473,44 @@
       });
     });
 
-    // Handle toggle
-  publishToggle.addEventListener("change", () => {
-    if (publishToggle.checked) {
-      // User wants to publish
+  const publishCheckbox = document.getElementById("publishCheckbox");
+
+  // Listen to checkbox changes
+  publishCheckbox.addEventListener("change", () => {
+    if (publishCheckbox.checked) {
+      // Show Publish modal
       document.getElementById("publishModal").classList.remove("hidden");
     } else {
-      // User wants to unpublish
+      // Show Unpublish modal
       document.getElementById("unpublishModal").classList.remove("hidden");
     }
   });
-      if(publishToggle.checked){
+
   // --- Publish Modal ---
   document.getElementById("cancelPublish").addEventListener("click", () => {
     document.getElementById("publishModal").classList.add("hidden");
-    publishToggle.checked = false; // revert toggle
+    publishCheckbox.checked = false; // revert back
+     publishText.textContent = 'Publish Form';
   });
 
   document.getElementById("confirmPublish").addEventListener("click", () => {
     document.getElementById("publishModal").classList.add("hidden");
-    
+    publishCheckbox.checked = true; // confirm publish
+    publishText.textContent = 'Unpublish Form';
   });
-}else{
+
   // --- Unpublish Modal ---
   document.getElementById("cancelUnpublish").addEventListener("click", () => {
     document.getElementById("unpublishModal").classList.add("hidden");
-    publishToggle.checked = false; // revert toggle
+    publishCheckbox.checked = true; // revert back
+    publishText.textContent = 'Unpublish Form';
   });
 
   document.getElementById("confirmUnpublish").addEventListener("click", () => {
     document.getElementById("unpublishModal").classList.add("hidden");
-    
+    publishCheckbox.checked = false; // confirm unpublish
+     publishText.textContent = 'Publish Form';
   });
-}
   </script>
 </body>
 
