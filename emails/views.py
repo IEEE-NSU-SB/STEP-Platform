@@ -147,6 +147,43 @@ IEEE NSU SB.''', 'plain'))
     
     return JsonResponse({'message':'success'})
 
+def send_registration_email(email):
+    credentials = get_credentials()
+
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = str(email)
+        message["Subject"] = "Confirmation for Form Submission"
+        message.attach(MIMEText(f'''Dear Participant,
+                                
+Thank you for registering in our event
+                                
+Best regards,
+                                
+IEEE NSU SB.''', 'plain'))
+        
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})
+
 @login_required
 def authorize(request):
 

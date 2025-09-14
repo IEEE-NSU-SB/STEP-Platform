@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
+from emails.views import send_registration_email
+
 from .models import EventFormStatus, Form_Participant
 
 def _get_publish_status() -> bool:
@@ -88,6 +90,8 @@ def submit_form(request):
                 comments=comments,
                 answers=answers
             )
+
+            send_registration_email(participant.email)
             
             # Return success response
             return JsonResponse({
