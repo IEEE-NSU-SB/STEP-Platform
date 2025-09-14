@@ -411,37 +411,48 @@
 </div>
 
   <script>
-    function validateStep(stepNumber) {
+function validateStep(stepNumber) {
   const currentStep = document.getElementById(`step${stepNumber}`);
   const requiredFields = currentStep.querySelectorAll('[required]');
   let isValid = true;
-  
+
   requiredFields.forEach(field => {
+    let fieldWrapper = field.closest("div"); // optional: highlight wrapper instead of only input
+
     if (field.type === 'radio') {
       const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
       const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-      if (!isChecked) isValid = false;
+
+      if (!isChecked) {
+        isValid = false;
+        radioGroup.forEach(radio => radio.classList.add("border-red-500"));
+      } else {
+        radioGroup.forEach(radio => radio.classList.remove("border-red-500"));
+      }
+
     } else if (!field.value.trim()) {
       isValid = false;
+      field.classList.add("border-red-500");
+    } else {
+      field.classList.remove("border-red-500");
     }
   });
-  
+
   return isValid;
 }
-   function nextStep(current) {
-  if (!validateStep(current)) {
-   //alert('Please fill all required fields!');
-   Swal.fire({
-  title: "Please fill all required fields!",
-  icon: "error",
-  draggable: true
-});
 
-    return;
+function nextStep(current) {
+  if (!validateStep(current)) {
+    return; // stop here if invalid
   }
+
   document.getElementById(`step${current}`).classList.add("hidden");
   document.getElementById(`step${current + 1}`).classList.remove("hidden");
-  updateIndicators(current + 1);
+}
+
+function prevStep(current) {
+  document.getElementById(`step${current}`).classList.add("hidden");
+  document.getElementById(`step${current - 1}`).classList.remove("hidden");
 }
 
     function prevStep(current) {
