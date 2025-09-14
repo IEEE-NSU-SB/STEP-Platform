@@ -79,7 +79,7 @@
 </div>
   {% endif %}
   <div class="bg-[#ffffffaa] w-11/12 md:w-3/5 mx-auto rounded" style="backdrop-filter:blur(7px);">
-    {% if not is_staff_view and not is_published %}
+    {% if not is_staff_view and not is_published and not registration_closed%}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
         Registration is not open yet. Please check back later.
       </div>
