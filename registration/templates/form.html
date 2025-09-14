@@ -9,6 +9,8 @@
   <link rel="icon" href="{% static '/img/logo.gif' %}" />
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- sweet alert  -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -465,7 +467,12 @@
       .then(data => {
         if (data.success) {
           // Show success message
-          alert('Registration successful! Your participant ID is: ' + data.participant_id);
+        //  alert('Registration successful! Your participant ID is: ' + data.participant_id);
+        Swal.fire({
+  title: "Submitted Successfully",
+  icon: "success",
+  draggable: true
+});
           // Reset form
           this.reset();
         // Go back to step 1
