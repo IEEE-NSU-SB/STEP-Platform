@@ -158,7 +158,7 @@ def send_registration_email(email):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = str(email)
-        message["Subject"] = "STEP 2025 - Registration Confirmation"
+        message["Subject"] = "STEP 2025 - Registration Successful"
         message.attach(MIMEText(render_to_string('submission_email_template.html'), 'html'))
         
         # encoded message
