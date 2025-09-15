@@ -153,6 +153,8 @@
         Venue: North South University 
         <br>
         <br>
+        If you face any difficulty, please contact 01309570567
+        <br>
         <br>
         </p>
 <h2 class=" text-center text-2xl mb-6">BASIC INFO</h2>
@@ -190,7 +192,8 @@
       <label>
         <input class="mb-1 text-md" type="radio" name="is_student" value="member">
           No
-      </label><br> 
+      </label><br>
+      <input type="hidden" name="is_student_bool" id="is_student_bool">
     </div>
     <!--For Student-->
     <div class="student_div">
@@ -340,11 +343,17 @@
     <p class="student_div">
       IEEE Member 410 taka <br>
       Non-IEEE Member 510 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
     </p>
     <!--Profession-->
     <p class="professional_div">
       IEEE Member 810 taka <br>
       Non-IEEE Member 910 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
     </p>
     <div class="my-8">
       <label class="block uppercase   mb-1 ">
@@ -742,6 +751,14 @@ if (publishToggle) {
   document.addEventListener("DOMContentLoaded", function() {
   particlesJS("particles-js", {"particles":{"number":{"value":160,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":1,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":4,"size_min":0.3,"sync":false}},"line_linked":{"enable":false,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":1,"direction":"none","random":true,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":600}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":false,"mode":"bubble"},"onclick":{"enable":false,"mode":"repulse"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":250,"size":0,"duration":2,"opacity":0,"speed":3},"repulse":{"distance":400,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
   });
+</script>
+<script>
+  document.querySelectorAll('input[name="is_student"]').forEach((radio) => {
+  radio.addEventListener('change', function () {
+    document.getElementById("is_student_bool").value =
+      this.value === "student" ? "True" : "False";
+  });
+});
 </script>
 
 </body>
