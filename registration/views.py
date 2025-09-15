@@ -58,7 +58,7 @@ def submit_form(request):
     if request.method == 'POST':
         try:
             # Get form data
-            is_student = request.POST.get('is_student',False)
+            is_student = request.POST.get('is_student_bool')
             name = request.POST.get('name')
             email = request.POST.get('email')
             contact_number = request.POST.get('contact_number')
