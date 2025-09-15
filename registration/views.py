@@ -58,14 +58,18 @@ def submit_form(request):
     if request.method == 'POST':
         try:
             # Get form data
+            is_student = request.POST.get('is_student',False)
             name = request.POST.get('name')
             email = request.POST.get('email')
             contact_number = request.POST.get('contact_number')
             membership_type = request.POST.get('membership_type')
             ieee_id = request.POST.get('ieee_id')
-            university = request.POST.get('university')
-            department = request.POST.get('department')
-            university_id = request.POST.get('university_id')
+            profession = request.POST.get('profession','')
+            designation = request.POST.get('designation','')
+            affiliation = request.POST.get('affiliation','')
+            university = request.POST.get('university','')
+            department = request.POST.get('department','')
+            university_id = request.POST.get('university_id','')
             payment_method = request.POST.get('payment_method')
             transaction_id = request.POST.get('transaction_id')
             tshirt_size = request.POST.get('tshirt_size')
@@ -93,7 +97,11 @@ def submit_form(request):
                 transaction_id=transaction_id,
                 tshirt_size=tshirt_size,
                 comments=comments,
-                answers=answers
+                answers=answers,
+                profession = profession,
+                designation = designation,
+                is_student = is_student,
+                affiliation = affiliation
             )
 
             send_registration_email(participant.email)
@@ -130,8 +138,12 @@ def download_excel(request):
             'Name': participant.name,
             'Email': participant.email,
             'Contact Number': participant.contact_number,
+            'Is Student': 'Yes' if participant.is_student else 'No',
             'Membership Type': participant.membership_type,
             'IEEE ID': participant.ieee_id,
+            'Profession':participant.profession,
+            'Affiliation':participant.affiliation,
+            'Designation':participant.designation,
             'University': participant.university,
             'Department': participant.department,
             'University ID': participant.university_id,
