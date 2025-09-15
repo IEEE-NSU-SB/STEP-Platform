@@ -337,12 +337,12 @@
     </div>
 
     <!--Student-->
-    <p class="">
+    <p class="student_div">
       IEEE Member 410 taka <br>
       Non-IEEE Member 510 taka
     </p>
     <!--Profession-->
-    <p class="">
+    <p class="professional_div">
       IEEE Member 810 taka <br>
       Non-IEEE Member 910 taka
     </p>
@@ -503,6 +503,48 @@
   <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
 </div>
   <script>
+    // Add this to your existing script section
+document.addEventListener('DOMContentLoaded', function() {
+  const studentRadio = document.querySelector('input[name="is_student"][value="student"]');
+  const memberRadio = document.querySelector('input[name="is_student"][value="member"]');
+  const studentDivs = document.querySelectorAll('.student_div');
+  const professionalDivs = document.querySelectorAll('.professional_div');
+
+  function toggleSections() {
+    if (studentRadio.checked) {
+      // Show all student sections, hide all professional sections
+      studentDivs.forEach(div => div.style.display = 'block');
+      professionalDivs.forEach(div => div.style.display = 'none');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.setAttribute('required', 'required'));
+      professionalFields.forEach(field => field.removeAttribute('required'));
+      
+    } else if (memberRadio.checked) {
+      // Show all professional sections, hide all student sections
+      studentDivs.forEach(div => div.style.display = 'none');
+      professionalDivs.forEach(div => div.style.display = 'block');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.removeAttribute('required'));
+      professionalFields.forEach(field => field.setAttribute('required', 'required'));
+    }
+  }
+
+  // Initially hide all sections
+  studentDivs.forEach(div => div.style.display = 'none');
+  professionalDivs.forEach(div => div.style.display = 'none');
+
+  // Add event listeners
+  studentRadio.addEventListener('change', toggleSections);
+  memberRadio.addEventListener('change', toggleSections);
+});
 function validateStep(stepNumber) {
   const currentStep = document.getElementById(`step${stepNumber}`);
   const requiredFields = currentStep.querySelectorAll('[required]');
