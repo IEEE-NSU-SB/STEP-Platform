@@ -17,14 +17,21 @@ class Form_Participant(models.Model):
     ]
     SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL")]
 
+    is_student = models.BooleanField(default=False)
+
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(unique=False, null=False, blank=False)
     contact_number = models.CharField(max_length=20, null=False, blank=False)
     membership_type = models.CharField(max_length=20, choices=MEMBERSHIP_CHOICES)
     ieee_id = models.CharField(max_length=50, blank=True, null=True)
-    university = models.CharField(max_length=200, null=False, blank=True, default="")
-    department = models.CharField(max_length=200, null=False, blank=False)
-    university_id = models.CharField(max_length=50, null=False, blank=False)
+
+    university = models.CharField(max_length=200, null=True, blank=True, default="")
+    department = models.CharField(max_length=200, null=True, blank=True,default="")
+    university_id = models.CharField(max_length=50, null=True, blank=True,default="")
+
+    profession = models.CharField(max_length=200, null=True, blank=True, default="")
+    affiliation = models.CharField(max_length=200, null=True, blank=True, default="")
+    designation = models.CharField(max_length=200, null=True, blank=True, default="")
 
     # Store all questionnaire answers in JSON
     answers = models.JSONField(default=dict)
