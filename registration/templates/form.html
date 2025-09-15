@@ -126,21 +126,21 @@
       
       <!-- Step 1: Basic Info -->
       <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-        <h2 class="text-2xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
+        <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
         <p class="text-justify">
-        Do you know how to transition from student to young professional in the most exciting way? That is exactly what the IEEE Student Transition and Elevation Partnership (STEP)  is all about! It is the flagship event of the IEEE Young Professionals (YP) that helps to bridge the gap between academic and professional life. It equips you with skills, guidance, and networking opportunities to thrive in this fast-evolving world.
+        Do you know how to transition from an individual to young professional in the most exciting way? That is exactly what the IEEE Student Transition and Elevation Partnership (STEP)  is all about! It is the flagship event of the IEEE Young Professionals (YP) that helps to bridge the gap between academic and professional life. It equips you with skills, guidance, and networking opportunities to thrive in this fast-evolving world.
         <br>
         <br>
 
-        For this year’s STEP, Jointly organised by IEEE NSU Student Branch, IEEE Bangladesh Section and IEEE YP Bangladesh we are delighted to host the event titled “IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators” on September 27, 2025. The event is sponsored by the IEEE YP Affinity Group and the IEEE Foundation. The day-long program is specifically designed to help students smoothly transition from academic life to the professional world with the help of numerous opportunities provided by IEEE.
+        For this year’s STEP, Jointly organised by IEEE NSU Student Branch, IEEE Bangladesh Section and IEEE YP Bangladesh we are delighted to host the event titled “IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators” on September 27, 2025. The event is sponsored by the IEEE YP Affinity Group and the IEEE Foundation. The day-long program is specifically designed to help any individual smoothly transition from academic life to the professional world with the help of numerous opportunities provided by IEEE.
         <br>
         <br>
 
-        Don’t miss out on the wonderful opportunities this program offers. From Panel Discussions on Professionalism, Industry Seminars, Networking Sessions, and more, the insightful program aims to prepare students for their professional journey. To unleash your potential, an idea pitching competition will also be held based on the theme of this year’s STEP. The program also equips students with practical skills for post-graduation careers, introduces IEEE YP networks and resources, mentorship opportunities, and much more! 
+        Don’t miss out on the wonderful opportunities this program offers. From Panel Discussions on Professionalism, Industry Seminars, Networking Sessions, and more, the insightful program aims to prepare an individual for their professional journey. To unleash your potential, an idea pitching competition will also be held based on the theme of this year’s STEP. The program also equips any individual with practical skills for post-graduation careers, introduces IEEE YP networks and resources, mentorship opportunities, and much more! 
         <br>
         <br>
 
-        Join us to transform from students to professionals and ignite your journey as future innovators!
+        Join us to transform from individuals to professionals and ignite your journey as future innovators!
         <br>
         <br>
 
@@ -152,6 +152,8 @@
         <br>
         Venue: North South University 
         <br>
+        <br>
+        If you face any difficulty, please contact 01309570567
         <br>
         <br>
         </p>
@@ -178,30 +180,23 @@
       <input type="number" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
         class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
     </div>
+    <!--Select if you are a student or not-->
     <div class="mb-5">
       <label class="block uppercase text-lg  mb-1">
-        Select Your Membership Grade<span class="text-red-500">*</span>
+        Are you a student?<span class="text-red-500">*</span>
       </label>
       <label>
-        <input  class="mb-1" type="radio" name="membership_type" value="student" required>
-        IEEE Student Member (Undergraduate Students, Grade Students Membership)
+        <input  class="mb-1 text-md" type="radio" name="is_student" value="student" required>
+          Yes
       </label><br> 
       <label>
-        <input class="mb-1" type="radio" name="membership_type" value="member">
-        IEEE Member (IEEE Senior Members, Professional Membership, Faculty Members, Fellow)
-      </label><br> 
-      <label>
-        <input type="radio" name="membership_type" value="non_ieee">
-        Non-IEEE Member
-      </label><br> 
+        <input class="mb-1 text-md" type="radio" name="is_student" value="member">
+          No
+      </label><br>
+      <input type="hidden" name="is_student_bool" id="is_student_bool">
     </div>
-    <div class="mb-5">
-      <label for="ieee_id" class="block uppercase text-lg  mb-1">
-        IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
-      </label>
-      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
-    </div>
+    <!--For Student-->
+    <div class="student_div">
     <div class="mb-5">
       <label for="university" class="block uppercase text-lg  mb-1">
         University Name<span class="text-red-500">*</span>
@@ -223,6 +218,51 @@
       <input type="number" name="university_id" id="university_id" placeholder="Enter your University ID"
         class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
     </div>
+    <div class="mb-5">
+      <label for="ieee_id" class="block uppercase text-lg  mb-1">
+        IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
+      </label>
+      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <!--For Professionals-->
+    <div class="professional_div">
+    <div class="mb-5">
+      <label for="profession" class="block uppercase text-lg  mb-1">
+        Profession<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="profession" id="profession" placeholder="Eg: Enginner, Professor"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="designation" class="block uppercase text-lg  mb-1">
+        Designation<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="designation" id="designation" placeholder="What is your designation?"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="affiliation" class="block uppercase text-lg  mb-1">
+        Current Affiliation (Write N/A if none)<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="affiliation" id="affiliation" placeholder="Your company name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <div class="mb-5">
+      <label class="block uppercase text-lg  mb-1">
+        Select Your Membership Grade<span class="text-red-500">*</span>
+      </label>
+      <label>
+        <input class="mb-1" type="radio" name="membership_type" value="member" required>
+        IEEE Member
+      </label><br> 
+      <label>
+        <input type="radio" name="membership_type" value="non_ieee">
+        Non-IEEE Member
+      </label><br> 
+    </div>
     <div class="flex justify-center">
       <button onclick="nextStep(1)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
     </div>
@@ -233,7 +273,7 @@
       <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button onclick="prevStep(2)" class="rounded-2xl py-1 px-4 bg-[#00629b68] text-[#00629b] cursor-pointer mb-6" type="button">
+        <button onclick="prevStep(2)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
             Back
         </button>
       </div>
@@ -288,7 +328,7 @@
     <div class="flex items-center justify-between mb-8">
       <!-- Back button on the left -->
       <div class="z-10">
-        <button  onclick="prevStep(3)" class="rounded-2xl py-1 px-4 bg-[#00629b68] text-[#00629b] cursor-pointer mb-6" type="button">
+        <button  onclick="prevStep(3)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
            Back
         </button>
       </div>
@@ -299,10 +339,21 @@
       </div>
     </div>
 
-    <p class="">
-      IEEE Student Member 360 taka <br>
-      IEEE Member 510 taka <br>
-      Non-IEEE Member 560 taka
+    <!--Student-->
+    <p class="student_div">
+      IEEE Member 410 taka <br>
+      Non-IEEE Member 510 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
+    </p>
+    <!--Profession-->
+    <p class="professional_div">
+      IEEE Member 810 taka <br>
+      Non-IEEE Member 910 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
     </p>
     <div class="my-8">
       <label class="block uppercase   mb-1 ">
@@ -424,7 +475,7 @@
         placeholder="Your comment..."></textarea>
     </div>
       <div class="flex justify-center">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer">Submit</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
       </div>
     </section>
     </form>
@@ -461,6 +512,48 @@
   <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
 </div>
   <script>
+    // Add this to your existing script section
+document.addEventListener('DOMContentLoaded', function() {
+  const studentRadio = document.querySelector('input[name="is_student"][value="student"]');
+  const memberRadio = document.querySelector('input[name="is_student"][value="member"]');
+  const studentDivs = document.querySelectorAll('.student_div');
+  const professionalDivs = document.querySelectorAll('.professional_div');
+
+  function toggleSections() {
+    if (studentRadio.checked) {
+      // Show all student sections, hide all professional sections
+      studentDivs.forEach(div => div.style.display = 'block');
+      professionalDivs.forEach(div => div.style.display = 'none');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.setAttribute('required', 'required'));
+      professionalFields.forEach(field => field.removeAttribute('required'));
+      
+    } else if (memberRadio.checked) {
+      // Show all professional sections, hide all student sections
+      studentDivs.forEach(div => div.style.display = 'none');
+      professionalDivs.forEach(div => div.style.display = 'block');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.removeAttribute('required'));
+      professionalFields.forEach(field => field.setAttribute('required', 'required'));
+    }
+  }
+
+  // Initially hide all sections
+  studentDivs.forEach(div => div.style.display = 'none');
+  professionalDivs.forEach(div => div.style.display = 'none');
+
+  // Add event listeners
+  studentRadio.addEventListener('change', toggleSections);
+  memberRadio.addEventListener('change', toggleSections);
+});
 function validateStep(stepNumber) {
   const currentStep = document.getElementById(`step${stepNumber}`);
   const requiredFields = currentStep.querySelectorAll('[required]');
@@ -658,6 +751,14 @@ if (publishToggle) {
   document.addEventListener("DOMContentLoaded", function() {
   particlesJS("particles-js", {"particles":{"number":{"value":160,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":1,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":4,"size_min":0.3,"sync":false}},"line_linked":{"enable":false,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":1,"direction":"none","random":true,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":600}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":false,"mode":"bubble"},"onclick":{"enable":false,"mode":"repulse"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":250,"size":0,"duration":2,"opacity":0,"speed":3},"repulse":{"distance":400,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
   });
+</script>
+<script>
+  document.querySelectorAll('input[name="is_student"]').forEach((radio) => {
+  radio.addEventListener('change', function () {
+    document.getElementById("is_student_bool").value =
+      this.value === "student" ? "True" : "False";
+  });
+});
 </script>
 
 </body>
