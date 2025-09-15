@@ -126,21 +126,21 @@
       
       <!-- Step 1: Basic Info -->
       <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-        <h2 class="text-2xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
+        <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
         <p class="text-justify">
-        Do you know how to transition from student to young professional in the most exciting way? That is exactly what the IEEE Student Transition and Elevation Partnership (STEP)  is all about! It is the flagship event of the IEEE Young Professionals (YP) that helps to bridge the gap between academic and professional life. It equips you with skills, guidance, and networking opportunities to thrive in this fast-evolving world.
+        Do you know how to transition from an individual to young professional in the most exciting way? That is exactly what the IEEE Student Transition and Elevation Partnership (STEP)  is all about! It is the flagship event of the IEEE Young Professionals (YP) that helps to bridge the gap between academic and professional life. It equips you with skills, guidance, and networking opportunities to thrive in this fast-evolving world.
         <br>
         <br>
 
-        For this year’s STEP, Jointly organised by IEEE NSU Student Branch, IEEE Bangladesh Section and IEEE YP Bangladesh we are delighted to host the event titled “IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators” on September 27, 2025. The event is sponsored by the IEEE YP Affinity Group and the IEEE Foundation. The day-long program is specifically designed to help students smoothly transition from academic life to the professional world with the help of numerous opportunities provided by IEEE.
+        For this year’s STEP, Jointly organised by IEEE NSU Student Branch, IEEE Bangladesh Section and IEEE YP Bangladesh we are delighted to host the event titled “IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators” on September 27, 2025. The event is sponsored by the IEEE YP Affinity Group and the IEEE Foundation. The day-long program is specifically designed to help any individual smoothly transition from academic life to the professional world with the help of numerous opportunities provided by IEEE.
         <br>
         <br>
 
-        Don’t miss out on the wonderful opportunities this program offers. From Panel Discussions on Professionalism, Industry Seminars, Networking Sessions, and more, the insightful program aims to prepare students for their professional journey. To unleash your potential, an idea pitching competition will also be held based on the theme of this year’s STEP. The program also equips students with practical skills for post-graduation careers, introduces IEEE YP networks and resources, mentorship opportunities, and much more! 
+        Don’t miss out on the wonderful opportunities this program offers. From Panel Discussions on Professionalism, Industry Seminars, Networking Sessions, and more, the insightful program aims to prepare an individual for their professional journey. To unleash your potential, an idea pitching competition will also be held based on the theme of this year’s STEP. The program also equips any individual with practical skills for post-graduation careers, introduces IEEE YP networks and resources, mentorship opportunities, and much more! 
         <br>
         <br>
 
-        Join us to transform from students to professionals and ignite your journey as future innovators!
+        Join us to transform from individuals to professionals and ignite your journey as future innovators!
         <br>
         <br>
 
@@ -178,30 +178,22 @@
       <input type="number" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
         class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
     </div>
+    <!--Select if you are a student or not-->
     <div class="mb-5">
       <label class="block uppercase text-lg  mb-1">
-        Select Your Membership Grade<span class="text-red-500">*</span>
+        Are you a student?<span class="text-red-500">*</span>
       </label>
       <label>
-        <input  class="mb-1" type="radio" name="membership_type" value="student" required>
-        IEEE Student Member (Undergraduate Students, Grade Students Membership)
+        <input  class="mb-1 text-md" type="radio" name="is_student" value="student">
+          Yes
       </label><br> 
       <label>
-        <input class="mb-1" type="radio" name="membership_type" value="member">
-        IEEE Member (IEEE Senior Members, Professional Membership, Faculty Members, Fellow)
-      </label><br> 
-      <label>
-        <input type="radio" name="membership_type" value="non_ieee">
-        Non-IEEE Member
+        <input class="mb-1 text-md" type="radio" name="is_student" value="member">
+          No
       </label><br> 
     </div>
-    <div class="mb-5">
-      <label for="ieee_id" class="block uppercase text-lg  mb-1">
-        IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
-      </label>
-      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
-    </div>
+    <!--For Student-->
+    <div class="student_div">
     <div class="mb-5">
       <label for="university" class="block uppercase text-lg  mb-1">
         University Name<span class="text-red-500">*</span>
@@ -223,6 +215,51 @@
       <input type="number" name="university_id" id="university_id" placeholder="Enter your University ID"
         class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
     </div>
+    <div class="mb-5">
+      <label for="ieee_id" class="block uppercase text-lg  mb-1">
+        IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
+      </label>
+      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <!--For Professionals-->
+    <div class="professional_div">
+    <div class="mb-5">
+      <label for="profession" class="block uppercase text-lg  mb-1">
+        Profession<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="profession" id="profession" placeholder="Eg: Enginner, Professor"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="designation" class="block uppercase text-lg  mb-1">
+        Designation<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="designation" id="designation" placeholder="What is your designation?"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="affiliation" class="block uppercase text-lg  mb-1">
+        Current Affiliation (Write N/A if none)<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="affiliation" id="affiliation" placeholder="Your company name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <div class="mb-5">
+      <label class="block uppercase text-lg  mb-1">
+        Select Your Membership Grade<span class="text-red-500">*</span>
+      </label>
+      <label>
+        <input class="mb-1" type="radio" name="membership_type" value="member">
+        IEEE Member
+      </label><br> 
+      <label>
+        <input type="radio" name="membership_type" value="non_ieee">
+        Non-IEEE Member
+      </label><br> 
+    </div>
     <div class="flex justify-center">
       <button onclick="nextStep(1)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
     </div>
@@ -240,7 +277,7 @@
 
       <!-- Centered Questionnaire Section -->
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-6 truncate text-center">QUESTIONNAIRE</h2>
+        <h2 class="text-xl mb-6 truncate text-center">QUESTIONNAIRE</h2>
       </div>
     </div>
 
@@ -295,14 +332,19 @@
 
       <!-- Centered Questionnaire Section -->
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-6 truncate text-center">PAYMENT</h2>
+        <h2 class="text-xl mb-6 truncate text-center">PAYMENT</h2>
       </div>
     </div>
 
+    <!--Student-->
     <p class="">
-      IEEE Student Member 360 taka <br>
-      IEEE Member 510 taka <br>
-      Non-IEEE Member 560 taka
+      IEEE Member 410 taka <br>
+      Non-IEEE Member 510 taka
+    </p>
+    <!--Profession-->
+    <p class="">
+      IEEE Member 810 taka <br>
+      Non-IEEE Member 910 taka
     </p>
     <div class="my-8">
       <label class="block uppercase   mb-1 ">
