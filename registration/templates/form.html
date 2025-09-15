@@ -285,25 +285,8 @@
     </div>
 
     <div class="mb-5">
-      <label for="question1" class="block uppercase text-lg  mb-1">
-        1. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
-      </label>
-      <textarea id="question1" name="question1" maxlength="250" rows="4"
-        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
-    </div>
-    <div class="mb-5">
-      <label for="question2" class="block uppercase text-lg  mb-1">
-        2. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
-          class="text-red-500">*</span>
-      </label>
-      <textarea id="question2" name="question2" maxlength="250" rows="4"
-        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
-    </div>
-    <div class="mb-5">
       <label for="question3" class="block uppercase text-lg  mb-1">
-        3. Why do you want to be a participant of STEP? (250 characters max)<span class="text-red-500">*</span>
+        1. Why do you want to be a participant of Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question3" name="question3" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
@@ -311,9 +294,26 @@
     </div>
     <div class="mb-5">
       <label for="question4" class="block uppercase text-lg  mb-1">
-        4. What is your expectation from STEP? (250 characters max)<span class="text-red-500">*</span>
+        2. What is your expectation from Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question4" name="question4" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+    <div class="mb-5" id="q3">
+      <label for="question1" class="block uppercase text-lg  mb-1">
+        3. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="question1" name="question1" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+    <div class="mb-5" id="q4">
+      <label for="question2" class="block uppercase text-lg  mb-1">
+        4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
+          class="text-red-500">*</span>
+      </label>
+      <textarea id="question2" name="question2" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." required></textarea>
     </div>
@@ -655,7 +655,7 @@ function prevStep(current) {
         //  alert('Registration successful! Your participant ID is: ' + data.participant_id);
         Swal.fire({
           title: "Registration Complete 🎊",
-          text: "Thanks for signing up! Get ready for an amazing experience.",
+          text: "Thanks for signing up! Get ready for an amazing experience. Please check your confirmation mail in your inbox/spam",
           icon: "success",
           draggable: true
         });
@@ -760,7 +760,34 @@ if (publishToggle) {
   });
 });
 </script>
+<script>
+  const radios = document.querySelectorAll('input[name="membership_type"]');
+  const q3 = document.getElementById('q3');
+  const q4 = document.getElementById('q4');
 
+  radios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      if (this.value === 'non_ieee') {
+        // hide q3 and q4
+        q3.style.display = 'none';
+        q4.style.display = 'none';
+
+        // remove "required" so form can submit
+        q3.querySelector('textarea').required = false;
+        q4.querySelector('textarea').required = false;
+
+      } else {
+        // show all
+        q3.style.display = 'block';
+        q4.style.display = 'block';
+
+        // restore required
+        q3.querySelector('textarea').required = true;
+        q4.querySelector('textarea').required = true;
+      }
+    });
+  });
+</script>
 </body>
 
 </html>
