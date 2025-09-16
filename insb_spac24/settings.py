@@ -156,7 +156,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'Participant Files/')
 MEDIA_URL = "/media_files/"
-LOGIN_URL = '/'
+LOGIN_URL = '/login'
 
 
 GOOGLE_CLOUD_CLIENT_ID=os.environ.get('DEV_GOOGLE_CLOUD_CLIENT_ID')
