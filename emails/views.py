@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import json
 import os
 from time import sleep
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from dotenv import set_key
@@ -16,9 +16,15 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
-
 from core.models import Registered_Participant
 from insb_spac24 import settings
+from django.contrib import messages
+from django.shortcuts import render
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_POST
+import csv
+
+from registration.models import EventFormStatus
 
 # Create your views here.
 @login_required
@@ -106,10 +112,10 @@ def send_email(request):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = data['emailAddr']
-        message["Subject"] = "QR Code for SPAC'24"
+        message["Subject"] = "QR Code for STEP'25"
         message.attach(MIMEText(f'''Dear Participant,
                                 
-Your QR code for SPAC'24 event is attached in this email.
+Your QR code for STEP'25 event is attached in this email.
 This QR code is essential to collect your food and goodies.
                                 
 Best regards,
@@ -141,10 +147,41 @@ IEEE NSU SB.''', 'plain'))
     
     return JsonResponse({'message':'success'})
 
+def send_registration_email(email):
+    credentials = get_credentials()
+
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = str(email)
+        message["Subject"] = "STEP 2025 - Registration Successful"
+        message.attach(MIMEText(render_to_string('submission_email_template.html'), 'html'))
+        
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})
+
 @login_required
 def authorize(request):
 
-    credentials = get_credentials(request)
+    credentials = get_credentials()
     if not credentials:
         flow = get_google_auth_flow(request)
         if(request.META['HTTP_HOST'] == "127.0.0.1:8000" or request.META['HTTP_HOST'] == "localhost:8000"):
@@ -243,3 +280,4 @@ def get_credentials():
             return creds
 
         return creds
+

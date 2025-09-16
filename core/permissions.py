@@ -27,3 +27,14 @@ class Site_Permissions:
             return True
         else:
             return False
+        
+    def is_superuser(request):
+        '''Returns True if the user is a superuser.'''
+        
+        username = request.user.username
+        user = User.objects.get(username=username)
+        
+        if user.is_superuser:
+            return True
+        else:
+            return False

@@ -19,8 +19,7 @@
         margin: 0;
         padding: 0;
         background: #68cbecfd;
-        background-image: url("https://www.transparenttextures.com/patterns/escheresque-dark.png");
-
+        background-image: url("{% static '/img/StepBG.png' %}");
         height: 100vh;
       }
 
@@ -66,10 +65,13 @@
         flex-wrap: wrap;
       }
 
-      .button-group button {
+      .button-group button,
+      .button-group a {
+        text-decoration: none;
+        font-size: 1rem;
         padding: 8px 20px;
         border: 1px solid #ffffff;
-        background: transparent;
+        background: #00629B;
         cursor: pointer;
         border-radius: 5px;
         /* font-weight: bold; */
@@ -497,7 +499,7 @@ video{
   <body>
     <!-- Navbar -->
     <div class="navbar">
-      <img src="{% static '/img/SPAC.png' %}" alt="logo" />
+      <img src="{% static '/img/STEP-25.png' %}" alt="logo" />
       <div>
         Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}
       </div>
@@ -518,6 +520,7 @@ video{
           {% if is_admin or user_permissions.update_session %}
           <button id="set-session">Set Session</button>
           {% endif %}
+          <a href="{% url 'registration:registration_form' %}" >Registration Form</a>
           {% if is_admin or user_permissions.scan %}
           <button id="tap-to-scan">Tap to Scan</button>
           {% endif %}

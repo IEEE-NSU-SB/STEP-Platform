@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found - 404</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white shadow-lg rounded-xl p-10 text-center max-w-lg mx-4">
+        <h1 class="text-9xl font-extrabold text-blue-600 mb-4">404</h1>
+        <h2 class="text-3xl font-semibold mb-2">Oops! Page Not Found</h2>
+        <p class="text-gray-500 mb-6">The page you’re looking for might have been removed or does not exist.</p>
+        {% comment %} <a href="{% url 'core:dashboard' %}" class="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+            Go Back Home
+        </a> {% endcomment %}
+        {% comment %} <div class="mt-6">
+            <img src="https://undraw.co/api/illustrations/404" alt="404 illustration" class="mx-auto w-64">
+        </div> {% endcomment %}
+    </div>
+</body>
+</html>

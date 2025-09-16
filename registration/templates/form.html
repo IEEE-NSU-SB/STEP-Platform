@@ -1,0 +1,795 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration Form</title>
+  <link rel="icon" href="{% static '/img/logo.gif' %}" />
+  <!--daisy ui-->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <!--tailwind-->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- sweet alert  -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!--particles.js-->
+  <script src="{% static 'js/particles.min.js' %}"></script>
+  <!-- stats.js lib --> 
+  <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#055f8b",
+            secondary: "#f17727",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+     body {
+      /* background-image: url("{% static '/img/StepBG.png' %}"); */
+      background: transparent;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+      font-family: "Inter", sans-serif;
+    }
+    @media screen and (max-width:500px){
+      .response_count{
+        margin: 0 auto;
+      }
+    }
+    /* particles container */
+    canvas{ display: block; vertical-align: bottom; } /* ---- particles.js container ---- */ #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #00629b; background-image: url(""); background-repeat: no-repeat; background-size: 20%; background-position: 50% 50%; } /* ---- stats.js ---- */ .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
+  </style>
+</head>
+
+<body class="min-h-screen py-8">
+<div id="particles-js" class="fixed inset-0 -z-10"></div>
+
+   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between my-4">
+    <div class="rounded overflow-hidden object-cover" style="box-shadow: 0 2px 6px 0px #00000078;">
+      <img src="{% static '/img/StepBanner.png' %}" alt="">
+    </div>
+  </nav>
+  {% if is_staff_view %}
+  <!-- admin feature part  -->
+  <!-- Button Header -->
+  <div class="rounded">
+
+  <div class="bg-white w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px); border-radius: 4px 4px; box-shadow: 0 2px 6px 0px #00000078; position: relative; top: 14px;">
+    <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
+      <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 items-center justify-between">
+      <div>
+        <!-- Publish Form Toggle Button (staff only) -->
+        <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-lg">
+          <input id="publishCheckbox" type="checkbox" {% if is_published %}checked="checked"{% endif %}
+          class="toggle border-gray-300 bg-gray-400 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
+          <span class="text-xl" id="publishText">{% if is_published %}Unpublish Form{% else %}Publish Form{% endif %}</span>
+        </button>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-center sm:justify-end w-full sm:w-auto"> 
+        <!-- Download Excel Button (staff only) -->
+        <a href="{% url 'registration:download_excel' %}"
+        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1  bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none  focus:ring-emerald-500 focus:ring-offset-2">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+        </svg>
+        <span>Download Excel Sheet</span>
+      </a>
+
+        <a href="{% url 'core:dashboard' %}"
+        class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg focus:outline-none  focus:ring-emerald-500 focus:ring-offset-2">
+        <span>Dashboard</span>
+      </a>
+      
+      <!-- See Responses Button (staff only) -->
+      <button
+      class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none  focus:ring-blue-500 focus:ring-offset-2">
+      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+        <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,17H7V15H17V17M17,13H7V11H17V13M17,9H7V7H17V9Z" />
+      </svg>
+      <span>See Responses</span>
+    </button>
+  </div>
+  <p class="response_count">Response Count: {{registration_count}}</p>
+</div>
+
+</div>
+  {% endif %}
+  <div class="bg-white w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; box-shadow: 0 2px 6px 0px #00000078;">
+    {% if not is_staff_view and not is_published and not registration_closed%}
+      <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
+        Registration is not open yet. Please check back later.
+      </div>
+    {% elif not is_staff_view and registration_closed %}
+      <div class="p-6 bg-red-50 border border-red-300 rounded text-red-900 text-center">
+        Registration is closed as we have reached the maximum number of participants.  
+      </div>
+    {% else %}
+    <!-- Step indicator
+    <div class="flex justify-between mb-8">
+      <div id="step1Indicator" class="w-1/3 text-center font-bold text-primary">1. Basic Info</div>
+      <div id="step2Indicator" class="w-1/3 text-center text-gray-500">2. Questionnaire</div>
+      <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
+    </div> -->
+
+    <!-- Form wrapper -->
+    <form id="registrationForm" method="post" action="/submit-form/">
+      {% csrf_token %}
+      
+      <!-- Step 1: Basic Info -->
+      <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+        <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
+        <p class="text-justify">
+        Do you know how to transition from an individual to young professional in the most exciting way? That is exactly what the IEEE Student Transition and Elevation Partnership (STEP)  is all about! It is the flagship event of the IEEE Young Professionals (YP) that helps to bridge the gap between academic and professional life. It equips you with skills, guidance, and networking opportunities to thrive in this fast-evolving world.
+        <br>
+        <br>
+
+        For this year’s STEP, Jointly organised by IEEE NSU Student Branch, IEEE Bangladesh Section and IEEE YP Bangladesh we are delighted to host the event titled “IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators” on September 27, 2025. The event is sponsored by the IEEE YP Affinity Group and the IEEE Foundation. The day-long program is specifically designed to help any individual smoothly transition from academic life to the professional world with the help of numerous opportunities provided by IEEE.
+        <br>
+        <br>
+
+        Don’t miss out on the wonderful opportunities this program offers. From Panel Discussions on Professionalism, Industry Seminars, Networking Sessions, and more, the insightful program aims to prepare an individual for their professional journey. To unleash your potential, an idea pitching competition will also be held based on the theme of this year’s STEP. The program also equips any individual with practical skills for post-graduation careers, introduces IEEE YP networks and resources, mentorship opportunities, and much more! 
+        <br>
+        <br>
+
+        Join us to transform from individuals to professionals and ignite your journey as future innovators!
+        <br>
+        <br>
+
+        <span class="underline">Event Details:</span>
+        <br>
+        Date: September 27, 2025
+        <br>
+        Time: 10:00 AM to 4:30 PM
+        <br>
+        Venue: North South University 
+        <br>
+        <br>
+        <span style="font-weight: bold;">Registration Deadline: September 22, 2025</span>
+        <br>
+        If you face any difficulty, please contact 01309570567
+        <br>
+        <br>
+        </p>
+<h2 class=" text-center text-2xl mb-6">BASIC INFO</h2>
+    <div class="mb-5">
+      <label for="name" class="block uppercase text-lg  mb-1">
+        Full Name (The Name Will be Used in Certificate)<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="name" id="name" placeholder="Enter your Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required />
+
+    </div>
+    <div class="mb-5">
+      <label for="email" class="block uppercase text-lg  mb-1">
+        Email Address<span class="text-red-500">*</span>
+      </label>
+      <input type="email" name="email" id="email" placeholder="Enter your Email"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required />
+    </div>
+    <div class="mb-5">
+      <label for="contact_number" class="block uppercase text-lg  mb-1">
+        Contact Number<span class="text-red-500">*</span>
+      </label>
+      <input type="number" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <!--Select if you are a student or not-->
+    <div class="mb-5">
+      <label class="block uppercase text-lg  mb-1">
+        Are you a student?<span class="text-red-500">*</span>
+      </label>
+      <label>
+        <input  class="mb-1 text-md" type="radio" name="is_student" value="student" required>
+          Yes
+      </label><br> 
+      <label>
+        <input class="mb-1 text-md" type="radio" name="is_student" value="member">
+          No
+      </label><br>
+      <input type="hidden" name="is_student_bool" id="is_student_bool">
+    </div>
+    <!--For Student-->
+    <div class="student_div">
+    <div class="mb-5">
+      <label for="university" class="block uppercase text-lg  mb-1">
+        University Name<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="university" id="university" placeholder="Enter your University Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="department" class="block uppercase text-lg  mb-1">
+        University Department Name<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="department" id="department" placeholder="Enter your University Department Name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="university_id" class="block uppercase text-lg  mb-1">
+        University ID<span class="text-red-500">*</span>
+      </label>
+      <input type="number" name="university_id" id="university_id" placeholder="Enter your University ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="ieee_id" class="block uppercase text-lg  mb-1">
+        IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
+      </label>
+      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <!--For Professionals-->
+    <div class="professional_div">
+    <div class="mb-5">
+      <label for="profession" class="block uppercase text-lg  mb-1">
+        Profession<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="profession" id="profession" placeholder="Eg: Enginner, Professor"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="designation" class="block uppercase text-lg  mb-1">
+        Designation<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="designation" id="designation" placeholder="What is your designation?"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    <div class="mb-5">
+      <label for="affiliation" class="block uppercase text-lg  mb-1">
+        Current Affiliation (Write N/A if none)<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="affiliation" id="affiliation" placeholder="Your company name"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+    </div>
+    </div>
+    <div class="mb-5">
+      <label class="block uppercase text-lg  mb-1">
+        Select Your Membership Grade<span class="text-red-500">*</span>
+      </label>
+      <label>
+        <input class="mb-1" type="radio" name="membership_type" value="member" required>
+        IEEE Member
+      </label><br> 
+      <label>
+        <input type="radio" name="membership_type" value="non_ieee">
+        Non-IEEE Member
+      </label><br> 
+    </div>
+    <div class="flex justify-center">
+      <button onclick="nextStep(1)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
+    </div>
+    </section>
+
+    <!-- Step 2: Questionnaire -->
+    <section id="step2" class="hidden shadow-md p-5 font-medium rounded-md">
+      <div class="flex items-center justify-between mb-8">
+      <!-- Back button on the left -->
+      <div class="z-10">
+        <button onclick="prevStep(2)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
+            Back
+        </button>
+      </div>
+
+      <!-- Centered Questionnaire Section -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
+        <h2 class="text-2xl mb-6 truncate text-center">QUESTIONNAIRE</h2>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label for="question3" class="block uppercase text-lg  mb-1">
+        1. Why do you want to be a participant of Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="question3" name="question3" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+    <div class="mb-5">
+      <label for="question4" class="block uppercase text-lg  mb-1">
+        2. What is your expectation from Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="question4" name="question4" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+    <div class="mb-5" id="q3">
+      <label for="question1" class="block uppercase text-lg  mb-1">
+        3. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="question1" name="question1" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+    <div class="mb-5" id="q4">
+      <label for="question2" class="block uppercase text-lg  mb-1">
+        4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
+          class="text-red-500">*</span>
+      </label>
+      <textarea id="question2" name="question2" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." required></textarea>
+    </div>
+      <div class="flex justify-center">
+        <button onclick="nextStep(2)" class="bg-[#00629b] text-white px-4 py-2 rounded hover:bg-[#00629b68] hover:text-[#00629b] transition-all ease-in-out cursor-pointer" type="button">Continue</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Payment -->
+    <section id="step3" class="hidden shadow-md p-5 font-medium rounded-md">
+      <!--  back button and title  -->
+    <div class="flex items-center justify-between mb-8">
+      <!-- Back button on the left -->
+      <div class="z-10">
+        <button  onclick="prevStep(3)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
+           Back
+        </button>
+      </div>
+
+      <!-- Centered Questionnaire Section -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
+        <h2 class="text-2xl mb-6 truncate text-center">PAYMENT</h2>
+      </div>
+    </div>
+
+    <!--Student-->
+    <p class="student_div">
+      IEEE Member 410 taka <br>
+      Non-IEEE Member 510 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
+    </p>
+    <!--Profession-->
+    <p class="professional_div">
+      IEEE Member 810 taka <br>
+      Non-IEEE Member 910 taka
+      <br>
+      <br>
+      <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
+    </p>
+    <div class="my-8">
+      <label class="block uppercase   mb-1 ">
+        Select Payment Method:<span class="text-red-500">*</span>
+      </label>
+
+      <label class="mr-4">
+        <input type="radio" name="payment_method" value="Nagad" required>
+        Nagad
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="Bkash" required>
+        Bkash
+      </label>
+    </div>
+
+    <div class="mb-5">
+      <label for="transaction_id" class="block uppercase   mb-1">
+        Transaction ID<span class="text-red-500">*</span>
+      </label>
+      <input type="text" name="transaction_id" id="transaction_id" placeholder="Enter your Transaction ID"
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required />
+    </div>
+
+    <!-- shirt table  -->
+    <h2 class="mb-1">Size Chart</h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-xs sm:text-lg min-w-full bg-gray-50">
+        <thead>
+          <tr>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700">
+              Description</th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">S
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">M
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">L
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">2XL
+            </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">3XL
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Width</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">36"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">38"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">40"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">42"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">44"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">46"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Height
+            </td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">25"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body Length</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mb-4 mt-3">
+      <label class="block uppercase   mb-1 ">
+        Select T-Shirt size<span class="text-red-500">*</span>
+      </label>
+      <div class="flex flex-col gap-2 ml-6">
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" required>
+          S
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" required>
+          M
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" required>
+          L
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" required>
+          XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" required>
+          2XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" required>
+          3XL
+        </label>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label for="comments" class="block uppercase text-lg  mb-1">
+        Any Comments:
+      </label>
+      <textarea id="comments" name="comments" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Your comment..."></textarea>
+    </div>
+      <div class="flex justify-center">
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
+      </div>
+    </section>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+{% if is_staff_view %}
+<div id="publishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
+    <h2 class="text-xl font-semibold mb-4">Confirm Publish</h2>
+    <p class="text-gray-600 mb-6">Are you sure you want to publish this form? Once published, it will be available for users to fill.</p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelPublish" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+      <button id="confirmPublish" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Yes, Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Unpublish Confirmation Modal -->
+<div id="unpublishModal" class="fixed inset-0 hidden bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center">
+    <h2 class="text-xl font-semibold mb-4">Confirm Unpublish</h2>
+    <p class="text-gray-600 mb-6">Are you sure you want to unpublish this form? Users will no longer be able to fill it.</p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelUnpublish" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+      <button id="confirmUnpublish" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Yes, Unpublish</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="flex justify-center items-center mt-3">
+  <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
+</div>
+  <script>
+    // Add this to your existing script section
+document.addEventListener('DOMContentLoaded', function() {
+  const studentRadio = document.querySelector('input[name="is_student"][value="student"]');
+  const memberRadio = document.querySelector('input[name="is_student"][value="member"]');
+  const studentDivs = document.querySelectorAll('.student_div');
+  const professionalDivs = document.querySelectorAll('.professional_div');
+
+  function toggleSections() {
+    if (studentRadio.checked) {
+      // Show all student sections, hide all professional sections
+      studentDivs.forEach(div => div.style.display = 'block');
+      professionalDivs.forEach(div => div.style.display = 'none');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.setAttribute('required', 'required'));
+      professionalFields.forEach(field => field.removeAttribute('required'));
+      
+    } else if (memberRadio.checked) {
+      // Show all professional sections, hide all student sections
+      studentDivs.forEach(div => div.style.display = 'none');
+      professionalDivs.forEach(div => div.style.display = 'block');
+      
+      // Handle required fields only for form inputs (not pricing paragraphs)
+      const studentFields = document.querySelectorAll('.student_div input');
+      const professionalFields = document.querySelectorAll('.professional_div input');
+      
+      studentFields.forEach(field => field.removeAttribute('required'));
+      professionalFields.forEach(field => field.setAttribute('required', 'required'));
+    }
+  }
+
+  // Initially hide all sections
+  studentDivs.forEach(div => div.style.display = 'none');
+  professionalDivs.forEach(div => div.style.display = 'none');
+
+  // Add event listeners
+  studentRadio.addEventListener('change', toggleSections);
+  memberRadio.addEventListener('change', toggleSections);
+});
+function validateStep(stepNumber) {
+  const currentStep = document.getElementById(`step${stepNumber}`);
+  const requiredFields = currentStep.querySelectorAll('[required]');
+  let isValid = true;
+
+  requiredFields.forEach(field => {
+    let fieldWrapper = field.closest("div"); // optional: highlight wrapper instead of only input
+
+    if (field.type === 'radio') {
+      const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
+      const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+
+      if (!isChecked) {
+        isValid = false;
+        radioGroup.forEach(radio => radio.classList.add("border-red-500"));
+      } else {
+        radioGroup.forEach(radio => radio.classList.remove("border-red-500"));
+      }
+
+    } else if (!field.value.trim()) {
+      isValid = false;
+      field.classList.add("border-red-500");
+    } else {
+      field.classList.remove("border-red-500");
+    }
+  });
+
+  return isValid;
+}
+
+function nextStep(current) {
+  if (!validateStep(current)) {
+    Swal.fire("Please fill in all the required fields!");
+    return; // stop here if invalid
+  }
+
+  document.getElementById(`step${current}`).classList.add("hidden");
+  document.getElementById(`step${current + 1}`).classList.remove("hidden");
+}
+
+function prevStep(current) {
+  document.getElementById(`step${current}`).classList.add("hidden");
+  document.getElementById(`step${current - 1}`).classList.remove("hidden");
+}
+
+    function prevStep(current) {
+      document.getElementById(`step${current}`).classList.add("hidden");
+      document.getElementById(`step${current - 1}`).classList.remove("hidden");
+      updateIndicators(current - 1);
+    }
+
+   function updateIndicators(step) {
+  // Check if indicators exist
+  if (!document.getElementById('step1Indicator')) {
+    return;
+  }
+  
+  [1, 2, 3].forEach(num => {
+    const indicator = document.getElementById(`step${num}Indicator`);
+    if (indicator) {
+      indicator.classList.remove("text-primary", "font-bold");
+      indicator.classList.add("text-gray-500");
+    }
+  });
+  
+  const activeIndicator = document.getElementById(`step${step}Indicator`);
+  if (activeIndicator) {
+    activeIndicator.classList.remove("text-gray-500");
+    activeIndicator.classList.add("text-primary", "font-bold");
+  }
+}
+
+    // Handle form submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+      
+      
+      // using formdata to handle file uploads
+      const formData = new FormData(this);
+      
+      // fetch API to submit form data
+      fetch(this.action, {
+        method: 'POST',
+        body: formData, 
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+        //  alert('Registration successful! Your participant ID is: ' + data.participant_id);
+        Swal.fire({
+          title: "Registration Complete 🎊",
+          text: "Thanks for signing up! Get ready for an amazing experience. Please check your confirmation mail in your inbox/spam",
+          icon: "success",
+          draggable: true
+        });
+          // Reset form
+          this.reset();
+        // Go back to step 1
+const step3 = document.getElementById('step3');
+const step1 = document.getElementById('step1');
+if (step3) step3.classList.add('hidden');
+if (step1) step1.classList.remove('hidden');
+updateIndicators(1);
+        } else {
+          alert('Registration failed: ' + data.message);
+        }
+      })
+      .catch(error => {
+        alert('Registration failed: ' + error.message);
+      })
+      .finally(() => {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      });
+    });
+
+
+{% if is_staff_view %}
+// Get elements
+const publishToggle = document.getElementById('publishCheckbox');
+const publishText = document.getElementById('publishText');
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+if (publishToggle) {
+  publishToggle.addEventListener('change', () => {
+    if (publishToggle.checked) {
+      // Show Publish Modal
+      document.getElementById('publishModal').classList.remove('hidden');
+    } else {
+      // Show Unpublish Modal
+      document.getElementById('unpublishModal').classList.remove('hidden');
+    }
+  });
+
+  // --- Publish Modal ---
+  document.getElementById('cancelPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    publishToggle.checked = false; // revert toggle
+  });
+
+  document.getElementById('confirmPublish').addEventListener('click', () => {
+    document.getElementById('publishModal').classList.add('hidden');
+    // Send AJAX request to publish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
+  });
+
+  // --- Unpublish Modal ---
+  document.getElementById('cancelUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    publishToggle.checked = true; // revert toggle
+  });
+
+  document.getElementById('confirmUnpublish').addEventListener('click', () => {
+    document.getElementById('unpublishModal').classList.add('hidden');
+    // Send AJAX request to unpublish
+    fetch('{% url "registration:toggle_publish" %}', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
+    })
+    .catch(err => alert('Failed to toggle publish: ' + err.message));
+  });
+}
+{% endif %}
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  particlesJS("particles-js", {"particles":{"number":{"value":160,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":1,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":4,"size_min":0.3,"sync":false}},"line_linked":{"enable":false,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":1,"direction":"none","random":true,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":600}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":false,"mode":"bubble"},"onclick":{"enable":false,"mode":"repulse"},"resize":true},"modes":{"grab":{"distance":400,"line_linked":{"opacity":1}},"bubble":{"distance":250,"size":0,"duration":2,"opacity":0,"speed":3},"repulse":{"distance":400,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
+  });
+</script>
+<script>
+  document.querySelectorAll('input[name="is_student"]').forEach((radio) => {
+  radio.addEventListener('change', function () {
+    document.getElementById("is_student_bool").value =
+      this.value === "student" ? "True" : "False";
+  });
+});
+</script>
+<script>
+  const radios = document.querySelectorAll('input[name="membership_type"]');
+  const q3 = document.getElementById('q3');
+  const q4 = document.getElementById('q4');
+
+  radios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      if (this.value === 'non_ieee') {
+        // hide q3 and q4
+        q3.style.display = 'none';
+        q4.style.display = 'none';
+
+        // remove "required" so form can submit
+        q3.querySelector('textarea').required = false;
+        q4.querySelector('textarea').required = false;
+
+      } else {
+        // show all
+        q3.style.display = 'block';
+        q4.style.display = 'block';
+
+        // restore required
+        q3.querySelector('textarea').required = true;
+        q4.querySelector('textarea').required = true;
+      }
+    });
+  });
+</script>
+</body>
+
+</html>
