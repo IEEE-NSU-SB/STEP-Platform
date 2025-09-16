@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import * 
+
+from .views import *
+from registration import views 
 
 app_name='registration'
 urlpatterns = [
@@ -11,4 +13,7 @@ urlpatterns = [
     path('registration/toggle-publish/', toggle_publish, name='toggle_publish'),
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
+
+    path('dummy/', views.dummy, name='dummy'),
+
 ]   

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responses</title>
+  <link rel="icon" href="{% static '/img/logo.gif' %}" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#055f8b",
+            secondary: "#f17727",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body{
+        background-image: url("{% static '/img/StepBG.png' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    @media screen and (max-width:500px){
+      .response_count{
+        margin: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+    <h1 class="text-xl font-bold mb-4">All Responses</h1>
+<table class="table-auto border-collapse border w-full">
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="border px-4 py-2">Name</th>
+      <th class="border px-4 py-2">Email</th>
+      <th class="border px-4 py-2">Submitted At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td class="border px-4 py-2"><a href="response detail page url" 
+        class="text-blue-600 hover:underline"> Name </a> </td>
+      <td class="border px-4 py-2"> University  </td>
+      <td class="border px-4 py-2"> date created  </td>
+      
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" class="text-center py-4">No responses yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</body>
