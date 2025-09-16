@@ -20,7 +20,7 @@ def registration_form(request):
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('registration:registration_admin')
     registration_count = Form_Participant.objects.count()
-    registration_closed = registration_count >= 100
+    registration_closed = registration_count >= 10000
     context = {
         'is_staff_view': False,
         'is_published': _get_publish_status(),
