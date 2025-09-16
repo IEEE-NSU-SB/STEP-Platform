@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" class="rounded-full" href="./assets/ieee_image.jpeg" type="image/x-icon" />
+  
   <title>📋 Response Details</title>
   <!-- tailwind and daisy ui -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -25,14 +26,7 @@
 <body class="bg-white min-h-screen py-8">
   
   <!-- nav -->
-  <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between ">
-    <div class="w-40 h-10">
-      <img src="./assets/ieee-logo.png" alt="">
-    </div>
-    <div class="w-40 h-10">
-      <img src="./assets/ieee-logo.png" alt="">
-    </div>
-  </nav>
+  
 
   <!-- Basic Info section -->
   <section class="w-11/12 md:w-3/5 mx-auto mt-10 shadow-md p-5 font-medium rounded-sm">
@@ -84,22 +78,22 @@
     <h2 class="font-bold text-lg sm:text-2xl text-center mb-6">Questionnaire Section</h2>
 
     <div class="mb-3">
-      <label class="block text-sm font-bold mb-2">1. What do you know about IEEE YP AG?</label>
+      <label class="block text-sm font-bold mb-2">1. Why do you want to be a participant of Student Transition and Elevation Partnership (STEP)? (250 characters max)</label>
       <textarea readonly class="w-full p-2 border border-gray-500 rounded-md">{{ response.q1 }}</textarea>
     </div>
 
     <div class="mb-3">
-      <label class="block text-sm font-bold mb-2">2. What do you know about STEP?</label>
+      <label class="block text-sm font-bold mb-2">2. What is your expectation from Student Transition and Elevation Partnership (STEP)? (250 characters max)</label>
       <textarea readonly class="w-full p-2 border border-gray-500 rounded-md">{{ response.q2 }}</textarea>
     </div>
 
     <div class="mb-3">
-      <label class="block text-sm font-bold mb-2">3. Why do you want to be a participant?</label>
+      <label class="block text-sm font-bold mb-2">3. What do you know about IEEE YP AG? (250 characters max)</label>
       <textarea readonly class="w-full p-2 border border-gray-500 rounded-md">{{ response.q3 }}</textarea>
     </div>
 
     <div class="mb-3">
-      <label class="block text-sm font-bold mb-2">4. What is your expectation from STEP?</label>
+      <label class="block text-sm font-bold mb-2">4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)</label>
       <textarea readonly class="w-full p-2 border border-gray-500 rounded-md">{{ response.q4 }}</textarea>
     </div>
   </section>
