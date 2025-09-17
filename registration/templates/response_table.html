@@ -25,24 +25,33 @@
   <body class="m-0 p-0">
     <div id="particles-js"></div>
 
-    <div class="relative w-11/12 md:w-4/5 mx-auto z-10 text p-8 min-h-screen">
+    <div class="relative w-11/12 md:w-100% mx-auto z-10 text py-8 min-h-screen">
       <div class="max-w-6xl mx-auto">
         <h1 class="text-3xl font-bold text-center text-white mb-8">
           Registration Data
         </h1>
+        <!-- back button  -->
+        <div class="flex justify-baseline items-baseline my-5">
+            <button
+              class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition"
+              style="background-color: #055f8b"
+            >
+              Back
+            </button>
+        </div>
         <!-- Search bar -->
         <div class="mb-3">
           <input
             type="text"
             id="tableSearch"
             placeholder="Search through name or email"
-            class="px-3 py-2 border text-white border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
+            class="px-3 py-2 border bg-white text-white border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
           />
         </div>
         <!-- Scrollable wrapper -->
-        <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
-          <table class="min-w-max w-full border-collapse text-sm md:text-base">
-            <thead>
+        <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">
+          <table class="relative min-w-max w-full border-collapse text-sm md:text-base">
+            <thead class="sticky">
               <tr class="bg-gray-700 text-white">
                 <th class="text-left py-3 px-4 rounded-tl-lg">SL</th>
                 <th class="text-left py-3 px-4">Name</th>
@@ -53,7 +62,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b hover:bg-gray-100 transition">
+              <tr data-href="profile1.html" class="border-b hover:bg-gray-100 transition">
                 <td class="py-3 px-4">1</td>
                 <td class="py-3 px-4 font-medium">Alice Johnson</td>
                 <td class="py-3 px-4">North South University</td>
@@ -61,7 +70,7 @@
                 <td class="py-3 px-4 text-blue-600">alice.johnson@nsu.edu</td>
                 <td class="py-3 px-4">+8801711000001</td>
               </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
+              <tr data-href="profile2.html" class="border-b hover:bg-gray-100 transition">
                 <td class="py-3 px-4">2</td>
                 <td class="py-3 px-4 font-medium">Mohammad Rahman</td>
                 <td class="py-3 px-4">BRAC University</td>
@@ -69,85 +78,11 @@
                 <td class="py-3 px-4 text-blue-600">rahman.m@bracu.ac.bd</td>
                 <td class="py-3 px-4">+8801711000002</td>
               </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">3</td>
-                <td class="py-3 px-4 font-medium">Sophia Williams</td>
-                <td class="py-3 px-4">Dhaka University</td>
-                <td class="py-3 px-4">Economics</td>
-                <td class="py-3 px-4 text-blue-600">sophia.w@du.ac.bd</td>
-                <td class="py-3 px-4">+8801711000003</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">4</td>
-                <td class="py-3 px-4 font-medium">Tanvir Hasan</td>
-                <td class="py-3 px-4">Ahsanullah University</td>
-                <td class="py-3 px-4">Civil Engineering</td>
-                <td class="py-3 px-4 text-blue-600">tanvir.h@aust.edu</td>
-                <td class="py-3 px-4">+8801711000004</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">5</td>
-                <td class="py-3 px-4 font-medium">Emily Brown</td>
-                <td class="py-3 px-4">Independent University</td>
-                <td class="py-3 px-4">Business Administration</td>
-                <td class="py-3 px-4 text-blue-600">emily.b@iub.edu</td>
-                <td class="py-3 px-4">+8801711000005</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">6</td>
-                <td class="py-3 px-4 font-medium">Farhana Akter</td>
-                <td class="py-3 px-4">East West University</td>
-                <td class="py-3 px-4">Pharmacy</td>
-                <td class="py-3 px-4 text-blue-600">farhana.a@ewubd.edu</td>
-                <td class="py-3 px-4">+8801711000006</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">7</td>
-                <td class="py-3 px-4 font-medium">David Smith</td>
-                <td class="py-3 px-4">American International University</td>
-                <td class="py-3 px-4">Software Engineering</td>
-                <td class="py-3 px-4 text-blue-600">david.s@aiub.edu</td>
-                <td class="py-3 px-4">+8801711000007</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">8</td>
-                <td class="py-3 px-4 font-medium">Nusrat Jahan</td>
-                <td class="py-3 px-4">Jahangirnagar University</td>
-                <td class="py-3 px-4">Environmental Science</td>
-                <td class="py-3 px-4 text-blue-600">nusrat.j@juniv.edu</td>
-                <td class="py-3 px-4">+8801711000008</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">9</td>
-                <td class="py-3 px-4 font-medium">Michael Lee</td>
-                <td class="py-3 px-4">Khulna University</td>
-                <td class="py-3 px-4">Architecture</td>
-                <td class="py-3 px-4 text-blue-600">michael.l@ku.ac.bd</td>
-                <td class="py-3 px-4">+8801711000009</td>
-              </tr>
-              <tr class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">10</td>
-                <td class="py-3 px-4 font-medium">Ayesha Siddiqua</td>
-                <td class="py-3 px-4">Chittagong University</td>
-                <td class="py-3 px-4">Mathematics</td>
-                <td class="py-3 px-4 text-blue-600">ayesha.s@cu.ac.bd</td>
-                <td class="py-3 px-4">+8801711000010</td>
-              </tr>
-
               <!-- rows will be here  -->
             </tbody>
           </table>
         </div>
 
-        <!-- back button  -->
-     <div class="flex justify-center items-center mt-5">
-         <button
-          class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition"
-          style="background-color: #055f8b"
-        >
-          Back
-        </button>
-     </div>
       </div>
     </div>
 
@@ -205,6 +140,18 @@
           retina_detect: true,
         });
       });
+    </script>
+    <script>
+      // Make rows clickable
+      document.querySelectorAll("table tbody tr").forEach(row => {
+        row.addEventListener("click", () => {
+          const link = row.getAttribute("data-href");
+          if (link) {
+            window.location.href = link; // redirect to the link
+          }
+        });
+      });
+
     </script>
   </body>
 </html>
