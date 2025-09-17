@@ -201,10 +201,5 @@ def download_excel(request):
     return response
 
 def dummy(request):
-    # You can use a public sample video or a dummy YouTube embed
-    context = {
-        'video_embed_url': 'https://www.youtube.com/embed/dQw4w9WgXcQ',  # dummy YouTube
-        'video_banner': None,  # or set a dummy MP4 if needed
-    }
-    return render(request, 'responses.html', context)
+    return render(request, 'response_table.html')
 
