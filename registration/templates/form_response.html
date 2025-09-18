@@ -126,15 +126,13 @@
       <label for="email" class="block uppercase text-lg  mb-1">
         Email Address<span class="text-red-500">*</span>
       </label>
-      <input type="email" name="email" id="email" placeholder="Enter your Email"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required >{{participant.email}}</div>
     </div>
     <div class="mb-5">
       <label for="contact_number" class="block uppercase text-lg  mb-1">
         Contact Number<span class="text-red-500">*</span>
       </label>
-      <input type="number" name="contact_number" id="contact_number" placeholder="Enter your Contact Number"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.contact_number}}</div>
     </div>
     <!--Select if you are a student or not-->
     <div class="mb-5">
@@ -142,80 +140,74 @@
         Are you a student?<span class="text-red-500">*</span>
       </label>
       <label>
-        <input class="mb-1 text-md" type="radio" name="is_student" value="student" checked required>
+        <input class="mb-1 text-md" type="radio"{% if participant.is_student or participant.is_student == 'true' %} checked {% else %} disabled {% endif %} >
           Yes
       </label><br> 
       <label>
-        <input class="mb-1 text-md" type="radio" name="is_student" disabled value="member">
+        <input class="mb-1 text-md" type="radio" {% if not participant.is_student and participant.is_student != 'true' %} checked {% else %} disabled {% endif %}>
           No
       </label><br>
       <input type="hidden" name="is_student_bool" id="is_student_bool">
     </div>
     <!--For Student-->
-    <div class="student_div" style="display: block;">
+    <div class="student_div" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}">
     <div class="mb-5">
       <label for="university" class="block uppercase text-lg  mb-1">
         University Name<span class="text-red-500">*</span>
       </label>
-      <input type="text" name="university" id="university" placeholder="Enter your University Name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.university}}</div>
     </div>
     <div class="mb-5">
       <label for="department" class="block uppercase text-lg  mb-1">
         University Department Name<span class="text-red-500">*</span>
       </label>
-      <input type="text" name="department" id="department" placeholder="Enter your University Department Name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.department}}</div>
     </div>
     <div class="mb-5">
       <label for="university_id" class="block uppercase text-lg  mb-1">
         University ID<span class="text-red-500">*</span>
       </label>
-      <input type="number" name="university_id" id="university_id" placeholder="Enter your University ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.university_id}}</div>
     </div>
     <div class="mb-5">
       <label for="ieee_id" class="block uppercase text-lg  mb-1">
         IEEE Membership ID (Write N/A if you're Non-IEEE Member)<span class="text-red-500">*</span>
       </label>
-      <input  type="text" name="ieee_id" id="ieee_id" placeholder="Enter your Membership ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.ieee_id}}</div>
     </div>
     </div>
     <!--For Professionals-->
-    <div class="professional_div" style="display: block;">
+    <div class="professional_div" style="{% if not participant.is_student and participant.is_student != 'true' %}display: block;{% else %}display: none;{% endif %}">
     <div class="mb-5">
       <label for="profession" class="block uppercase text-lg  mb-1">
         Profession<span class="text-red-500">*</span>
       </label>
-      <input type="text" name="profession" id="profession" placeholder="Eg: Enginner, Professor"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.profession}}</div>
     </div>
     <div class="mb-5">
       <label for="designation" class="block uppercase text-lg  mb-1">
         Designation<span class="text-red-500">*</span>
       </label>
-      <input type="text" name="designation" id="designation" placeholder="What is your designation?"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.designation}}</div>
     </div>
     <div class="mb-5">
       <label for="affiliation" class="block uppercase text-lg  mb-1">
         Current Affiliation (Write N/A if none)<span class="text-red-500">*</span>
       </label>
-      <input type="text" name="affiliation" id="affiliation" placeholder="Your company name"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none " required />
+      <div class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none ">{{participant.affiliation}}</div>
     </div>
+    
     </div>
     <div class="mb-5">
       <label class="block uppercase text-lg  mb-1">
         Select Your Membership Grade<span class="text-red-500">*</span>
       </label>
       <label>
-        <input class="mb-1" type="radio" name="membership_type" value="member" required>
+        <input class="mb-1" type="radio" name="membership_type" value="member" {% if participant.membership_type == 'member' %} checked {% else %} disabled {% endif %}>
         IEEE Member
       </label><br> 
       <label>
-        <input type="radio" name="membership_type" value="non_ieee">
+        <input type="radio" name="membership_type" value="non_ieee" {% if participant.membership_type == 'non_ieee' %}checked{% else %} disabled {% endif %}>
         Non-IEEE Member
       </label><br> 
     </div>
@@ -237,7 +229,7 @@
       </label>
       <textarea id="question3" name="question3" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question3 }}</textarea>
     </div>
     <div class="mb-5">
       <label for="question4" class="block uppercase text-lg  mb-1">
@@ -245,24 +237,24 @@
       </label>
       <textarea id="question4" name="question4" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question4 }}</textarea>
     </div>
-    <div class="mb-5" id="q3">
+    <div class="mb-5" id="q3" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}" >
       <label for="question1" class="block uppercase text-lg  mb-1">
         3. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question1" name="question1" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question1 }}</textarea>
     </div>
-    <div class="mb-5" id="q4">
+    <div class="mb-5" id="q4" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}">
       <label for="question2" class="block uppercase text-lg  mb-1">
         4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
           class="text-red-500">*</span>
       </label>
       <textarea id="question2" name="question2" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." required></textarea>
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question2 }}</textarea>
     </div>
     </section>
 
@@ -278,7 +270,7 @@
     </div>
 
     <!--Student-->
-    <p class="student_div">
+    <p class="student_div" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}">
       IEEE Member 410 taka <br>
       Non-IEEE Member 510 taka
       <br>
@@ -286,7 +278,7 @@
       <span style="font-weight: bold;">Bkash/Nagad: 01309570567</span>
     </p>
     <!--Profession-->
-    <p class="professional_div">
+    <p class="professional_div" style="{% if not participant.is_student and participant.is_student != 'true' %}display: block;{% else %}display: none;{% endif %}">
       IEEE Member 810 taka <br>
       Non-IEEE Member 910 taka
       <br>
@@ -299,11 +291,11 @@
       </label>
 
       <label class="mr-4">
-        <input type="radio" name="payment_method" value="Nagad" required>
+        <input type="radio" name="payment_method" value="Nagad" {% if participant.payment_method == 'Nagad' %}checked {% else %} disabled {% endif %}>
         Nagad
       </label>
       <label>
-        <input type="radio" name="payment_method" value="Bkash" required>
+        <input type="radio" name="payment_method" value="Bkash" {% if participant.payment_method == 'Bkash' %}checked {% else %} disabled {% endif %}>
         Bkash
       </label>
     </div>
@@ -313,7 +305,7 @@
         Transaction ID<span class="text-red-500">*</span>
       </label>
       <input type="text" name="transaction_id" id="transaction_id" placeholder="Enter your Transaction ID"
-        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " required />
+        class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none  " value="{{ participant.transaction_id }}" disabled />
     </div>
 
     <!-- shirt table  -->
@@ -378,27 +370,27 @@
       </label>
       <div class="flex flex-col gap-2 ml-6">
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" {% if participant.tshirt_size == 'S' %}checked {% else %} disabled {% endif %}>
           S
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" {% if participant.tshirt_size == 'M' %}checked {% else %} disabled {% endif %}>
           M
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" {% if participant.tshirt_size == 'L' %}checked {% else %} disabled {% endif %}>
           L
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" {% if participant.tshirt_size == 'XL' %}checked {% else %} disabled {% endif %}>
           XL
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '2XL' %}checked {% else %} disabled {% endif %}>
           2XL
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" required>
+          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '3XL' %}checked {% else %} disabled {% endif %}>
           3XL
         </label>
       </div>
@@ -409,8 +401,7 @@
         Any Comments:
       </label>
       <textarea id="comments" name="comments" maxlength="250" rows="4"
-        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Your comment..."></textarea>
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black">{{ participant.comments }}</textarea>
     </div>
       {% comment %} <div class="flex justify-center">
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Submit</button>
