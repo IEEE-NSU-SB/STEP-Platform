@@ -14,7 +14,8 @@ urlpatterns = [
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
     path('response-table/', response_table, name='response_table'),
+    path('registration/<int:id>/', view_response, name='view_response'),
 
-    path('dummy/', views.dummy, name='dummy'),
+
 
 ]   
