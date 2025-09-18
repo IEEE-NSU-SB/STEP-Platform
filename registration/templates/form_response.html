@@ -140,11 +140,11 @@
         Are you a student?<span class="text-red-500">*</span>
       </label>
       <label>
-        <input class="mb-1 text-md" type="radio"{% if participant.is_student or participant.is_student == 'true' %} checked {% endif %} disabled >
+        <input class="mb-1 text-md" type="radio"{% if participant.is_student or participant.is_student == 'true' %} checked {% else %} disabled {% endif %} >
           Yes
       </label><br> 
       <label>
-        <input class="mb-1 text-md" type="radio" {% if not participant.is_student and participant.is_student != 'true' %} checked {% endif %} disabled>
+        <input class="mb-1 text-md" type="radio" {% if not participant.is_student and participant.is_student != 'true' %} checked {% else %} disabled {% endif %}>
           No
       </label><br>
       <input type="hidden" name="is_student_bool" id="is_student_bool">
@@ -203,11 +203,11 @@
         Select Your Membership Grade<span class="text-red-500">*</span>
       </label>
       <label>
-        <input class="mb-1" type="radio" name="membership_type" value="member" {% if participant.membership_type == 'member' %}checked{% endif %} disabled>
+        <input class="mb-1" type="radio" name="membership_type" value="member" {% if participant.membership_type == 'member' %} checked {% else %} disabled {% endif %}>
         IEEE Member
       </label><br> 
       <label>
-        <input type="radio" name="membership_type" value="non_ieee" {% if participant.membership_type == 'non_ieee' %}checked{% endif %} disabled>
+        <input type="radio" name="membership_type" value="non_ieee" {% if participant.membership_type == 'non_ieee' %}checked{% else %} disabled {% endif %}>
         Non-IEEE Member
       </label><br> 
     </div>
@@ -303,11 +303,11 @@
       </label>
 
       <label class="mr-4">
-        <input type="radio" name="payment_method" value="Nagad" {% if participant.payment_method == 'Nagad' %}checked{% endif %} disabled>
+        <input type="radio" name="payment_method" value="Nagad" {% if participant.payment_method == 'Nagad' %}checked {% else %} disabled {% endif %}>
         Nagad
       </label>
       <label>
-        <input type="radio" name="payment_method" value="Bkash" {% if participant.payment_method == 'Bkash' %}checked{% endif %} disabled>
+        <input type="radio" name="payment_method" value="Bkash" {% if participant.payment_method == 'Bkash' %}checked {% else %} disabled {% endif %}>
         Bkash
       </label>
     </div>
@@ -382,27 +382,27 @@
       </label>
       <div class="flex flex-col gap-2 ml-6">
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" {% if participant.tshirt_size == 'S' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="S" class="form-radio text-blue-500" {% if participant.tshirt_size == 'S' %}checked {% else %} disabled {% endif %}>
           S
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" {% if participant.tshirt_size == 'M' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="M" class="form-radio text-blue-500" {% if participant.tshirt_size == 'M' %}checked {% else %} disabled {% endif %}>
           M
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" {% if participant.tshirt_size == 'L' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="L" class="form-radio text-blue-500" {% if participant.tshirt_size == 'L' %}checked {% else %} disabled {% endif %}>
           L
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" {% if participant.tshirt_size == 'XL' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="XL" class="form-radio text-blue-500" {% if participant.tshirt_size == 'XL' %}checked {% else %} disabled {% endif %}>
           XL
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '2XL' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="2XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '2XL' %}checked {% else %} disabled {% endif %}>
           2XL
         </label>
         <label class="flex items-center gap-2">
-          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '3XL' %}checked{% endif %} disabled>
+          <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '3XL' %}checked {% else %} disabled {% endif %}>
           3XL
         </label>
       </div>
