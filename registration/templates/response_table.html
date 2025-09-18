@@ -32,7 +32,7 @@
         </h1>
         <!-- back button  -->
         <div class="flex justify-baseline items-baseline my-5">
-            <button
+            <button type="button" onclick="window.history.back();"
               class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition"
               style="background-color: #055f8b"
             >
@@ -62,23 +62,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr data-href="profile1.html" class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">1</td>
-                <td class="py-3 px-4 font-medium">Alice Johnson</td>
-                <td class="py-3 px-4">North South University</td>
-                <td class="py-3 px-4">Computer Science</td>
-                <td class="py-3 px-4 text-blue-600">alice.johnson@nsu.edu</td>
-                <td class="py-3 px-4">+8801711000001</td>
-              </tr>
-              <tr data-href="profile2.html" class="border-b hover:bg-gray-100 transition">
-                <td class="py-3 px-4">2</td>
-                <td class="py-3 px-4 font-medium">Mohammad Rahman</td>
-                <td class="py-3 px-4">BRAC University</td>
-                <td class="py-3 px-4">Electrical Engineering</td>
-                <td class="py-3 px-4 text-blue-600">rahman.m@bracu.ac.bd</td>
-                <td class="py-3 px-4">+8801711000002</td>
-              </tr>
-              <!-- rows will be here  -->
+              {% for p in participants %}
+               <tr data-href="{% url 'registration:view_response' p.id %}" class="border-b hover:bg-gray-100 transition">
+                 <td class="py-3 px-4">{{forloop.counter}}</td>
+                 <td class="py-3 px-4 font-medium">{{p.name}}</td>
+                 <td class="py-3 px-4">{{p.university}}</td>
+                 <td class="py-3 px-4">{{p.department}}</td>
+                 <td class="py-3 px-4 text-blue-600">{{p.email}}</td>
+                 <td class="py-3 px-4">{{p.contact_number}}</td>
+               </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center py-4 text-gray-500">No participants found.</td>
+                </tr>
+              {% endfor %} 
+              
+              <!-- rows will be here  -->   
             </tbody>
           </table>
         </div>
