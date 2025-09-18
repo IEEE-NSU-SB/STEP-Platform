@@ -41,6 +41,12 @@ def registration_admin(request):
     }
     return render(request, 'form.html', context)
 
+def registration_redirect(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:registration_admin')
+    else:
+        return redirect('registration:registration_form')
+
 @login_required
 @require_POST
 def toggle_publish(request):
