@@ -63,7 +63,7 @@
             </thead>
             <tbody>
               {% for p in participants %}
-               <tr class="border-b hover:bg-gray-100 transition">
+               <tr data-href="{% url 'registration:view_response' p.id %}" class="border-b hover:bg-gray-100 transition">
                  <td class="py-3 px-4">{{forloop.counter}}</td>
                  <td class="py-3 px-4 font-medium">{{p.name}}</td>
                  <td class="py-3 px-4">{{p.university}}</td>

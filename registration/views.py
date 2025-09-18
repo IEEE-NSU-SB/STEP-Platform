@@ -208,7 +208,13 @@ def response_table(request):
     }
     return render(request, 'response_table.html', context)
 
+@login_required
+def view_response(request, id):
+    partipant=Form_Participant.objects.get(id=id)
+    context = {
+        'participant': partipant
+    }
+    return render(request, 'form_response.html', context)
 
-def dummy(request):
-    return render(request, 'response_table.html')
+
 
