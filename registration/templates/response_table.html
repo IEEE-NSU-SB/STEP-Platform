@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Response Table</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--daisy ui-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #00629b;
+        z-index: -10;
+      }
+    </style>
+  </head>
+  <body class="m-0 p-0">
+    <div id="particles-js"></div>
+
+    <div class="relative w-11/12 md:w-100% mx-auto z-10 text py-8 min-h-screen">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-white mb-8">
+          Registration Data
+        </h1>
+        <!-- back button  -->
+        <div class="flex justify-baseline items-baseline my-5">
+            <button
+              class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition"
+              style="background-color: #055f8b"
+            >
+              Back
+            </button>
+        </div>
+        <!-- Search bar -->
+        <div class="mb-3">
+          <input
+            type="text"
+            id="tableSearch"
+            placeholder="Search through name or email"
+            class="px-3 py-2 border bg-white text-white border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
+          />
+        </div>
+        <!-- Scrollable wrapper -->
+        <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">
+          <table class="relative min-w-max w-full border-collapse text-sm md:text-base">
+            <thead class="sticky">
+              <tr class="bg-gray-700 text-white">
+                <th class="text-left py-3 px-4 rounded-tl-lg">SL</th>
+                <th class="text-left py-3 px-4">Name</th>
+                <th class="text-left py-3 px-4">University</th>
+                <th class="text-left py-3 px-4">Department</th>
+                <th class="text-left py-3 px-4">Email</th>
+                <th class="text-left py-3 px-4 rounded-tr-lg">Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-href="profile1.html" class="border-b hover:bg-gray-100 transition">
+                <td class="py-3 px-4">1</td>
+                <td class="py-3 px-4 font-medium">Alice Johnson</td>
+                <td class="py-3 px-4">North South University</td>
+                <td class="py-3 px-4">Computer Science</td>
+                <td class="py-3 px-4 text-blue-600">alice.johnson@nsu.edu</td>
+                <td class="py-3 px-4">+8801711000001</td>
+              </tr>
+              <tr data-href="profile2.html" class="border-b hover:bg-gray-100 transition">
+                <td class="py-3 px-4">2</td>
+                <td class="py-3 px-4 font-medium">Mohammad Rahman</td>
+                <td class="py-3 px-4">BRAC University</td>
+                <td class="py-3 px-4">Electrical Engineering</td>
+                <td class="py-3 px-4 text-blue-600">rahman.m@bracu.ac.bd</td>
+                <td class="py-3 px-4">+8801711000002</td>
+              </tr>
+              <!-- rows will be here  -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("tableSearch");
+        const tableBody = document.querySelector("table tbody"); // use tbody directly
+
+        searchInput.addEventListener("input", function () {
+          const query = this.value.toLowerCase();
+          const rows = tableBody.querySelectorAll("tr");
+
+          rows.forEach((row) => {
+            const cells = row.querySelectorAll("td");
+            const name = cells[1].textContent.toLowerCase(); // Name column
+            const email = cells[4].textContent.toLowerCase(); // Email column
+
+            if (name.includes(query) || email.includes(query)) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 160, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: { type: "circle" },
+            opacity: {
+              value: 1,
+              random: true,
+              anim: { enable: true, speed: 1, opacity_min: 0, sync: false },
+            },
+            size: { value: 3, random: true },
+            line_linked: { enable: false },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              random: true,
+              straight: false,
+              out_mode: "out",
+              bounce: false,
+            },
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: false },
+              onclick: { enable: false },
+              resize: true,
+            },
+          },
+          retina_detect: true,
+        });
+      });
+    </script>
+    <script>
+      // Make rows clickable
+      document.querySelectorAll("table tbody tr").forEach(row => {
+        row.addEventListener("click", () => {
+          const link = row.getAttribute("data-href");
+          if (link) {
+            window.location.href = link; // redirect to the link
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
