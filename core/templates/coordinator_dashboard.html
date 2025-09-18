@@ -12,7 +12,17 @@
     </style>
     <script src="{% static 'js/html5-qrcode.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- particle  -->
+    <script src="{% static "js/particles.min.js" %}"></script> 
+     <style>
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #00629b;
+        z-index: -10;
+      }
+    </style>
     <style>
       body {
         font-family: "Roboto", serif;
@@ -497,6 +507,7 @@ video{
     </style>
   </head>
   <body>
+     <div id="particles-js"></div>
     <!-- Navbar -->
     <div class="navbar">
       <img src="{% static '/img/STEP-25.png' %}" alt="logo" />
@@ -1285,6 +1296,42 @@ details_form.addEventListener("submit", (e) => {
     }).catch((err) => console.error("Error:", err));
 });
 
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 160, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: { type: "circle" },
+            opacity: {
+              value: 1,
+              random: true,
+              anim: { enable: true, speed: 1, opacity_min: 0, sync: false },
+            },
+            size: { value: 3, random: true },
+            line_linked: { enable: false },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              random: true,
+              straight: false,
+              out_mode: "out",
+              bounce: false,
+            },
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: false },
+              onclick: { enable: false },
+              resize: true,
+            },
+          },
+          retina_detect: true,
+        });
+      });
     </script>
   </body>
 </html>
