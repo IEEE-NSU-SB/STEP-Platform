@@ -8,7 +8,7 @@ urlpatterns = [
     # Public/user registration form (only visible when published)
     path('', registration_form, name='registration_form'),
     # Staff-only admin view of the form and controls
-    path('registration/', registration_redirect, name="registration_redirect"),
+    path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),
     # Publish toggle endpoint (staff-only)
     path('registration/toggle-publish/', toggle_publish, name='toggle_publish'),
