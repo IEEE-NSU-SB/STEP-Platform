@@ -104,7 +104,7 @@ def submit_form(request):
                 affiliation = affiliation
             )
 
-            send_registration_email(participant.email)
+            send_registration_email(participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
