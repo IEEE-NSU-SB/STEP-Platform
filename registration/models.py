@@ -5,6 +5,9 @@ class EventFormStatus(models.Model):
     is_published = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Event Form Status"
+
     def __str__(self):
         return "Published" if self.is_published else "Unpublished"
 
@@ -43,6 +46,9 @@ class Form_Participant(models.Model):
     comments = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name="Form Participant"
 
     def __str__(self):
         return f"{self.name} - {self.email}"

@@ -24,8 +24,15 @@ def login(request):
 
         user = auth.authenticate(username=username, password=password)
         if(user is not None):
+            # Check for the 'next' parameter in the GET request
+            next_url = request.GET.get('next')
+
             auth.login(request, user)
-            return redirect('core:dashboard')
+            if next_url:
+                # Redirect to the originally requested URL
+                return redirect(next_url)
+            else:
+                return redirect('core:dashboard')
         else:
             messages.error(request, "Credentials don't match")
 

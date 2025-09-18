@@ -104,7 +104,7 @@ def submit_form(request):
                 affiliation = affiliation
             )
 
-            send_registration_email(participant.email)
+            send_registration_email(participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
@@ -199,4 +199,22 @@ def download_excel(request):
     )
     response['Content-Disposition'] = 'attachment; filename="participants_data.xlsx"'
     return response
+
+@login_required
+def response_table(request):
+    participants = Form_Participant.objects.all().order_by('-created_at')
+    context = {
+        'participants': participants
+    }
+    return render(request, 'response_table.html', context)
+
+@login_required
+def view_response(request, id):
+    partipant=Form_Participant.objects.get(id=id)
+    context = {
+        'participant': partipant
+    }
+    return render(request, 'form_response.html', context)
+
+
 
