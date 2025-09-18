@@ -208,7 +208,7 @@ def download_excel(request):
 
 @login_required
 def response_table(request):
-    participants = Form_Participant.objects.all().order_by('-created_at')
+    participants = Form_Participant.objects.all().order_by('created_at')
     context = {
         'participants': participants
     }
