@@ -91,13 +91,13 @@
       </a>
       
       <!-- See Responses Button (staff only) -->
-      <button onclick="seeResponseTable()"
+      <a href="{% url 'registration:response_table' %}"
       class="inline-flex items-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:outline-none  focus:ring-blue-500 focus:ring-offset-2">
       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
         <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,17H7V15H17V17M17,13H7V11H17V13M17,9H7V7H17V9Z" />
       </svg>
       <span>See Responses</span>
-    </button>
+    </a>
   </div>
   <p class="response_count">Response Count: {{registration_count}}</p>
 </div>

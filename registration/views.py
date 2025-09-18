@@ -1,5 +1,5 @@
 import csv
-##import pandas as pd
+import pandas as pd
 from io import BytesIO
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -199,6 +199,15 @@ def download_excel(request):
     )
     response['Content-Disposition'] = 'attachment; filename="participants_data.xlsx"'
     return response
+
+@login_required
+def response_table(request):
+    participants = Form_Participant.objects.all().order_by('-created_at')
+    context = {
+        'participants': participants
+    }
+    return render(request, 'response_table.html', context)
+
 
 def dummy(request):
     return render(request, 'response_table.html')
