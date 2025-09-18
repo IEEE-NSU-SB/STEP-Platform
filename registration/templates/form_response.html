@@ -104,14 +104,14 @@
 
 </div>
   {% endif %}
-  <div class="bg-white w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; box-shadow: 0 2px 6px 0px #00000078;">
-
+  <div class=" w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; ">
+<!-- box-shadow: 0 2px 6px 0px #00000078; -->
     <!-- Form wrapper -->
     <form id="registrationForm" method="post" action="/submit-form/">
       {% csrf_token %}
       
       <!-- Step 1: Basic Info -->
-      <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+      <section id="step1" class="bg-white shadow-md p-5 font-medium rounded-md">
         <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
 
 <h2 class=" text-center text-2xl mb-6">BASIC INFO</h2>
@@ -222,18 +222,12 @@
     </section>
 
     <!-- Step 2: Questionnaire -->
-    <section id="step2" class="shadow-md p-5 font-medium rounded-md">
+    <section id="step2" class="bg-white shadow-md p-5 font-medium rounded-md my-6">
       <div class="flex items-center justify-between mb-8">
-      <!-- Back button on the left -->
-      <div class="z-10">
-        <button onclick="prevStep(2)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
-            Back
-        </button>
-      </div>
 
       <!-- Centered Questionnaire Section -->
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-6 truncate text-center">QUESTIONNAIRE</h2>
+        <h2 class="text-2xl mb-5 mt-7 truncate text-center">QUESTIONNAIRE</h2>
       </div>
     </div>
 
@@ -273,18 +267,12 @@
     </section>
 
     <!-- Step 3: Payment -->
-    <section id="step3" class="shadow-md p-5 font-medium rounded-md">
+    <section id="step3" class="bg-white shadow-md p-5 font-medium rounded-md my-6">
       <!--  back button and title  -->
     <div class="flex items-center justify-between mb-8">
-      <!-- Back button on the left -->
-      <div class="z-10">
-        <button  onclick="prevStep(3)" class="rounded-2xl px-2 text-[#00629b] cursor-pointer mb-6" type="button">
-           Back
-        </button>
-      </div>
-
+  
       <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-6 truncate text-center">PAYMENT</h2>
+        <h2 class="text-2xl mb-5 mt-7 truncate text-center">PAYMENT</h2>
       </div>
       <!-- Centered Questionnaire Section -->
     </div>
