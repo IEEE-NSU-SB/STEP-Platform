@@ -227,37 +227,37 @@
     </div>
 
     <div class="mb-5">
-      <label for="question3" class="block uppercase text-lg  mb-1">
-        1. Why do you want to be a participant of Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
-      </label>
-      <textarea id="question3" name="question3" maxlength="250" rows="4"
-        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." disabled>{{ participant.answers.question3 }}</textarea>
-    </div>
-    <div class="mb-5">
-      <label for="question4" class="block uppercase text-lg  mb-1">
-        2. What is your expectation from Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
-      </label>
-      <textarea id="question4" name="question4" maxlength="250" rows="4"
-        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
-        placeholder="Type your answer here..." disabled>{{ participant.answers.question4 }}</textarea>
-    </div>
-    <div class="mb-5" id="q3" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}" >
       <label for="question1" class="block uppercase text-lg  mb-1">
-        3. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+        1. Why do you want to be a participant of Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question1" name="question1" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." disabled>{{ participant.answers.question1 }}</textarea>
     </div>
-    <div class="mb-5" id="q4" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}">
+    <div class="mb-5">
       <label for="question2" class="block uppercase text-lg  mb-1">
-        4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
-          class="text-red-500">*</span>
+        2. What is your expectation from Student Transition and Elevation Partnership (STEP)? (250 characters max)<span class="text-red-500">*</span>
       </label>
       <textarea id="question2" name="question2" maxlength="250" rows="4"
         class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
         placeholder="Type your answer here..." disabled>{{ participant.answers.question2 }}</textarea>
+    </div>
+    <div class="mb-5" id="q3" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}" >
+      <label for="question3" class="block uppercase text-lg  mb-1">
+        3. What do you know about  IEEE YP AG? (250 characters max)<span class="text-red-500">*</span>
+      </label>
+      <textarea id="question3" name="question3" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question3 }}</textarea>
+    </div>
+    <div class="mb-5" id="q4" style="{% if participant.is_student or participant.is_student == 'true' %}display: block;{% else %}display: none;{% endif %}">
+      <label for="question4" class="block uppercase text-lg  mb-1">
+        4. What do you know about Student Transition and Elevation Partnership (STEP)? (250 characters max)<span
+          class="text-red-500">*</span>
+      </label>
+      <textarea id="question4" name="question4" maxlength="250" rows="4"
+        class="w-full p-2 border border-gray-500 rounded-md focus:outline-none  focus:ring-1 focus:ring-black"
+        placeholder="Type your answer here..." disabled>{{ participant.answers.question4 }}</textarea>
     </div>
     </section>
 
