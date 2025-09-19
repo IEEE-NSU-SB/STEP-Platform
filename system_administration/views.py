@@ -1,7 +1,7 @@
 import mimetypes
 import os
 
-from django.http import FileResponse, Http404, HttpResponse
+from django.http import FileResponse, Http404, HttpResponseForbidden
 from insb_spac24 import settings
 
 def protected_serve(request, path):
@@ -18,4 +18,4 @@ def protected_serve(request, path):
         # Return the file as response
         return FileResponse(open(file_path, 'rb'), content_type=content_type)
     else:
-        return HttpResponse('Access Denied')
+        return HttpResponseForbidden('Access Denied')

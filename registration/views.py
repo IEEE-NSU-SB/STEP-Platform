@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
+from access_ctrl.decorators import permission_required
 from system_administration.utils import log_exception
 from emails.views import send_registration_email
 
@@ -209,6 +210,7 @@ def download_excel(request):
     return response
 
 @login_required
+@permission_required('view_reg_responses_list')
 def response_table(request):
     participants = Form_Participant.objects.all().order_by('created_at')
     context = {
@@ -217,6 +219,7 @@ def response_table(request):
     return render(request, 'response_table.html', context)
 
 @login_required
+@permission_required('view_reg_response')
 def view_response(request, id):
     partipant=Form_Participant.objects.get(id=id)
     context = {

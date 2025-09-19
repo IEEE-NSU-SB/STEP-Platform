@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'emails',
     'registration',
     'system_administration',
+    'access_ctrl',
 ]
 
 MIDDLEWARE = [
