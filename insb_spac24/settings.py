@@ -29,11 +29,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('SETTINGS') == 'dev':
     DEBUG = True
+    ALLOWED_HOSTS = ['*']
 else:
     DEBUG = False
-
-ALLOWED_HOSTS = ['*']
-
+    ALLOWED_HOSTS = ['step25.ieeensusb.org']
 
 
 # Application definition
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'core',
     'emails',
     'registration',
+    'system_administration',
 ]
 
 MIDDLEWARE = [
@@ -155,8 +155,10 @@ STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT= os.path.join(BASE_DIR, 'Participant Files/')
+MEDIA_ROOT= os.path.join(BASE_DIR, 'Media Files/')
+PROTECTED_ROOT= os.path.join(BASE_DIR, 'Participant Files/')
 MEDIA_URL = "/media_files/"
+PROTECTED_URL = "/protected/"
 LOGIN_URL = '/login'
 
 

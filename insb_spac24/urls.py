@@ -20,15 +20,17 @@ from django.conf.urls.static import static
 from django.views.static import serve
 
 from insb_spac24 import settings
+from system_administration.views import protected_serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', include('emails.urls')),
     path('', include('registration.urls')),
+    re_path(r'^protected/(?P<path>.*)$', protected_serve, name="protected_serve"),
     re_path(r'^media_files/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]
 
-urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+# urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
