@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Token_Session, Registered_Participant, Token_Participant, User_Permission
+from core.models import Token_Session, Registered_Participant, Token_Participant, User_Permission, ErrorLog
 
 # Register your models here.
 @admin.register(Token_Session)
@@ -26,3 +26,5 @@ class User_PermissionAdmin(admin.ModelAdmin):
 class Token_ParticipantAdmin(admin.ModelAdmin):
      list_display = ['registered_participant', 'token_session__session_name', 'date_time']
      ordering = ['-token_session__order_of_session']
+
+admin.site.register(ErrorLog)

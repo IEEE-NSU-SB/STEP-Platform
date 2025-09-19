@@ -15,4 +15,6 @@ urlpatterns = [
     # path('init/import_csv/', import_csv, name='import_csv'),
     path('init/gen_qr/', gen),
     path('init/import_reg_participants/', import_reg_participants),
+    # path('init/set_increment_counter/', set_db_increment_counter),
+    # path('init/update_db_serial/', update_db_serial)
 ]

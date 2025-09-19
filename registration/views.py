@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
+from core.utils import log_exception
 from emails.views import send_registration_email
 
 from .models import EventFormStatus, Form_Participant
@@ -61,8 +62,8 @@ def toggle_publish(request):
 
 def submit_form(request):
     """Handle form submission and save participant data"""
-    if request.method == 'POST':
-        try:
+    try:
+        if request.method == 'POST':
             # Get form data
             is_student = request.POST.get('is_student_bool')
             name = request.POST.get('name')
@@ -118,19 +119,20 @@ def submit_form(request):
                 'message': 'Registration successful! Your participant ID is: ' + str(participant.id),
                 'participant_id': participant.id
             })
-            
-        except Exception as e:
-            # Return error response
+                      
+        else:
+            # If not POST request, return error
             return JsonResponse({
                 'success': False,
-                'message': 'Registration failed: ' + str(e)
+                'message': 'Invalid request method'
             })
-    
-    # If not POST request, return error
-    return JsonResponse({
-        'success': False,
-        'message': 'Invalid request method'
-    })
+    except Exception as e:
+        # Return error response
+        log_exception(e, request)
+        return JsonResponse({
+            'success': False,
+            'message': 'Registration failed'
+        })
     
 @login_required
 def download_excel(request):
@@ -221,6 +223,3 @@ def view_response(request, id):
         'participant': partipant
     }
     return render(request, 'form_response.html', context)
-
-
-
