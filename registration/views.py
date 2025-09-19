@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from core.utils import log_exception
+from system_administration.utils import log_exception
 from emails.views import send_registration_email
 
 from .models import EventFormStatus, Form_Participant

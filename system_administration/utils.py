@@ -1,5 +1,5 @@
 import traceback
-from .models import ErrorLog
+from core.models import ErrorLog
 
 def log_exception(exception, request=None):
     try:
