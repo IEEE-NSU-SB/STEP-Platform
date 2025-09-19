@@ -41,8 +41,8 @@ class Form_Participant(models.Model):
 
     # Payment
     payment_method = models.CharField(max_length=20, choices=[("Nagad","Nagad"),("Bkash","Bkash")], default="NO method")
-    transaction_id = models.CharField(max_length=100, null=False, blank=False)
-    tshirt_size = models.CharField(max_length=5, choices=SIZE_CHOICES, null=False, blank=False)
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    tshirt_size = models.CharField(max_length=5, choices=SIZE_CHOICES, null=True, blank=True)
     comments = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

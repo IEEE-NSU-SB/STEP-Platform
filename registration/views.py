@@ -79,7 +79,7 @@ def submit_form(request):
             university_id = request.POST.get('university_id','')
             payment_method = request.POST.get('payment_method')
             transaction_id = request.POST.get('transaction_id')
-            tshirt_size = request.POST.get('tshirt_size')
+            # tshirt_size = request.POST.get('tshirt_size')
             comments = request.POST.get('comments', '')
             
             # Collect questionnaire answers
@@ -102,7 +102,7 @@ def submit_form(request):
                 university_id=university_id,
                 payment_method=payment_method,
                 transaction_id=transaction_id,
-                tshirt_size=tshirt_size,
+                # tshirt_size=tshirt_size,
                 comments=comments,
                 answers=answers,
                 profession = profession,
