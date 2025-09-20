@@ -1,7 +1,7 @@
 # core/middleware.py
 import traceback
 from django.utils.deprecation import MiddlewareMixin
-from core.models import ErrorLog
+from system_administration.models import ErrorLog
 
 class GlobalExceptionLoggingMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
