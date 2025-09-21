@@ -6,8 +6,10 @@ from django.views import View
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 
 from core.permissions import Site_Permissions
+from insb_spac24 import settings
 from .renderData import Core
 
 from core.forms import CSVImportForm
@@ -202,6 +204,50 @@ def import_reg_participants(request):
 
     if(Site_Permissions.is_superuser(request)):
         Core.import_participants_from_reg()
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
+    
+@login_required
+def set_db_increment_counter(request):
+
+    if(Site_Permissions.is_superuser(request)):
+        try:
+            increment_init = int(request.GET.get('incr_v'))
+            with connection.cursor() as cursor:
+                db_engine = settings.DATABASES['default']['ENGINE']
+                if db_engine == 'django.db.backends.mysql' or db_engine == 'django.db.backends.mariadb':
+                    # MySQL or MariaDB
+                    cursor.execute(f"ALTER TABLE core_registered_participant AUTO_INCREMENT = {increment_init};")
+                elif db_engine == 'django.db.backends.postgresql':
+                    # PostgreSQL
+                    cursor.execute(f"SELECT setval('core_registered_participant_id_seq', {increment_init}, false);")
+                elif db_engine == 'django.db.backends.sqlite3':
+                    # SQLite
+                    cursor.execute(f"DELETE FROM sqlite_sequence WHERE name = 'core_registered_participant';")
+                    cursor.execute(f"INSERT INTO sqlite_sequence (name, seq) VALUES ('core_registered_participant', {increment_init - 1});")
+                else:
+                    raise Exception(f"Unsupported database engine: {db_engine}")
+        except Exception as e:
+            return JsonResponse({'message':'error', 'details': str(e)})
+
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
+
+@login_required
+def update_db_serial(request):
+
+    if(Site_Permissions.is_superuser(request)):
+        try:
+            counter = 1
+            participants = Registered_Participant.objects.values('id').order_by('id')
+            for participant in participants:
+                Registered_Participant.objects.filter(id=participant['id']).update(id=counter)
+                counter += 1
+        except Exception as e:
+            return JsonResponse({'message':'error', 'details':str(e)})
+
         return JsonResponse({'message':'success'})
     else:
         return render(request,'404.html')

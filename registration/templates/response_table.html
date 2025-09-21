@@ -54,9 +54,10 @@
           <table class="relative min-w-max w-full border-collapse text-sm md:text-base">
             <thead class="sticky">
               <tr class="bg-gray-700 text-white">
-                <th class="text-left py-3 px-4 rounded-tl-lg">SL</th>
+                <th class="text-left py-3 px-4 rounded-tl-lg">ID</th>
                 <th class="text-left py-3 px-4">Name</th>
-                <th class="text-left py-3 px-4">University</th>
+                <th class="text-left py-3 px-4">Student?</th>
+                <th class="text-left py-3 px-4">University/Affiliation</th>
                 <th class="text-left py-3 px-4">Department</th>
                 <th class="text-left py-3 px-4">Email</th>
                 <th class="text-left py-3 px-4 rounded-tr-lg">Contact</th>
@@ -65,9 +66,10 @@
             <tbody>
               {% for p in participants %}
                <tr data-href="{% url 'registration:view_response' p.id %}" class="border-b hover:bg-gray-100 transition">
-                 <td class="py-3 px-4">{{forloop.counter}}</td>
+                 <td class="py-3 px-4">{{p.id}}</td>
                  <td class="py-3 px-4 font-medium">{{p.name}}</td>
-                 <td class="py-3 px-4">{{p.university}}</td>
+                 <td class="py-3 px-4">{% if p.is_student %}Yes{% else %}No{% endif %}</td>
+                 <td class="py-3 px-4">{% if p.is_student %}{{p.university}}{% else %}{{p.affiliation}}{% endif %}</td>
                  <td class="py-3 px-4">{{p.department}}</td>
                  <td class="py-3 px-4 text-blue-600">{{p.email}}</td>
                  <td class="py-3 px-4">{{p.contact_number}}</td>

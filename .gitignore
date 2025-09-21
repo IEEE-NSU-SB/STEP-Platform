@@ -105,6 +105,7 @@ venv/
 
 #files
 credentials.json
+data.json
 
 #pythonanywhere
 .cache/
