@@ -1,7 +1,7 @@
 
 from access_ctrl.models import Permission as Perms
 
-class Permission:
+class Site_Permissions:
 
     def user_has_permission(user, codename, obj=None):
         """
@@ -23,3 +23,7 @@ class Permission:
                     return True
 
         return False
+    
+    def is_superuser(user):
+
+        return user.is_superuser

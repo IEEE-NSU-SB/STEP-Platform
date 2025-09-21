@@ -1,7 +1,7 @@
 from functools import wraps
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
-from .utils import Permission
+from .utils import Site_Permissions
 
 def permission_required(codename, obj=None):
     """
@@ -17,7 +17,7 @@ def permission_required(codename, obj=None):
             # obj can be a string key from kwargs or a direct object
             # obj_instance = kwargs.get(obj) if isinstance(obj, str) else obj
             # if not Permission.user_has_permission(request.user, codename, obj=obj_instance):
-            if not Permission.user_has_permission(request.user, codename):
+            if not Site_Permissions.user_has_permission(request.user, codename):
                 return render(request, "AccessDenied.html")
             return view_func(request, *args, **kwargs)
         return _wrapped_view

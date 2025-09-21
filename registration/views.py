@@ -31,6 +31,7 @@ def registration_form(request):
     return render(request, 'form.html', context)
 
 @login_required
+@permission_required('reg_form_control')
 def registration_admin(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
@@ -136,6 +137,7 @@ def submit_form(request):
         })
     
 @login_required
+@permission_required('reg_form_control')
 def download_excel(request):
     participants = Form_Participant.objects.all()
     

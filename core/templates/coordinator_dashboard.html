@@ -1,4 +1,5 @@
 {% load static %}
+{% load access_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -528,11 +529,11 @@ video{
       <div class="button-group-outerdiv">
         <div class="button-group">
           <button id="view-status">View Status</button>
-          {% if is_admin or user_permissions.update_session %}
+          {% if request.user|has_perm:"update_session" %}
           <button id="set-session">Set Session</button>
           {% endif %}
           <a href="{% url 'registration:registration_form' %}" >Registration Form</a>
-          {% if is_admin or user_permissions.scan %}
+          {% if request.user|has_perm:"scan_session" %}
           <button id="tap-to-scan">Tap to Scan</button>
           {% endif %}
         </div>
@@ -613,7 +614,7 @@ video{
               <th>Role</th>
               <th>Contact</th>
               {% for session in token_sessions_all %}
-              {% if has_scan_any_session_permission or session.is_active %}
+              {% if request.user|has_perm:"scan_any_session" or session.is_active %}
               <th>{{session.session_name}}</th>
               {% endif %}
               {% endfor %}
@@ -630,7 +631,7 @@ video{
               <td>{{participant.role}}</td>
               <td>{{participant.contact_no}}</td>
               {% for session in token_sessions_all %}
-              {% if has_scan_any_session_permission or session.is_active %}
+              {% if request.user|has_perm:"scan_any_session" or session.is_active %}
                 <td>
                   <input type="checkbox" id="{{participant.id}}_{{session.id}}" data-sl="{{participant.id}}" data-session-id={{session.id}} {% for token in participant.tokens %}{% if token.token_session.id == session.id %}checked{% endif %}{% endfor %} />
                 </td>
@@ -700,7 +701,7 @@ video{
   </div>
   
 
-  {% if is_admin or user_permissions.update_session %}
+  {% if request.user|has_perm:"update_session" %}
   <!-- Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal" id="set-session-modal">
@@ -755,7 +756,7 @@ closeStatusBtn.addEventListener("click", () => {
             const modalOverlay = document.getElementById("modal-overlay");
             const navbarSessionText = document.querySelector(".navbar > div");
 
-            {% if is_admin or user_permissions.update_session %}
+            {% if request.user|has_perm:"update_session" %}
             // Open the modal
             setSessionBtn.addEventListener("click", () => {
               modalOverlay.style.display = "block";
@@ -835,7 +836,7 @@ let html5QrCode; // Global variable to manage QR scanning
 // Example session URLs
 const sessions = [
   {% for session in token_sessions_all %}
-  {% if has_scan_any_session_permission or session.is_active %}
+  {% if request.user|has_perm:"scan_any_session" or session.is_active %}
     { id: {{session.id}}, name: "{{session.session_name}}" },
   {% endif %}
   {% endfor %}
