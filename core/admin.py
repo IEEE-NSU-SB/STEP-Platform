@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Token_Session, Registered_Participant, Token_Participant, User_Permission
+from core.models import Token_Session, Registered_Participant, Token_Participant
 
 # Register your models here.
 @admin.register(Token_Session)
@@ -17,10 +17,6 @@ class SessionAdmin(admin.ModelAdmin):
 @admin.register(Registered_Participant)
 class Registered_ParticipantAdmin(admin.ModelAdmin):
      list_display = ['id', 'name', 'university', 'unique_code']
-
-@admin.register(User_Permission)
-class User_PermissionAdmin(admin.ModelAdmin):
-     list_display = ['user', 'scan', 'scan_any_session', 'update_session']
 
 @admin.register(Token_Participant)
 class Token_ParticipantAdmin(admin.ModelAdmin):

@@ -6,8 +6,11 @@ from django.views import View
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 
-from core.permissions import Site_Permissions
+from access_ctrl.decorators import permission_required
+from access_ctrl.utils import Site_Permissions
+from insb_spac24 import settings
 from .renderData import Core
 
 from core.forms import CSVImportForm
@@ -85,6 +88,7 @@ def import_csv(request):
 active_sessions = 0
 
 @login_required
+@permission_required('view_qr_dashboard')
 def dashboard(request):
     
     token_sessions = Core.get_active_token_sessions()
@@ -92,9 +96,6 @@ def dashboard(request):
     token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
     universities = Core.get_all_participant_universities()
     registered_participants = Core.get_all_reg_participants_with_sessions()
-    user_permissions = Site_Permissions.get_user_permissions(request)
-    is_admin = Site_Permissions.is_admin(request)
-    has_scan_any_session_permission = is_admin or user_permissions.scan_any_session
 
     total_participants = len(registered_participants)
             
@@ -107,9 +108,6 @@ def dashboard(request):
         'registered_participants':registered_participants,
         'total_participants':total_participants,
         'participant_universities':universities,
-        'user_permissions':user_permissions,
-        'is_admin':is_admin,
-        'has_scan_any_session_permission':has_scan_any_session_permission
     }
 
     return render(request, 'coordinator_dashboard.html', context)
@@ -117,7 +115,7 @@ def dashboard(request):
 class SessionUpdateAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated:
+            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'update_session'):
                 sessions = json.loads(request.body)['sessions']
                 
                 if(Core.update_session(sessions=sessions)):
@@ -141,7 +139,7 @@ class SessionUpdateAjax(View):
 class GetSessionStatusAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated:
+            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
                 last_updated_date_time = json.loads(request.body)['last_updated_date_time']
                 token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
 
@@ -172,7 +170,7 @@ class GetSessionStatusAjax(View):
 class UpdateParticipantSessionAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated:
+            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'scan_session'):
                 data = json.loads(request.body)
 
                 response = Core.update_participant_session(data['participant_id'], data['session_id'], data['status'])
@@ -190,7 +188,7 @@ from .qrgenerator import *
 @login_required
 def gen(request):
    
-    if(Site_Permissions.is_superuser(request)):
+    if(Site_Permissions.is_superuser(request.user)):
         generate_qr()
         return JsonResponse({'message':'success'})
     else:
@@ -200,8 +198,52 @@ def gen(request):
 @login_required
 def import_reg_participants(request):
 
-    if(Site_Permissions.is_superuser(request)):
+    if(Site_Permissions.is_superuser(request.user)):
         Core.import_participants_from_reg()
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
+    
+@login_required
+def set_db_increment_counter(request):
+
+    if(Site_Permissions.is_superuser(request.user)):
+        try:
+            increment_init = int(request.GET.get('incr_v'))
+            with connection.cursor() as cursor:
+                db_engine = settings.DATABASES['default']['ENGINE']
+                if db_engine == 'django.db.backends.mysql' or db_engine == 'django.db.backends.mariadb':
+                    # MySQL or MariaDB
+                    cursor.execute(f"ALTER TABLE core_registered_participant AUTO_INCREMENT = {increment_init};")
+                elif db_engine == 'django.db.backends.postgresql':
+                    # PostgreSQL
+                    cursor.execute(f"SELECT setval('core_registered_participant_id_seq', {increment_init}, false);")
+                elif db_engine == 'django.db.backends.sqlite3':
+                    # SQLite
+                    cursor.execute(f"DELETE FROM sqlite_sequence WHERE name = 'core_registered_participant';")
+                    cursor.execute(f"INSERT INTO sqlite_sequence (name, seq) VALUES ('core_registered_participant', {increment_init - 1});")
+                else:
+                    raise Exception(f"Unsupported database engine: {db_engine}")
+        except Exception as e:
+            return JsonResponse({'message':'error', 'details': str(e)})
+
+        return JsonResponse({'message':'success'})
+    else:
+        return render(request,'404.html')
+
+@login_required
+def update_db_serial(request):
+
+    if(Site_Permissions.is_superuser(request.user)):
+        try:
+            counter = 1
+            participants = Registered_Participant.objects.values('id').order_by('id')
+            for participant in participants:
+                Registered_Participant.objects.filter(id=participant['id']).update(id=counter)
+                counter += 1
+        except Exception as e:
+            return JsonResponse({'message':'error', 'details':str(e)})
+
         return JsonResponse({'message':'success'})
     else:
         return render(request,'404.html')

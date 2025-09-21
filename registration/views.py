@@ -6,6 +6,8 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
+from access_ctrl.decorators import permission_required
+from system_administration.utils import log_exception
 from emails.views import send_registration_email
 
 from .models import EventFormStatus, Form_Participant
@@ -29,6 +31,7 @@ def registration_form(request):
     return render(request, 'form.html', context)
 
 @login_required
+@permission_required('reg_form_control')
 def registration_admin(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
@@ -40,6 +43,12 @@ def registration_admin(request):
         'registration_count':registration_count,
     }
     return render(request, 'form.html', context)
+
+def registration_redirect(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:registration_admin')
+    else:
+        return redirect('registration:registration_form')
 
 @login_required
 @require_POST
@@ -55,8 +64,8 @@ def toggle_publish(request):
 
 def submit_form(request):
     """Handle form submission and save participant data"""
-    if request.method == 'POST':
-        try:
+    try:
+        if request.method == 'POST':
             # Get form data
             is_student = request.POST.get('is_student_bool')
             name = request.POST.get('name')
@@ -72,7 +81,7 @@ def submit_form(request):
             university_id = request.POST.get('university_id','')
             payment_method = request.POST.get('payment_method')
             transaction_id = request.POST.get('transaction_id')
-            tshirt_size = request.POST.get('tshirt_size')
+            # tshirt_size = request.POST.get('tshirt_size')
             comments = request.POST.get('comments', '')
             
             # Collect questionnaire answers
@@ -95,7 +104,7 @@ def submit_form(request):
                 university_id=university_id,
                 payment_method=payment_method,
                 transaction_id=transaction_id,
-                tshirt_size=tshirt_size,
+                # tshirt_size=tshirt_size,
                 comments=comments,
                 answers=answers,
                 profession = profession,
@@ -112,21 +121,23 @@ def submit_form(request):
                 'message': 'Registration successful! Your participant ID is: ' + str(participant.id),
                 'participant_id': participant.id
             })
-            
-        except Exception as e:
-            # Return error response
+                      
+        else:
+            # If not POST request, return error
             return JsonResponse({
                 'success': False,
-                'message': 'Registration failed: ' + str(e)
+                'message': 'Invalid request method'
             })
-    
-    # If not POST request, return error
-    return JsonResponse({
-        'success': False,
-        'message': 'Invalid request method'
-    })
+    except Exception as e:
+        # Return error response
+        log_exception(e, request)
+        return JsonResponse({
+            'success': False,
+            'message': 'Registration failed'
+        })
     
 @login_required
+@permission_required('reg_form_control')
 def download_excel(request):
     participants = Form_Participant.objects.all()
     
@@ -201,20 +212,19 @@ def download_excel(request):
     return response
 
 @login_required
+@permission_required('view_reg_responses_list')
 def response_table(request):
-    participants = Form_Participant.objects.all().order_by('-created_at')
+    participants = Form_Participant.objects.all().order_by('created_at')
     context = {
         'participants': participants
     }
     return render(request, 'response_table.html', context)
 
 @login_required
+@permission_required('view_reg_response')
 def view_response(request, id):
     partipant=Form_Participant.objects.get(id=id)
     context = {
         'participant': partipant
     }
     return render(request, 'form_response.html', context)
-
-
-
