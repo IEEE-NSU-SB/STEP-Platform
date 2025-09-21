@@ -1175,7 +1175,7 @@ var last_updated_date_time = new Date();
       .then((data) => {
         last_updated_date_time = new Date();
 
-        {% if has_scan_any_session_permission %}
+        {% if request.user|has_perm:"scan_any_session" %}
         for (var d in data['status']) {
           document.getElementById(`session_${d}`).innerHTML = data['status'][d];
         }

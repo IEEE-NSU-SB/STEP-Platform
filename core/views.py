@@ -96,18 +96,10 @@ def dashboard(request):
     token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
     universities = Core.get_all_participant_universities()
     registered_participants = Core.get_all_reg_participants_with_sessions()
-    # user_permissions = Site_Permissions.get_user_permissions(request)
-    # is_admin = Site_Permissions.is_admin(request)
-    # if user_permissions:
-    #     has_scan_any_session_permission = is_admin or user_permissions.scan_any_session
-    # else:
-    #     has_scan_any_session_permission = is_admin
 
     total_participants = len(registered_participants)
             
     request.session['active_sessions'] = active_sessions
-
-    perm = Site_Permissions.user_has_permission(request.user, 'qr_dashboard_admin')
 
     context = {
         'token_sessions':token_sessions,
@@ -116,10 +108,6 @@ def dashboard(request):
         'registered_participants':registered_participants,
         'total_participants':total_participants,
         'participant_universities':universities,
-        # 'user_permissions':user_permissions,
-        # 'is_admin':is_admin,
-        'perm':perm,
-        # 'has_scan_any_session_permission':has_scan_any_session_permission
     }
 
     return render(request, 'coordinator_dashboard.html', context)
