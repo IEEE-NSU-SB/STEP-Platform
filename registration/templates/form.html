@@ -64,9 +64,13 @@
 
 <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
-   <nav class="w-11/12 md:w-3/5 mx-auto flex justify-between my-4">
-    <div class="rounded overflow-hidden object-cover" style="box-shadow: 0 2px 6px 0px #00000078;">
-      <img src="{% static '/img/StepBanner.png' %}" alt="">
+   <nav class="w-11/12 md:w-3/5 mx-auto my-4">
+    <div class="rounded overflow-hidden shadow-lg flex justify-center">
+        {% if not is_staff_view and not is_published and not registration_closed %}
+        <img style="height: 70vh;" src="{% static '/img/Stepclosed.png' %}" alt="" class="object-cover h-auto max-h-screen">
+        {% else %}
+        <img src="{% static '/img/StepBanner.png' %}" alt="" class="object-cover h-auto">
+        {% endif %}
     </div>
   </nav>
   {% if is_staff_view %}
@@ -121,7 +125,8 @@
   <div class="bg-white w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; box-shadow: 0 2px 6px 0px #00000078;">
     {% if not is_staff_view and not is_published and not registration_closed%}
       <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
-        Registration is not open yet. Please check back later.
+        {% comment %} Registration is not open yet. Please check back later. {% endcomment %}
+        Registration is closed as we have reached the maximum number of participants.
       </div>
     {% elif not is_staff_view and registration_closed %}
       <div class="p-6 bg-red-50 border border-red-300 rounded text-red-900 text-center">
