@@ -11,7 +11,7 @@ class CustomUserAdmin(BaseUserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
-        ('Status', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        ('Status', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
     )
 
     # Remove them from add_fieldsets too (user creation form)
