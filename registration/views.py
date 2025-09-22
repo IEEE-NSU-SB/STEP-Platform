@@ -68,6 +68,13 @@ def submit_form(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':
+
+            #temporary form stop
+            return JsonResponse({
+            'success': False,
+            'message': 'Registration failed'
+            })
+
             # Get form data
             is_student = request.POST.get('is_student_bool')
             name = request.POST.get('name')
