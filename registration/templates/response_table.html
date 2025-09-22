@@ -21,6 +21,24 @@
         background-color: #00629b;
         z-index: -10;
       }
+      tr{
+        cursor: pointer;
+      }
+      .logout, .close {
+        background-color: #ff3333;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-decoration: none;
+      }
+      .logout:hover, .close:hover {
+        background-color: #e60000;
+        color: white;
+        transition: 0.6s;
+      }
     </style>
   </head>
   <body class="m-0 p-0">
@@ -32,32 +50,40 @@
           Registration Data
         </h1>
         <!-- back button  -->
-        <div class="flex justify-baseline items-baseline my-5">
+        <div class="flex justify-between items-baseline my-5">
             <button type="button" onclick="window.history.back();"
               class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition"
               style="background-color: #ffffff; color:#00629B"
             >
               Back
             </button>
+            <a href="{% url 'core:logout' %}" class="logout">Logout</a>
+
         </div>
         <!-- Search bar -->
-        <div class="mb-3">
+        <div class="mb-3 flex justify-between items-center">
           <input
             type="text"
             id="tableSearch"
             placeholder="Search through name or email"
             class="px-3 py-2 border bg-white text-black border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
           />
+          <!-- Statistics Button -->
+          <div class="flex justify-end my-5">
+            <button class="btn btn-info px-5 text-white bg-[#e49e35]" onclick="document.getElementById('statsModal').showModal()">
+              Statistics
+            </button>
+          </div>
         </div>
         <!-- Scrollable wrapper -->
         <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">
           <table class="relative min-w-max w-full border-collapse text-sm md:text-base">
-            <thead class="sticky">
+            <thead class="sticky top-0">
               <tr class="bg-gray-700 text-white">
                 <th class="text-left py-3 px-4 rounded-tl-lg">ID</th>
                 <th class="text-left py-3 px-4">Name</th>
                 <th class="text-left py-3 px-4">Student?</th>
-                <th class="text-left py-3 px-4">University/Affiliation</th>
+                <th class="text-left py-3 px-4">University / Affiliation</th>
                 <th class="text-left py-3 px-4">Department</th>
                 <th class="text-left py-3 px-4">Email</th>
                 <th class="text-left py-3 px-4 rounded-tr-lg">Contact</th>
@@ -86,6 +112,75 @@
         </div>
 
       </div>
+      <!-- Modal -->
+    <dialog id="statsModal" class="modal">
+      <div class="modal-box max-w-3xl">
+        <h2 class="text-2xl font-bold mb-4">Statistics</h2>
+
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full border">
+            <thead class="bg-gray-700 text-white">
+              <tr>
+                <th class="py-2 px-4 rounded-tl-lg">Student / Professional</th>
+                <th class="py-2 px-4">Membership Grade</th>
+                <th class="py-2 px-4">Count</th>
+                <th class="py-2 px-4">Amount</th>
+                <th class="py-2 px-4 rounded-tr-lg">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4">Student</td>
+                <td class="py-2 px-4">IEEE Member</td>
+                <td class="py-2 px-4">20</td>
+                <td class="py-2 px-4">410</td>
+                <td class="py-2 px-4">8200</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">Student</td>
+                <td class="py-2 px-4">Non-IEEE Member</td>
+                <td class="py-2 px-4">25</td>
+                <td class="py-2 px-4">510</td>
+                <td class="py-2 px-4">12750</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">Profession</td>
+                <td class="py-2 px-4">IEEE Member</td>
+                <td class="py-2 px-4">20</td>
+                <td class="py-2 px-4">810</td>
+                <td class="py-2 px-4">16200</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">Profession</td>
+                <td class="py-2 px-4">Non-IEEE Member</td>
+                <td class="py-2 px-4">25</td>
+                <td class="py-2 px-4">910</td>
+                <td class="py-2 px-4">22750</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Total -->
+        <div class="mt-4 text-left font-bold text-lg">
+          <p style="font-weight: normal;">
+          Total Amount: <span class="text-green-600">59,900 Taka</span>
+          </p>
+          <br>
+          <p style="font-weight: normal;">Versity List :</p>
+          <ul>
+            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- NSU</li>
+          </ul>
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn close">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
     </div>
 
     <script>
