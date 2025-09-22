@@ -65,20 +65,20 @@ class Token_Participant(models.Model):
         return str(self.pk)
     
     
-class User_Permission(models.Model):
-    '''This model stores the permission data for a site user account.\n
-        -`user` the user for whom the permissions are being set\n
-        -`update_session` when True, lets the user to set any session as active or inactive\n
-        -`scan` when True, lets the user to scan qr codes\n
-        -`scan_any_session` when True, lets the user to scan qr code for all session whether it is active or inactive'''
+# class User_Permission(models.Model):
+#     '''This model stores the permission data for a site user account.\n
+#         -`user` the user for whom the permissions are being set\n
+#         -`update_session` when True, lets the user to set any session as active or inactive\n
+#         -`scan` when True, lets the user to scan qr codes\n
+#         -`scan_any_session` when True, lets the user to scan qr code for all session whether it is active or inactive'''
     
-    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
-    update_session = models.BooleanField(null=False, blank=False, default=False)
-    scan = models.BooleanField(null=False, blank=False, default=False)
-    scan_any_session = models.BooleanField(null=False, blank=False, default=False)
+#     user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+#     update_session = models.BooleanField(null=False, blank=False, default=False)
+#     scan = models.BooleanField(null=False, blank=False, default=False)
+#     scan_any_session = models.BooleanField(null=False, blank=False, default=False)
     
-    class Meta:
-        verbose_name="User Permissions"
+#     class Meta:
+#         verbose_name="User Permissions"
 
-    def __self__(self) -> str:
-        return str(self.pk)
+#     def __self__(self) -> str:
+#         return str(self.pk)
