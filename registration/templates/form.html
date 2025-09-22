@@ -82,7 +82,11 @@
         <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-lg">
           <input id="publishCheckbox" type="checkbox" {% if is_published %}checked="checked"{% endif %}
           class="toggle border-gray-300 bg-gray-400 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
-          <span class="text-xl" id="publishText">{% if is_published %}Form published!{% else %}Publish Form?{% endif %}</span!>
+          {% if is_published %}
+          <span class="text-xl" style="color: rgb(0, 155, 31);" id="publishText">Form published!</span>
+          {% else %}
+          <span class="text-xl" style="color: rgb(207, 25, 18);" id="publishText">Publish Form?</span>
+          {% endif %}
         </button>
       </div>
         <p class="response_count">Response Count: <span style="font-weight: bold;">{{registration_count}}</span></p>
