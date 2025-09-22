@@ -132,30 +132,30 @@
               <tr>
                 <td class="py-2 px-4">Student</td>
                 <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">20</td>
+                <td class="py-2 px-4">{{registration_stats.student_member}}</td>
                 <td class="py-2 px-4">410</td>
-                <td class="py-2 px-4">8200</td>
+                <td class="py-2 px-4">{{registration_stats.student_member_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Student</td>
                 <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">25</td>
+                <td class="py-2 px-4">{{registration_stats.student_non_ieee}}</td>
                 <td class="py-2 px-4">510</td>
-                <td class="py-2 px-4">12750</td>
+                <td class="py-2 px-4">{{registration_stats.student_non_ieee_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Profession</td>
                 <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">20</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_member}}</td>
                 <td class="py-2 px-4">810</td>
-                <td class="py-2 px-4">16200</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_member_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Profession</td>
                 <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">25</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee}}</td>
                 <td class="py-2 px-4">910</td>
-                <td class="py-2 px-4">22750</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee_amount_total}}</td>
               </tr>
             </tbody>
           </table>
@@ -164,12 +164,14 @@
         <!-- Total -->
         <div class="mt-4 text-left font-bold text-lg">
           <p style="font-weight: normal;">
-          Total Amount: <span class="text-green-600">59,900 Taka</span>
+          Total Amount: <span class="text-green-600">{{total_amount}}</span>
           </p>
           <br>
           <p style="font-weight: normal;">Versity List :</p>
           <ul>
-            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- NSU</li>
+            {% for name in university_names %}
+            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{name}}</li>
+            {% endfor %}
           </ul>
         </div>
 

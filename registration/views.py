@@ -9,6 +9,8 @@ from django.views.decorators.http import require_POST
 from access_ctrl.decorators import permission_required
 from system_administration.utils import log_exception
 from emails.views import send_registration_email
+from django.db.models import Count
+from django.db.models.functions import Trim
 
 from .models import EventFormStatus, Form_Participant
 
@@ -214,9 +216,54 @@ def download_excel(request):
 @login_required
 @permission_required('view_reg_responses_list')
 def response_table(request):
+
+    student_member_amount = 410
+    student_non_member_amount = 510
+    not_student_member_amount = 810
+    not_student_non_member_amount = 910
+
     participants = Form_Participant.objects.all().order_by('created_at')
+
+    # Query grouped stats
+    stats = (
+        Form_Participant.objects
+        .values("is_student", "membership_type")
+        .annotate(total=Count("id"))
+    )
+
+    # Build summary dictionary
+    summary = {}
+
+    for entry in stats:
+        is_student = "student" if entry["is_student"] else "not_student"
+        membership = entry["membership_type"]
+
+        key = f"{is_student}_{membership}"
+        summary[key] = entry["total"]
+    
+    summary['student_member_amount_total'] = summary['student_member'] * student_member_amount
+    summary['student_non_ieee_amount_total'] = summary['student_non_ieee'] * student_non_member_amount
+    summary['not_student_member_amount_total'] = summary['not_student_member'] * not_student_member_amount
+    summary['not_student_non_ieee_amount_total'] = summary['not_student_non_ieee'] * not_student_non_member_amount
+
+    total_amount = (summary['student_member_amount_total']
+                    +summary['student_non_ieee_amount_total'] 
+                    +summary['not_student_member_amount_total']
+                    +summary['not_student_non_ieee_amount_total'])
+    total_amount = f"BDT {total_amount:,}"
+
+    summary['student_member_amount_total'] = f"{summary['student_member_amount_total']:,}"
+    summary['student_non_ieee_amount_total'] = f"{summary['student_non_ieee_amount_total']:,}"
+    summary['not_student_member_amount_total'] = f"{summary['not_student_member_amount_total']:,}"
+    summary['not_student_non_ieee_amount_total'] = f"{summary['not_student_non_ieee_amount_total']:,}"
+
+    university_names = Form_Participant.objects.exclude(university__isnull=True).exclude(university='').annotate(university_sanitized=Trim('university')).values_list("university_sanitized", flat=True).distinct()
+    
     context = {
-        'participants': participants
+        'participants': participants,
+        'registration_stats': summary,
+        'university_names': university_names,
+        'total_amount': total_amount,
     }
     return render(request, 'response_table.html', context)
 
