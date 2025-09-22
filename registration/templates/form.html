@@ -39,6 +39,17 @@
       z-index: 0;
       font-family: "Inter", sans-serif;
     }
+    .response_count{
+      /* font-weight: bold; */
+      font-size: larger;
+      border-bottom: 2px solid #00629b;
+      border-right: 2px solid #00629b;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #dceffa;
+      color: #00629b;
+      /* font-style: italic; */
+    }
     @media screen and (max-width:500px){
       .response_count{
         margin: 0 auto;
@@ -65,17 +76,18 @@
 
   <div class="bg-white w-11/12 md:w-3/5 mx-auto px-6 py-5" style="backdrop-filter:blur(7px); border-radius: 4px 4px; box-shadow: 0 2px 6px 0px #00000078; position: relative; top: 14px;">
     <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
-      <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-between">
       <div>
         <!-- Publish Form Toggle Button (staff only) -->
         <button id="publishToggle" type="button" class="inline-flex items-center gap-2 px-0 py-2.5 rounded-md font-medium text-lg">
           <input id="publishCheckbox" type="checkbox" {% if is_published %}checked="checked"{% endif %}
           class="toggle border-gray-300 bg-gray-400 checked:border-blue-500 checked:bg-blue-400 checked:text-blue-800" />
-          <span class="text-xl" id="publishText">{% if is_published %}Unpublish Form{% else %}Publish Form{% endif %}</span>
+          <span class="text-xl" id="publishText">{% if is_published %}Form published!{% else %}Publish Form?{% endif %}</span!>
         </button>
       </div>
-      
-      <div class="flex flex-col sm:flex-row gap-3 items-center justify-center sm:justify-end w-full sm:w-auto"> 
+        <p class="response_count">Response Count: <span style="font-weight: bold;">{{registration_count}}</span></p>
+    </div>
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-center sm:justify-center w-full sm:w-auto my-3"> 
         <!-- Download Excel Button (staff only) -->
         <a href="{% url 'registration:download_excel' %}"
         class="inline-flex items-center justify-center gap-2 px-5 py-2.5 w-64 sm:w-auto max-sm:my-1  bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-md font-medium text-lg transition-all duration-200 transform hover:scale-105 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg focus:outline-none  focus:ring-emerald-500 focus:ring-offset-2">
@@ -98,8 +110,6 @@
       </svg>
       <span>See Responses</span>
     </a>
-  </div>
-  <p class="response_count">Response Count: {{registration_count}}</p>
 </div>
 
 </div>
@@ -720,7 +730,8 @@ if (publishToggle) {
     })
     .then(r => r.json())
     .then(data => {
-      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
       // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
     })
     .catch(err => alert('Failed to toggle publish: ' + err.message));
@@ -743,7 +754,8 @@ if (publishToggle) {
     })
     .then(r => r.json())
     .then(data => {
-      publishText.textContent = data.is_published ? 'Unpublish Form' : 'Publish Form';
+      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
       // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
     })
     .catch(err => alert('Failed to toggle publish: ' + err.message));
