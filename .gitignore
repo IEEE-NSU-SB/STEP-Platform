@@ -6,6 +6,7 @@
 *.swp
 **/__pycache__
 db.sqlite3
+*.sqlite3
 media
 
 # Backup files # 
