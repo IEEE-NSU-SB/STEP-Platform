@@ -239,7 +239,7 @@ def response_table(request):
         membership = entry["membership_type"]
 
         key = f"{is_student}_{membership}"
-        summary[key] = entry["total"]
+        summary[key] = entry.get("total", 0)
     
     summary['student_member_amount_total'] = summary.get('student_member', 0) * student_member_amount
     summary['student_non_ieee_amount_total'] = summary.get('student_non_ieee', 0) * student_non_member_amount
