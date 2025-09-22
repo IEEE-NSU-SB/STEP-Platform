@@ -1,7 +1,11 @@
 from django.contrib import admin
 from core.models import Token_Session, Registered_Participant, Token_Participant
+from django.contrib.auth.models import Group
 
 # Register your models here.
+
+admin.site.unregister(Group)
+
 @admin.register(Token_Session)
 class SessionAdmin(admin.ModelAdmin):
     
