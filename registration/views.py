@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 from access_ctrl.decorators import permission_required
+from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
 from emails.views import send_registration_email
 from django.db.models import Count
@@ -68,12 +69,13 @@ def submit_form(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':
-
-            #temporary form stop
-            return JsonResponse({
-            'success': False,
-            'message': 'Registration failed'
-            })
+            
+            status = EventFormStatus.objects.order_by('-updated_at').first()
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+                return JsonResponse({
+                'success': False,
+                'message': 'Registration failed'
+                })
 
             # Get form data
             is_student = request.POST.get('is_student_bool')
