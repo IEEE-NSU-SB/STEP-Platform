@@ -103,17 +103,21 @@
 </div>
 
 </div>
-  {% endif %}
-  <div class=" w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; ">
+{% endif %}
+<div class=" w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; ">
+    <button type="button" onclick="window.history.back();"
+                  class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition cursor-pointer mb-5"
+                  style="background-color: #ffffff; color:#00629B"
+                >
+                Back
+                </button>
 <!-- box-shadow: 0 2px 6px 0px #00000078; -->
     <!-- Form wrapper -->
     <form id="registrationForm" method="post" action="/submit-form/">
       {% csrf_token %}
-      
       <!-- Step 1: Basic Info -->
       <section id="step1" class="bg-white shadow-md p-5 font-medium rounded-md">
         <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
-
 <h2 class=" text-center text-2xl mb-6">BASIC INFO</h2>
     <div class="mb-5">
       <label for="name" class="block uppercase text-lg  mb-1">
@@ -221,8 +225,8 @@
       <div class="flex items-center justify-between mb-8">
 
       <!-- Centered Questionnaire Section -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-5 mt-7 truncate text-center">QUESTIONNAIRE</h2>
+      <div class="m-auto px-20 sm:px-4">
+        <h2 class="text-2xl my-2 truncate text-center">QUESTIONNAIRE</h2>
       </div>
     </div>
 
@@ -268,8 +272,8 @@
       <!--  back button and title  -->
     <div class="flex items-center justify-between mb-8">
   
-      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-5 mt-7 truncate text-center">PAYMENT</h2>
+      <div class="m-auto px-20 sm:px-4">
+        <h2 class="text-2xl my-2 truncate text-center">PAYMENT</h2>
       </div>
       <!-- Centered Questionnaire Section -->
     </div>
