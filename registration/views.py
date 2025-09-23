@@ -388,7 +388,7 @@ def submit_t_shirt_form(request):
                 tshirt_size=tshirt_size,
             )
 
-            send_t_shirt_registration_email(participant.email)
+            send_t_shirt_registration_email(participant.name, participant.email)
             
             # Return success response
             return JsonResponse({

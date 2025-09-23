@@ -284,7 +284,7 @@ def get_credentials():
 
 
 #TEMPORARY
-def send_t_shirt_registration_email(email):
+def send_t_shirt_registration_email(name, email):
     credentials = get_credentials()
 
     if not credentials:
@@ -296,15 +296,7 @@ def send_t_shirt_registration_email(email):
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = str(email)
         message["Subject"] = "STEP 2025 - T-Shirt Registration Successful"
-        message.attach(MIMEText(
-            '''
-Thank you for registering for IEEE STEP 2025!
-
-We are excited to have you join us for this special event. Your registration has been successfully received and confirmed with your t-shirt size.
-
-Also you will receive further updates and instructions via email. Stay tuned!!
-'''
-        ))
+        message.attach(MIMEText(render_to_string('t_shirt_response.html', {'participant_name':name}), 'html'))
         
         # encoded message
         encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
