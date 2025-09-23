@@ -299,9 +299,9 @@ def send_t_shirt_registration_email(email):
         message.attach(MIMEText(
             '''
 Thank you for registering for IEEE STEP 2025!
-<br>
+
 We are excited to have you join us for this special event. Your registration has been successfully received and confirmed with your t-shirt size.
-<br>
+
 Also you will receive further updates and instructions via email. Stay tuned!!
 '''
         ))
