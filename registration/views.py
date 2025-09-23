@@ -417,7 +417,7 @@ def submit_t_shirt_form(request):
 def t_shirt_responses(request):
 
     participants = T_Shirt_Form.objects.all().order_by('created_at')
-    size_data = T_Shirt_Form.objects.values('tshirt_size').order_by('tshirt_size').annotate(count=Count('tshirt_size'))
+    size_data = T_Shirt_Form.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
 
     context = {
         'participants': participants,
