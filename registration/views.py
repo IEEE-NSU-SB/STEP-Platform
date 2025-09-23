@@ -278,20 +278,8 @@ def response_table(request):
     summary['not_student_member_amount_total'] = f"{summary['not_student_member_amount_total']:,}"
     summary['not_student_non_ieee_amount_total'] = f"{summary['not_student_non_ieee_amount_total']:,}"
 
-    university_names = Form_Participant.objects.exclude(university__isnull=True).exclude(university='').annotate(university_sanitized=Trim('university')).values_list("university_sanitized", flat=True).distinct()
     
-        # University names list
-    university_names = (
-        Form_Participant.objects
-        .exclude(university__isnull=True)
-        .exclude(university='')
-        .annotate(university_sanitized=Trim('university'))
-        .values_list("university_sanitized", flat=True)
-        .distinct()
-    )
-
-    # University-wise counts
-    university_counts = (
+    university_data = (
         Form_Participant.objects
         .exclude(university__isnull=True)
         .exclude(university='')
@@ -313,8 +301,7 @@ def response_table(request):
     context = {
         'participants': participants,
         'registration_stats': summary,
-        'university_names': university_names,
-        'university_counts': university_counts,
+        'university_data': university_data,
         'payment_summary': payment_summary,
         'total_amount': total_amount,
         'has_perm':permissions

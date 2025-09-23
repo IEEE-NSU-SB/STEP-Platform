@@ -183,8 +183,11 @@
           <br>
           <p style="font-weight: normal;">University List :</p>
           <ul>
-            {% for uni in university_counts  %}
-            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{ uni.university_sanitized }} - {{ uni.total }}</li>
+            {% for uni in university_data  %}
+            <li class="flex justify-between items-center px-4 py-2 my-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+              <span>{{ uni.university_sanitized }}</span>
+              <span class="text-gray-600 font-bold">{{ uni.total }}</span>
+            </li>
             {% endfor %}
           </ul>
         </div>
