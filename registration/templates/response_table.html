@@ -167,6 +167,12 @@
 
         <!-- Total -->
         <div class="mt-4 text-left font-bold text-lg">
+          <p style="font-weight: normal;font-size:smaller;">
+            Bkash: {{total_amount}}
+          </p>
+          <p style="font-weight: normal;font-size:smaller;">
+            Nagad: {{total_amount}}
+          </p>
           <p style="font-weight: normal;">
           Total Amount: <span class="text-green-600">{{total_amount}}</span>
           </p>
@@ -174,7 +180,7 @@
           <p style="font-weight: normal;">Versity List :</p>
           <ul>
             {% for name in university_names %}
-            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{name}}</li>
+            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{name}} - 3</li>
             {% endfor %}
           </ul>
         </div>
