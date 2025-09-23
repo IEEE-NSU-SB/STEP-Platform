@@ -417,8 +417,10 @@ def submit_t_shirt_form(request):
 def t_shirt_responses(request):
 
     participants = T_Shirt_Form.objects.all().order_by('created_at')
+    size_data = T_Shirt_Form.objects.values('tshirt_size').annotate(count=Count('tshirt_size'))
 
     context = {
         'participants': participants,
+        'size_data':size_data,
     }
     return render(request, 'response_table_t_shirt.html', context)

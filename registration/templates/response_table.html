@@ -140,28 +140,28 @@
               <tr>
                 <td class="py-2 px-4">Student</td>
                 <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_member}}</td>
+                <td class="py-2 px-4">{{registration_stats.student_member|default:0}}</td>
                 <td class="py-2 px-4">410</td>
                 <td class="py-2 px-4">{{registration_stats.student_member_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Student</td>
                 <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_non_ieee}}</td>
+                <td class="py-2 px-4">{{registration_stats.student_non_ieee|default:0}}</td>
                 <td class="py-2 px-4">510</td>
                 <td class="py-2 px-4">{{registration_stats.student_non_ieee_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Profession</td>
                 <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_member}}</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_member|default:0}}</td>
                 <td class="py-2 px-4">810</td>
                 <td class="py-2 px-4">{{registration_stats.not_student_member_amount_total}}</td>
               </tr>
               <tr>
                 <td class="py-2 px-4">Profession</td>
                 <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee}}</td>
+                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee|default:0}}</td>
                 <td class="py-2 px-4">910</td>
                 <td class="py-2 px-4">{{registration_stats.not_student_non_ieee_amount_total}}</td>
               </tr>

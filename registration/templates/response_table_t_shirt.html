@@ -69,6 +69,13 @@
             placeholder="Search through name or email"
             class="px-3 py-2 border bg-white text-black border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
           />
+
+          <!-- Statistics Button -->
+          <div class="flex justify-end my-5">
+            <button class="btn btn-info px-5 text-white bg-[#e49e35]" onclick="document.getElementById('statsModal').showModal()">
+              Statistics
+            </button>
+          </div>
         </div>
         <!-- Scrollable wrapper -->
         <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[440px]">
@@ -106,6 +113,33 @@
       <div class="flex justify-center items-center mt-3">
         <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
       </div>
+
+      <!-- Modal -->
+    <dialog id="statsModal" class="modal">
+      <div class="modal-box max-w-3xl">
+        <h2 class="text-2xl font-bold mb-4">Statistics</h2>
+        
+          <p style="font-weight: normal;">T-Shirt Size Count :</p>
+          <ul>
+            {% for data in size_data  %}
+            <li class="flex items-center px-4 py-2 my-2 text-sm 
+           text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+    <span class="font-medium">{{ data.tshirt_size }}</span>
+    <span class="ml-2 text-gray-500">–</span>
+    <span class="ml-2 text-gray-700 font-bold">[{{ data.count|default:0 }}]</span>
+</li>
+            {% endfor %}
+          </ul>
+        </div>
+        
+        <!-- Actions -->
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn close">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </div>
 
     <script>
