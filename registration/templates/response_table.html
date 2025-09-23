@@ -69,12 +69,14 @@
             placeholder="Search through name or email"
             class="px-3 py-2 border bg-white text-black border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
           />
+          {% if has_perm.view_finance_info %}
           <!-- Statistics Button -->
           <div class="flex justify-end my-5">
             <button class="btn btn-info px-5 text-white bg-[#e49e35]" onclick="document.getElementById('statsModal').showModal()">
               Statistics
             </button>
           </div>
+          {% endif %}
         </div>
         <!-- Scrollable wrapper -->
         <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[440px]">
@@ -116,6 +118,8 @@
       <div class="flex justify-center items-center mt-3">
         <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
       </div>
+
+    {% if has_perm.view_finance_info %}
       <!-- Modal -->
     <dialog id="statsModal" class="modal">
       <div class="modal-box max-w-3xl">
@@ -164,21 +168,21 @@
             </tbody>
           </table>
         </div>
-
+        
         <!-- Total -->
         <div class="mt-4 text-left font-bold text-lg">
           <p style="font-weight: normal;">
-          Total Amount: <span class="text-green-600">{{total_amount}}</span>
+            Total Amount: <span class="text-green-600">{{total_amount}}</span>
           </p>
           <br>
-          <p style="font-weight: normal;">Versity List :</p>
+          <p style="font-weight: normal;">University List :</p>
           <ul>
             {% for name in university_names %}
             <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{name}}</li>
             {% endfor %}
           </ul>
         </div>
-
+        
         <!-- Actions -->
         <div class="modal-action">
           <form method="dialog">
@@ -187,7 +191,8 @@
         </div>
       </div>
     </dialog>
-    </div>
+    {% endif %}
+  </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

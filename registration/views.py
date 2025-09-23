@@ -39,15 +39,23 @@ def registration_admin(request):
 
     registration_count = Form_Participant.objects.count()
 
+    permisions = {
+        'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
+        'view_reg_responses_list':Site_Permissions.user_has_permission(request.user, 'view_reg_responses_list'),
+        'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info'),
+        'view_qr_dashboard':Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'),
+    }
+
     context = {
         'is_staff_view': True,
         'is_published': _get_publish_status(),
         'registration_count':registration_count,
+        'has_perm': permisions
     }
     return render(request, 'form.html', context)
 
 def registration_redirect(request):
-    if request.user.is_authenticated and request.user.is_staff:
+    if request.user.is_authenticated:
         return redirect('registration:registration_admin')
     else:
         return redirect('registration:registration_form')
@@ -229,6 +237,10 @@ def response_table(request):
     not_student_member_amount = 810
     not_student_non_member_amount = 910
 
+    permissions = {
+        'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
+    }
+
     participants = Form_Participant.objects.all().order_by('created_at')
 
     # Query grouped stats
@@ -271,6 +283,7 @@ def response_table(request):
         'registration_stats': summary,
         'university_names': university_names,
         'total_amount': total_amount,
+        'has_perm':permissions
     }
     return render(request, 'response_table.html', context)
 
