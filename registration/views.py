@@ -9,11 +9,11 @@ from django.views.decorators.http import require_POST
 from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
-from emails.views import send_registration_email
+from emails.views import send_registration_email, send_t_shirt_registration_email
 from django.db.models import Count
 from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant
+from .models import EventFormStatus, Form_Participant, T_Shirt_Form
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -24,6 +24,9 @@ def registration_form(request):
     # If staff/superuser hits the user URL, send them to the admin view
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('registration:registration_admin')
+    #TEMPORARY
+    else:
+        return redirect('registration:t_shirt_reg')
     registration_count = Form_Participant.objects.count()
     registration_closed = registration_count >= 10000
     context = {
@@ -79,7 +82,9 @@ def submit_form(request):
         if request.method == 'POST':
             
             status = EventFormStatus.objects.order_by('-updated_at').first()
-            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+            #TEMPORARY
+            # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
                 return JsonResponse({
                 'success': False,
                 'message': 'Registration failed'
@@ -316,3 +321,104 @@ def view_response(request, id):
         'participant': partipant
     }
     return render(request, 'form_response.html', context)
+
+
+#TEMPORARY
+def t_shirt_reg(request):
+
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:t_shirt_reg_admin')
+    
+    registration_count = Form_Participant.objects.count()
+    registration_closed = registration_count >= 200
+    context = {
+        'is_staff_view': False,
+        'is_published': _get_publish_status(),
+        'registration_closed': registration_closed,
+    }
+
+    return render(request, 't_shirt_form.html', context)
+
+@login_required
+@permission_required('reg_form_control')
+def t_shirt_reg_admin(request):
+
+    registration_count = T_Shirt_Form.objects.count()
+
+    permisions = {
+        'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
+        'view_reg_responses_list':Site_Permissions.user_has_permission(request.user, 'view_reg_responses_list'),
+    }
+
+    context = {
+        'is_staff_view':True,
+        'has_perm':permisions,
+        'registration_count':registration_count,
+        'is_published': _get_publish_status(),
+    }
+
+    return render(request, 't_shirt_form.html', context)
+
+
+def submit_t_shirt_form(request):
+    """Handle form submission and save participant data"""
+    try:
+        if request.method == 'POST':
+            
+            status = EventFormStatus.objects.order_by('-updated_at').first()
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+                return JsonResponse({
+                'success': False,
+                'message': 'Registration failed'
+                })
+
+            # Get form data
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            contact_number = request.POST.get('contact_number')
+            ieee_id = request.POST.get('ieee_id')
+            tshirt_size = request.POST.get('tshirt_size')
+            
+            # Create and save participant
+            participant = T_Shirt_Form.objects.create(
+                name=name,
+                email=email,
+                contact_number=contact_number,
+                ieee_id=ieee_id,
+                tshirt_size=tshirt_size,
+            )
+
+            send_t_shirt_registration_email(participant.email)
+            
+            # Return success response
+            return JsonResponse({
+                'success': True,
+                'message': 'Registration successful!',
+                'participant_id': participant.id
+            })
+                      
+        else:
+            # If not POST request, return error
+            return JsonResponse({
+                'success': False,
+                'message': 'Invalid request method'
+            })
+    except Exception as e:
+        # Return error response
+        log_exception(e, request)
+        return JsonResponse({
+            'success': False,
+            'message': 'Registration failed'
+        })
+    
+
+@login_required
+@permission_required('view_reg_responses_list')
+def t_shirt_responses(request):
+
+    participants = T_Shirt_Form.objects.all().order_by('created_at')
+
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'response_table_t_shirt.html', context)

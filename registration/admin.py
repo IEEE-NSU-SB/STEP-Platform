@@ -10,3 +10,8 @@ class EventFormStatusAdmin(admin.ModelAdmin):
 @admin.register(Form_Participant)
 class Form_ParticipantAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'university', 'email', 'membership_type', 'is_student', 'created_at']
+
+#TEMPORARY
+@admin.register(T_Shirt_Form)
+class T_Shirt_FormAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'email', 'ieee_id', 'created_at']

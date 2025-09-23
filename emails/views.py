@@ -25,6 +25,7 @@ from django.views.decorators.http import require_POST
 import csv
 
 from registration.models import EventFormStatus
+from system_administration.utils import log_exception
 
 # Create your views here.
 @login_required
@@ -281,3 +282,43 @@ def get_credentials():
 
         return creds
 
+
+#TEMPORARY
+def send_t_shirt_registration_email(email):
+    credentials = get_credentials()
+
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = str(email)
+        message["Subject"] = "STEP 2025 - T-Shirt Registration Successful"
+        message.attach(MIMEText(
+            '''
+Thank you for registering for IEEE STEP 2025!
+<br>
+We are excited to have you join us for this special event. Your registration has been successfully received and confirmed with your t-shirt size.
+<br>
+Also you will receive further updates and instructions via email. Stay tuned!!
+'''
+        ))
+        
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        log_exception(e)
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})

@@ -16,4 +16,11 @@ urlpatterns = [
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
 
+
+    #TEMPORARY
+    path('t-shirt/', t_shirt_reg, name='t_shirt_reg'),
+    path('t-shirt/admin/', t_shirt_reg_admin, name='t_shirt_reg_admin'),
+    path('submit_t_shirt_form/', submit_t_shirt_form, name='submit_t_shirt_form'),
+    path('t-shirt/responses/', t_shirt_responses, name='t_shirt_responses'),
+
 ]   

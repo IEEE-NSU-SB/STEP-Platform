@@ -52,3 +52,22 @@ class Form_Participant(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+    
+
+#TEMPORARY
+class T_Shirt_Form(models.Model):
+    SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL"),("4XL","4XL")]
+
+
+    name = models.CharField(max_length=200, null=False, blank=False)
+    email = models.EmailField(unique=False, null=False, blank=False)
+    contact_number = models.CharField(max_length=20, null=False, blank=False)
+    ieee_id = models.CharField(max_length=50, blank=True, null=True)
+    tshirt_size = models.CharField(max_length=5, choices=SIZE_CHOICES, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name="T-Shirt Form"
+
+    def __str__(self):
+        return f"{self.name} - {self.email}"
