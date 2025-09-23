@@ -268,10 +268,42 @@ def response_table(request):
 
     university_names = Form_Participant.objects.exclude(university__isnull=True).exclude(university='').annotate(university_sanitized=Trim('university')).values_list("university_sanitized", flat=True).distinct()
     
+        # University names list
+    university_names = (
+        Form_Participant.objects
+        .exclude(university__isnull=True)
+        .exclude(university='')
+        .annotate(university_sanitized=Trim('university'))
+        .values_list("university_sanitized", flat=True)
+        .distinct()
+    )
+
+    # University-wise counts
+    university_counts = (
+        Form_Participant.objects
+        .exclude(university__isnull=True)
+        .exclude(university='')
+        .annotate(university_sanitized=Trim('university'))
+        .values('university_sanitized')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+    # Payment method counts
+    payment_counts = (
+        Form_Participant.objects
+        .values('payment_method')
+        .annotate(total=Count('id'))
+    )
+    # Convert into dict like {"Bkash": 10, "Nagad": 15}
+    payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
+
     context = {
         'participants': participants,
         'registration_stats': summary,
         'university_names': university_names,
+        'university_counts': university_counts,
+        'payment_summary': payment_summary,
         'total_amount': total_amount,
     }
     return render(request, 'response_table.html', context)
