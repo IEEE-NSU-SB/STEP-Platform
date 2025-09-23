@@ -171,14 +171,20 @@
         
         <!-- Total -->
         <div class="mt-4 text-left font-bold text-lg">
-          <p style="font-weight: normal;">
-            Total Amount: <span class="text-green-600">{{total_amount}}</span>
+          <p style="font-weight: normal;font-size:smaller;">
+            Bkash: {{ payment_summary.Bkash|default:0 }}
+          </p>
+          <p style="font-weight: normal;font-size:smaller;">
+            Nagad: {{ payment_summary.Nagad|default:0 }}
+          </p>
+          <p style="font-size:smaller;">
+          Total Amount: <span class="text-green-600">{{total_amount}}</span>
           </p>
           <br>
           <p style="font-weight: normal;">University List :</p>
           <ul>
-            {% for name in university_names %}
-            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{name}}</li>
+            {% for uni in university_counts  %}
+            <li style="margin-left: 15px; font-size: smaller; font-weight: 600;">- {{ uni.university_sanitized }} - {{ uni.total }}</li>
             {% endfor %}
           </ul>
         </div>
