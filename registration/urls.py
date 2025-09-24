@@ -18,9 +18,6 @@ urlpatterns = [
 
 
     #TEMPORARY
-    path('t-shirt/', t_shirt_reg, name='t_shirt_reg'),
-    path('t-shirt/admin/', t_shirt_reg_admin, name='t_shirt_reg_admin'),
-    path('submit_t_shirt_form/', submit_t_shirt_form, name='submit_t_shirt_form'),
     path('t-shirt/responses/', t_shirt_responses, name='t_shirt_responses'),
 
 ]   
