@@ -18,7 +18,7 @@ class Form_Participant(models.Model):
         ("member", "IEEE Member"),
         ("non_ieee", "Non-IEEE Member"),
     ]
-    SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL")]
+    SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL"),("4XL","4XL")]
 
     is_student = models.BooleanField(default=False)
 

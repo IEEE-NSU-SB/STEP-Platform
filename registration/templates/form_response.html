@@ -341,35 +341,30 @@
             </th>
             <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">3XL
             </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">4XL
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Width</td>
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">36"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">38"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">40"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">42"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">44"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">46"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">48"</td>
           </tr>
           <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Height
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body
             </td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">25"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body Length</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
           </tr>
         </tbody>
@@ -404,6 +399,10 @@
         <label class="flex items-center gap-2">
           <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '3XL' %}checked {% else %} disabled {% endif %}>
           3XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="4XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '4XL' %}checked {% else %} disabled {% endif %}>
+          4XL
         </label>
       </div>
     </div>
