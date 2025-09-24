@@ -154,7 +154,7 @@
           rows.forEach((row) => {
             const cells = row.querySelectorAll("td");
             const name = cells[1].textContent.toLowerCase(); // Name column
-            const email = cells[4].textContent.toLowerCase(); // Email column
+            const email = cells[2].textContent.toLowerCase(); // Email column
 
             if (name.includes(query) || email.includes(query)) {
               row.style.display = "";
