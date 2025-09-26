@@ -246,17 +246,21 @@
         justify-content: space-between;
       }
       .footer {
+        display: flex;
+        margin: auto;
+        justify-content: center;
+        gap: 250px;
         background-color: #f8f8f8;
         /* color: white; */
         position: fixed;
         bottom: 0;
         width: 100%;
         text-align: center;
-        padding: 10px 0;
+        /* padding: 10px 0; */
         /* z-index: -1; */
       }
       .footer img {
-        height: 100px;
+        height: 90px;
       }
       .count {
         font-size: 1.5rem;
@@ -485,9 +489,12 @@ video{
         td {
           padding: 5px;
         }
+        .footer{
+          gap: 40px;
+        }
         .footer img {
           height: 30px;
-          scale: 1.3;
+          /* scale: 1.3; */
         }
         .count {
           font-size: 1rem;
@@ -655,7 +662,8 @@ video{
   </form>
 </div>
     <div class="footer">
-      <img src="{% static '/img/Footer.png' %}" alt="logo" />
+      <img src="{% static '/img/Footer1.png' %}" alt="logo" />
+      <img src="{% static '/img/Footer2.png' %}" alt="logo" />
     </div>
     <!-- Modal -->
     <div
