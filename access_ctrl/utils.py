@@ -7,6 +7,9 @@ class Site_Permissions:
         """
         Check if a user has a permission, directly, via role, or object-level.
         """
+        if user.is_superuser:
+            return True
+        
         try:
             perm = Perms.objects.get(codename=codename)
         except Perms.DoesNotExist:

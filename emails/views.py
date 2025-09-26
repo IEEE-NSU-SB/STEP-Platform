@@ -25,6 +25,7 @@ from django.views.decorators.http import require_POST
 import csv
 
 from registration.models import EventFormStatus
+from system_administration.utils import log_exception
 
 # Create your views here.
 @login_required
@@ -46,15 +47,9 @@ def send_emails(request):
             message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
             message["To"] = participant.email
             message["Cc"] = 'sb-nsu@ieee.org'
-            message["Subject"] = 'Confirmation of Your Participation and Guidelines in SPAC’24 organised by IEEE NSU Student Branch'
+            message["Subject"] = 'Registration Confirmation & Event Guidelines for IEEE STEP 2025'
 
-            booth = '3 and 4'
-            if(participant.university == 'North South University'):
-                booth = '3 and 4'
-            else:
-                booth = '1 and 2'
-
-            message.attach(MIMEText(render_to_string('email_template.html', {'name':participant.name, 'university':participant.university, 'booth':booth}), 'html'))
+            message.attach(MIMEText(render_to_string('email_template_step25.html', {'name':participant.name}), 'html'))
 
             content_file = open(f"Participant Files/Participant_QR/{participant.id}.png", "rb")
 
@@ -67,14 +62,14 @@ def send_emails(request):
             )
             message.attach(part)
 
-            content_file2 = open(f"Participant Files/SPAC24 Event Timeline.pdf", "rb")
+            content_file2 = open(f"Participant Files/IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators - Event Timeline.pdf", "rb")
 
             part2 = MIMEBase('application', 'octet-stream')
             part2.set_payload(content_file2.read())
             encoders.encode_base64(part2)
             part2.add_header(
                 'Content-Disposition',
-                f'attachment; filename=SPAC24 Event Timeline.pdf',
+                f'attachment; filename=IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators - Event Timeline.pdf',
             )
             message.attach(part2)
 
@@ -280,4 +275,3 @@ def get_credentials():
             return creds
 
         return creds
-

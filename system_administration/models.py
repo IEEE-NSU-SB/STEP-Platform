@@ -11,5 +11,8 @@ class ErrorLog(models.Model):
     message = models.TextField()
     traceback = models.TextField()
 
+    class Meta:
+        verbose_name = 'Error Log'
+
     def __str__(self):
         return f"{self.timestamp} - {self.exception_type}"

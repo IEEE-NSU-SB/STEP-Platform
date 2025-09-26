@@ -98,6 +98,12 @@ def dashboard(request):
     registered_participants = Core.get_all_reg_participants_with_sessions()
 
     total_participants = len(registered_participants)
+
+    permissions = {
+        'update_session':Site_Permissions.user_has_permission(request.user, 'update_session'),
+        'scan_session':Site_Permissions.user_has_permission(request.user, 'scan_session'),
+        'scan_any_session':Site_Permissions.user_has_permission(request.user, 'scan_any_session')
+    }
             
     request.session['active_sessions'] = active_sessions
 
@@ -108,6 +114,7 @@ def dashboard(request):
         'registered_participants':registered_participants,
         'total_participants':total_participants,
         'participant_universities':universities,
+        'has_perm':permissions,
     }
 
     return render(request, 'coordinator_dashboard.html', context)
@@ -115,7 +122,7 @@ def dashboard(request):
 class SessionUpdateAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'update_session'):
+            if Site_Permissions.user_has_permission(request.user, 'update_session'):
                 sessions = json.loads(request.body)['sessions']
                 
                 if(Core.update_session(sessions=sessions)):
@@ -139,7 +146,7 @@ class SessionUpdateAjax(View):
 class GetSessionStatusAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+            if Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
                 last_updated_date_time = json.loads(request.body)['last_updated_date_time']
                 token_sessions_with_participant_count = Core.get_all_token_sessions_with_participant_counts()
 
@@ -170,7 +177,7 @@ class GetSessionStatusAjax(View):
 class UpdateParticipantSessionAjax(View):
     def post(self, request):
         try:
-            if request.user.is_authenticated and Site_Permissions.user_has_permission(request.user, 'scan_session'):
+            if Site_Permissions.user_has_permission(request.user, 'scan_session'):
                 data = json.loads(request.body)
 
                 response = Core.update_participant_session(data['participant_id'], data['session_id'], data['status'])

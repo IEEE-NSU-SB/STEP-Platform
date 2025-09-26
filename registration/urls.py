@@ -16,4 +16,8 @@ urlpatterns = [
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
 
+
+    #TEMPORARY
+    path('t-shirt/responses/', t_shirt_responses, name='t_shirt_responses'),
+
 ]   
