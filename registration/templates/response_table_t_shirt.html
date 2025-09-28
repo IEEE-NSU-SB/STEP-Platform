@@ -69,14 +69,13 @@
             placeholder="Search through name or email"
             class="px-3 py-2 border bg-white text-black border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#006699]"
           />
-          {% if has_perm.view_finance_info %}
+
           <!-- Statistics Button -->
           <div class="flex justify-end my-5">
             <button class="btn btn-info px-5 text-white bg-[#e49e35]" onclick="document.getElementById('statsModal').showModal()">
               Statistics
             </button>
           </div>
-          {% endif %}
         </div>
         <!-- Scrollable wrapper -->
         <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[440px]">
@@ -85,23 +84,19 @@
               <tr class="bg-gray-700 text-white">
                 <th class="text-left py-3 px-4 rounded-tl-lg">ID</th>
                 <th class="text-left py-3 px-4">Name</th>
-                <th class="text-left py-3 px-4">Student?</th>
-                <th class="text-left py-3 px-4">University / Affiliation</th>
-                <th class="text-left py-3 px-4">Department</th>
                 <th class="text-left py-3 px-4">Email</th>
-                <th class="text-left py-3 px-4 rounded-tr-lg">Contact</th>
+                <th class="text-left py-3 px-4 ">Contact</th>
+                <th class="text-left py-3 px-4 rounded-tr-lg">T-Shirt-Size</th>
               </tr>
             </thead>
             <tbody>
               {% for p in participants %}
-               <tr data-href="{% url 'registration:view_response' p.id %}" class="border-b hover:bg-gray-100 transition">
+               <tr class="border-b hover:bg-gray-100 transition">
                  <td class="py-3 px-4">{{p.id}}</td>
                  <td class="py-3 px-4 font-medium">{{p.name}}</td>
-                 <td class="py-3 px-4">{% if p.is_student %}Yes{% else %}No{% endif %}</td>
-                 <td class="py-3 px-4">{% if p.is_student %}{{p.university}}{% else %}{{p.affiliation}}{% endif %}</td>
-                 <td class="py-3 px-4">{{p.department}}</td>
                  <td class="py-3 px-4 text-blue-600">{{p.email}}</td>
                  <td class="py-3 px-4">{{p.contact_number}}</td>
+                 <td class="py-3 px-4">{{p.tshirt_size}}</td>
                </tr>
               {% empty %}
                 <tr>
@@ -119,90 +114,32 @@
         <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
       </div>
 
-    {% if has_perm.view_finance_info %}
       <!-- Modal -->
     <dialog id="statsModal" class="modal">
       <div class="modal-box max-w-3xl">
         <h2 class="text-2xl font-bold mb-4">Statistics</h2>
-
-        <div class="overflow-x-auto">
-          <table class="table table-zebra w-full border">
-            <thead class="bg-gray-700 text-white">
-              <tr>
-                <th class="py-2 px-4 rounded-tl-lg">Student / Professional</th>
-                <th class="py-2 px-4">Membership Grade</th>
-                <th class="py-2 px-4">Count</th>
-                <th class="py-2 px-4">Amount</th>
-                <th class="py-2 px-4 rounded-tr-lg">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="py-2 px-4">Student</td>
-                <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_member|default:0}}</td>
-                <td class="py-2 px-4">410</td>
-                <td class="py-2 px-4">{{registration_stats.student_member_amount_total}}</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-4">Student</td>
-                <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.student_non_ieee|default:0}}</td>
-                <td class="py-2 px-4">510</td>
-                <td class="py-2 px-4">{{registration_stats.student_non_ieee_amount_total}}</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-4">Profession</td>
-                <td class="py-2 px-4">IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_member|default:0}}</td>
-                <td class="py-2 px-4">810</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_member_amount_total}}</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-4">Profession</td>
-                <td class="py-2 px-4">Non-IEEE Member</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee|default:0}}</td>
-                <td class="py-2 px-4">910</td>
-                <td class="py-2 px-4">{{registration_stats.not_student_non_ieee_amount_total}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
         
-        <!-- Total -->
-        <div class="mt-4 text-left font-bold text-lg">
-          <p style="font-weight: normal;font-size:smaller;">
-            Bkash: {{ payment_summary.Bkash|default:0 }}
-          </p>
-          <p style="font-weight: normal;font-size:smaller;">
-            Nagad: {{ payment_summary.Nagad|default:0 }}
-          </p>
-          <p style="font-size:smaller;">
-          Total Amount: <span class="text-green-600">{{total_amount}}</span>
-          </p>
-          <br>
-          <p style="font-weight: normal;">University List :</p>
+          <p style="font-weight: normal;">T-Shirt Size Count :</p>
           <ul>
-            {% for uni in university_data  %}
+            {% for data in size_data  %}
             <li class="flex items-center px-4 py-2 my-2 text-sm 
            text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
-    <span class="font-medium">{{ uni.university_sanitized }}</span>
+    <span class="font-medium">{{ data.tshirt_size }}</span>
     <span class="ml-2 text-gray-500">–</span>
-    <span class="ml-2 text-gray-700 font-bold">[{{ uni.total }}]</span>
+    <span class="ml-2 text-gray-700 font-bold">[{{ data.count|default:0 }}]</span>
 </li>
             {% endfor %}
           </ul>
+          
+          <!-- Actions -->
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn close">Close</button>
+            </form>
+          </div>
         </div>
-        
-        <!-- Actions -->
-        <div class="modal-action">
-          <form method="dialog">
-            <button class="btn close">Close</button>
-          </form>
-        </div>
-      </div>
-    </dialog>
-    {% endif %}
+      </dialog>
+    </div>
   </div>
 
     <script>
@@ -217,7 +154,7 @@
           rows.forEach((row) => {
             const cells = row.querySelectorAll("td");
             const name = cells[1].textContent.toLowerCase(); // Name column
-            const email = cells[5].textContent.toLowerCase(); // Email column
+            const email = cells[2].textContent.toLowerCase(); // Email column
 
             if (name.includes(query) || email.includes(query)) {
               row.style.display = "";

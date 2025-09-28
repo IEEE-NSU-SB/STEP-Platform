@@ -103,17 +103,21 @@
 </div>
 
 </div>
-  {% endif %}
-  <div class=" w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; ">
+{% endif %}
+<div class=" w-11/12 md:w-3/5 mx-auto" style="backdrop-filter:blur(7px);border-radius:4px 4px; ">
+    <button type="button" onclick="window.history.back();"
+                  class="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:opacity-90 transition cursor-pointer mb-5"
+                  style="background-color: #ffffff; color:#00629B"
+                >
+                Back
+                </button>
 <!-- box-shadow: 0 2px 6px 0px #00000078; -->
     <!-- Form wrapper -->
     <form id="registrationForm" method="post" action="/submit-form/">
       {% csrf_token %}
-      
       <!-- Step 1: Basic Info -->
       <section id="step1" class="bg-white shadow-md p-5 font-medium rounded-md">
         <h2 class="text-xl text-center mb-5">IEEE Student Transition and Elevation Partnership 2025 - <br> Igniting Future Innovators</h2>
-
 <h2 class=" text-center text-2xl mb-6">BASIC INFO</h2>
     <div class="mb-5">
       <label for="name" class="block uppercase text-lg  mb-1">
@@ -221,8 +225,8 @@
       <div class="flex items-center justify-between mb-8">
 
       <!-- Centered Questionnaire Section -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-5 mt-7 truncate text-center">QUESTIONNAIRE</h2>
+      <div class="m-auto px-20 sm:px-4">
+        <h2 class="text-2xl my-2 truncate text-center">QUESTIONNAIRE</h2>
       </div>
     </div>
 
@@ -268,8 +272,8 @@
       <!--  back button and title  -->
     <div class="flex items-center justify-between mb-8">
   
-      <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-        <h2 class="text-2xl mb-5 mt-7 truncate text-center">PAYMENT</h2>
+      <div class="m-auto px-20 sm:px-4">
+        <h2 class="text-2xl my-2 truncate text-center">PAYMENT</h2>
       </div>
       <!-- Centered Questionnaire Section -->
     </div>
@@ -337,35 +341,30 @@
             </th>
             <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">3XL
             </th>
+            <th class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700">4XL
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Width</td>
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">36"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">38"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">40"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">42"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">44"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">46"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">48"</td>
           </tr>
           <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Chest Height
+            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body
             </td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">25"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700">Body Length</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">26"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">27"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">28"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">29"</td>
-            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">30"</td>
+            <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
             <td class="border border-gray-300 px-2 py-2 sm:px-3 text-center">31"</td>
           </tr>
         </tbody>
@@ -400,6 +399,10 @@
         <label class="flex items-center gap-2">
           <input type="radio" name="tshirt_size" value="3XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '3XL' %}checked {% else %} disabled {% endif %}>
           3XL
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="tshirt_size" value="4XL" class="form-radio text-blue-500" {% if participant.tshirt_size == '4XL' %}checked {% else %} disabled {% endif %}>
+          4XL
         </label>
       </div>
     </div>

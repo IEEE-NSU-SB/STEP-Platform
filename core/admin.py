@@ -2,6 +2,7 @@ from django.contrib import admin
 from core.models import Token_Session, Registered_Participant, Token_Participant
 
 # Register your models here.
+
 @admin.register(Token_Session)
 class SessionAdmin(admin.ModelAdmin):
     

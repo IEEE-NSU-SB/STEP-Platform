@@ -7,10 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 from access_ctrl.decorators import permission_required
+from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
 from emails.views import send_registration_email
+from django.db.models import Count
+from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant
+from .models import EventFormStatus, Form_Participant, T_Shirt_Form
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -21,6 +24,7 @@ def registration_form(request):
     # If staff/superuser hits the user URL, send them to the admin view
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('registration:registration_admin')
+
     registration_count = Form_Participant.objects.count()
     registration_closed = registration_count >= 10000
     context = {
@@ -37,15 +41,23 @@ def registration_admin(request):
 
     registration_count = Form_Participant.objects.count()
 
+    permisions = {
+        'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
+        'view_reg_responses_list':Site_Permissions.user_has_permission(request.user, 'view_reg_responses_list'),
+        'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info'),
+        'view_qr_dashboard':Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'),
+    }
+
     context = {
         'is_staff_view': True,
         'is_published': _get_publish_status(),
         'registration_count':registration_count,
+        'has_perm': permisions
     }
     return render(request, 'form.html', context)
 
 def registration_redirect(request):
-    if request.user.is_authenticated and request.user.is_staff:
+    if request.user.is_authenticated:
         return redirect('registration:registration_admin')
     else:
         return redirect('registration:registration_form')
@@ -66,6 +78,16 @@ def submit_form(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':
+            
+            status = EventFormStatus.objects.order_by('-updated_at').first()
+            #TEMPORARY
+            # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+                return JsonResponse({
+                'success': False,
+                'message': 'Registration failed'
+                })
+
             # Get form data
             is_student = request.POST.get('is_student_bool')
             name = request.POST.get('name')
@@ -214,9 +236,78 @@ def download_excel(request):
 @login_required
 @permission_required('view_reg_responses_list')
 def response_table(request):
+
+    student_member_amount = 410
+    student_non_member_amount = 510
+    not_student_member_amount = 810
+    not_student_non_member_amount = 910
+
+    permissions = {
+        'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
+    }
+
     participants = Form_Participant.objects.all().order_by('created_at')
+
+    # Query grouped stats
+    stats = (
+        Form_Participant.objects
+        .values("is_student", "membership_type")
+        .annotate(total=Count("id"))
+    )
+
+    # Build summary dictionary
+    summary = {}
+
+    for entry in stats:
+        is_student = "student" if entry["is_student"] else "not_student"
+        membership = entry["membership_type"]
+
+        key = f"{is_student}_{membership}"
+        summary[key] = entry.get("total", 0)
+    
+    summary['student_member_amount_total'] = summary.get('student_member', 0) * student_member_amount
+    summary['student_non_ieee_amount_total'] = summary.get('student_non_ieee', 0) * student_non_member_amount
+    summary['not_student_member_amount_total'] = summary.get('not_student_member', 0) * not_student_member_amount
+    summary['not_student_non_ieee_amount_total'] = summary.get('not_student_non_ieee', 0) * not_student_non_member_amount
+
+    total_amount = (summary['student_member_amount_total']
+                    +summary['student_non_ieee_amount_total'] 
+                    +summary['not_student_member_amount_total']
+                    +summary['not_student_non_ieee_amount_total'])
+    total_amount = f"BDT {total_amount:,}"
+
+    summary['student_member_amount_total'] = f"{summary['student_member_amount_total']:,}"
+    summary['student_non_ieee_amount_total'] = f"{summary['student_non_ieee_amount_total']:,}"
+    summary['not_student_member_amount_total'] = f"{summary['not_student_member_amount_total']:,}"
+    summary['not_student_non_ieee_amount_total'] = f"{summary['not_student_non_ieee_amount_total']:,}"
+
+    
+    university_data = (
+        Form_Participant.objects
+        .exclude(university__isnull=True)
+        .exclude(university='')
+        .annotate(university_sanitized=Trim('university'))
+        .values('university_sanitized')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+    # Payment method counts
+    payment_counts = (
+        Form_Participant.objects
+        .values('payment_method')
+        .annotate(total=Count('id'))
+    )
+    # Convert into dict like {"Bkash": 10, "Nagad": 15}
+    payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
+
     context = {
-        'participants': participants
+        'participants': participants,
+        'registration_stats': summary,
+        'university_data': university_data,
+        'payment_summary': payment_summary,
+        'total_amount': total_amount,
+        'has_perm':permissions
     }
     return render(request, 'response_table.html', context)
 
@@ -228,3 +319,18 @@ def view_response(request, id):
         'participant': partipant
     }
     return render(request, 'form_response.html', context)
+
+
+#TEMPORARY
+@login_required
+@permission_required('view_reg_responses_list')
+def t_shirt_responses(request):
+
+    participants = T_Shirt_Form.objects.all().order_by('created_at')
+    size_data = T_Shirt_Form.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
+
+    context = {
+        'participants': participants,
+        'size_data':size_data,
+    }
+    return render(request, 'response_table_t_shirt.html', context)

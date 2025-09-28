@@ -39,7 +39,7 @@ else:
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    # 'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'registration',
     'system_administration',
     'access_ctrl',
+    'access_ctrl.apps.CustomAuthConfig'
 ]
 
 MIDDLEWARE = [
